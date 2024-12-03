@@ -1,0 +1,15 @@
+.astro/
+.devcontainer/devcontainer.json
+.next/
+.pnp.*
+.yarn/
+build/
+bun.lockb
+coverage/
+dist/
+external/
+public/
+src/assets/
+pnpm-lock.yaml
+src-tauri/**/*.rs
+
