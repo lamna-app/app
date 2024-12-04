@@ -7,7 +7,7 @@ USER root
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests apt-transport-https ca-certificates curl \
-        git sudo unzip zsh \
+        git openssh-client sudo unzip zsh \
         $USEFUL_PACKAGES \
     && apt-get install -y libwebkit2gtk-4.1-dev build-essential wget file libxdo-dev libssl-dev \
         libayatana-appindicator3-dev librsvg2-dev \
