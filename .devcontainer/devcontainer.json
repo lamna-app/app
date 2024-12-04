@@ -12,20 +12,16 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "Gruntfuggly.todo-tree",
-                "YoavBls.pretty-ts-errors",
-                "better-ts-errors.better-ts-errors",
                 "bradlc.vscode-tailwindcss",
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "mikestead.dotenv",
-                "neotan.vscode-auto-restart-typescript-eslint-servers",
                 "tamasfe.even-better-toml",
                 "wayou.vscode-todo-highlight",
 				"tauri-apps.tauri-vscode",
 				"rust-lang.rust-analyzer"
             ],
             "settings": {
+				"editor.formatOnSave": true,
 				"launch": {
 					"version": "0.2.0",
 					"configurations": [
