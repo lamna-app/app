@@ -1,0 +1,135 @@
+{
+    "name": "Lamna",
+    "dockerFile": "Dockerfile",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "bun install",
+    "initializeCommand": "xhost +",
+    "forwardPorts": [
+        1420
+    ],
+    "runArgs": [
+        "--network=host"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bradlc.vscode-tailwindcss",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "rust-lang.rust-analyzer",
+                "tamasfe.even-better-toml",
+                "tauri-apps.tauri-vscode",
+                "wayou.vscode-todo-highlight"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "launch": {
+                    "version": "0.2.0",
+                    "configurations": [
+                        {
+                            "type": "node",
+                            "request": "launch",
+                            "name": "Tauri Run Dev",
+                            "preLaunchTask": "tauri:dev"
+                        },
+                        {
+                            "type": "lldb",
+                            "request": "launch",
+                            "name": "Tauri Development Debug",
+                            "cargo": {
+                                "args": [
+                                    "build",
+                                    "--manifest-path=${workspaceFolder}/src-tauri/Cargo.toml",
+                                    "--no-default-features"
+                                ]
+                            },
+                            "preLaunchTask": "ui:dev"
+                        },
+                        {
+                            "type": "lldb",
+                            "request": "launch",
+                            "name": "Tauri Production Debug",
+                            "cargo": {
+                                "args": [
+                                    "build",
+                                    "--release",
+                                    "--manifest-path=${workspaceFolder}/src-tauri/Cargo.toml"
+                                ]
+                            },
+                            "preLaunchTask": "ui:build"
+                        }
+                    ],
+                    "compounds": []
+                },
+                "tasks": {
+                    "version": "2.0.0",
+                    "tasks": [
+                        {
+                            "label": "tauri:dev",
+                            "command": "bun",
+                            "args": [
+                                "run",
+                                "tauri",
+                                "dev"
+                            ]
+                        },
+                        {
+                            "label": "ui:dev",
+                            "type": "shell",
+                            // `dev` keeps running in the background
+                            // ideally you should also configure a `problemMatcher`
+                            // see https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson,
+                            "problemMatcher": {
+                                "owner": "vite",
+                                "fileLocation": "relative",
+                                "background": {
+                                    "activeOnStart": true,
+                                    "beginsPattern": "^\\s*VITE v\\d\\.\\d\\.\\d\\s+ ready in \\d+ m*s$",
+                                    "endsPattern": "Local:\\s*http:\/\/localhost:\\d+\/"
+                                },
+                                "pattern": {
+                                    "regexp": ".*"
+                                }
+                            },
+                            "isBackground": true,
+                            "command": "bun",
+                            "args": [
+                                "run",
+                                "dev"
+                            ]
+                        },
+                        {
+                            "label": "ui:build",
+                            "type": "shell",
+                            "problemMatcher": {
+                                "owner": "vite",
+                                "fileLocation": "relative",
+                                "background": {
+                                    "activeOnStart": true,
+                                    "beginsPattern": "^\\s*VITE v\\d\\.\\d\\.\\d\\s+ ready in \\d+ m*s$",
+                                    "endsPattern": "Local:\\s*http:\/\/localhost:\\d+\/"
+                                },
+                                "pattern": {
+                                    "regexp": ".*"
+                                }
+                            },
+                            "isBackground": true,
+                            "command": "bun",
+                            "args": [
+                                "run",
+                                "build"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/nordcominc/devcontainer-features/android-sdk:1": {},
+        "ghcr.io/devcontainers/features/rust:1": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    }
+}
