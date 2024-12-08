@@ -4,15 +4,13 @@ import { render } from "solid-js/web";
 
 import "./index.css";
 
-import Home from "./Home";
 import RootLayout from "./layout/Root";
-import Test from "./Test";
+import Home from "./pages/Home";
 
 render(
     () => (
         <Router root={RootLayout}>
             <Route path="/" component={Home} />
-            <Route path="/test" component={Test} />
         </Router>
     ),
     document.getElementById("root") as HTMLElement,
