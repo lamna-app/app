@@ -1,22 +1,21 @@
-import { Setter } from "solid-js";
+import type { JSX, Setter } from "solid-js";
 
 export default function ChatBar({ setMessages }: { setMessages: Setter<Message[]> }) {
-  const doThing = (content: string): Message => {
-    return {
+  const addMessage: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = event => {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    const newMessage: Message = {
       id: 1,
       author: "Big Balls Jr. Sr.",
-      content,
-    } satisfies Message;
+      content: event.currentTarget.value,
+    };
+
+    setMessages(previousMessages => [...previousMessages, newMessage]);
   };
+
   return (
-    <input
-      class="w-full rounded-lg p-3 text-black outline-none"
-      type="text"
-      onKeyPress={e => {
-        if (e.key == "Enter") {
-          setMessages(a => [...a, doThing(e.currentTarget.value)]);
-        }
-      }}
-    />
+    <input class="rounded-lg p-3 text-black outline-none" type="text" onKeyPress={addMessage} />
   );
 }

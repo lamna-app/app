@@ -2,10 +2,10 @@
 import { Route, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 
-import "./index.css";
+import "~/index.css";
 
-import RootLayout from "./layout/Root";
-import Home from "./pages/Home";
+import RootLayout from "~/layout/Root";
+import Home from "~/pages/Home";
 
 render(
   () => (
