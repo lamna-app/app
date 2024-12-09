@@ -1,3 +1,5 @@
+import defaultTheme from "tailwindcss/defaultTheme";
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -14,7 +16,7 @@ export default {
         "night-bg-text": "#d4d4d4",
       },
       fontFamily: {
-        noto: ["Noto Sans"],
+        sans: ["Noto Sans", ...defaultTheme.fontFamily.sans],
       },
     },
   },

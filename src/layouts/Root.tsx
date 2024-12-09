@@ -8,7 +8,7 @@ export default function RootLayout(props: any) {
   return (
     <div
       class={clsx(
-        "box-border flex h-dvh w-dvw flex-col gap-4 bg-light-bg p-4 font-noto text-light-bg-text dark:bg-dark-bg dark:text-dark-bg-text",
+        "box-border flex h-dvh w-dvw flex-col gap-4 bg-light-bg p-4 text-light-bg-text dark:bg-dark-bg dark:text-dark-bg-text",
         isDarkMode() && "dark",
       )}
     >
