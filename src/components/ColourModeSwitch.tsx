@@ -7,6 +7,7 @@ export default function ColourModeSwitch({
   getter: Accessor<boolean>;
   setter: Setter<boolean>;
 }) {
+  // FIXME: This is temporary, and the styling, etc. should be improved.
   return (
     <button
       onClick={() => setter(a => !a)}
