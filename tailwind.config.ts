@@ -14,9 +14,9 @@ export default {
         "night-bg-text": "#d4d4d4",
       },
       fontFamily: {
-        "noto": ["Noto Sans", "NotoJP"],
-        "noto-italic": "Noto Italic"
-      }
+        noto: ["Noto Sans", "NotoJP"],
+        "noto-italic": "Noto Italic",
+      },
     },
   },
   plugins: [],
