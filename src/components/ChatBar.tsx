@@ -30,6 +30,7 @@ export default function ChatBar({ setMessages }: { setMessages: Setter<Message[]
             placeholder="Send a messsage in #general"
             value={content()}
             onInput={e => setContent(e.target.value)}
+            autocomplete="off"
           />
           <button
             type="submit"
