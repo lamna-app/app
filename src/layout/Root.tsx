@@ -3,6 +3,8 @@ import { createSignal } from "solid-js";
 
 import ColourModeSwitch from "~/components/ColourModeSwitch";
 
+import "@fontsource/noto-sans";
+
 export default function RootLayout(props: any) {
   const [isDarkMode, setIsDarkMode] = createSignal<boolean>(true);
   return (

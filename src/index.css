@@ -1,21 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-  font-family: "Noto Sans", "NotoJP";
-  src: url("/fonts/NotoSans-Variable.ttf");
-  font-weight: 100 1000;
-}
-
-@font-face {
-  font-family: "Noto Italic";
-  src: url("/fonts/NotoSans-Italic-Variable.ttf");
-  font-weight: 100 1000;
-}
-
-@font-face {
-  font-family: "NotoJP";
-  src: url("/fonts/NotoSansJP-Variable.ttf");
-  font-weight: 100 1000;
-}

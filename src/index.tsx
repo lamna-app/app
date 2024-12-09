@@ -7,6 +7,8 @@ import "~/index.css";
 import RootLayout from "~/layout/Root";
 import Home from "~/pages/Home";
 
+import "@fontsource/noto-sans";
+
 render(
   () => (
     <Router root={RootLayout}>
