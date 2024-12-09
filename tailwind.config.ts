@@ -13,6 +13,10 @@ export default {
         "dark-bg-text": "#a1a1aa",
         "night-bg-text": "#d4d4d4",
       },
+      fontFamily: {
+        "noto": ["Noto Sans", "NotoJP"],
+        "noto-italic": "Noto Italic"
+      }
     },
   },
   plugins: [],

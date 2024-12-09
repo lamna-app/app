@@ -17,7 +17,7 @@ export default function ChatLog({ messages }: { messages: Accessor<Message[]> })
   });
 
   return (
-    <div class="flex h-full flex-col gap-4 overflow-y-scroll" ref={elementReference}>
+    <div class="flex h-full flex-col gap-4 overflow-y-auto" ref={elementReference}>
       <For each={messages()}>{properties => <Message {...properties} />}</For>
     </div>
   );

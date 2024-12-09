@@ -5,6 +5,7 @@ export default function Message(properties: Message) {
         <img src="/cee.png" class="w-12 rounded-full" />
 
         <span>{properties.author}</span>
+        <span class="text-xs text-white/40 dark:text-white/30">Today at 07:99</span>
       </div>
 
       <div>
