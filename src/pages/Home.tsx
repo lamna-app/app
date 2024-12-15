@@ -9,6 +9,7 @@ export default function Home() {
 
   return (
     <>
+      <a href="/test">Go to Test</a>
       <ChatLog messages={messages} />
       <ChatBar setMessages={setMessages} />
     </>
