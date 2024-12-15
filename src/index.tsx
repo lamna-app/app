@@ -8,12 +8,9 @@ import RootLayout from "~/layouts/Root";
 
 import "@fontsource/noto-sans";
 
-import { invoke } from "@tauri-apps/api/core";
-
 import Home from "~/pages/Home";
 import Test from "~/pages/Test";
 
-invoke("run_websocket");
 render(
   () => (
     <Router root={RootLayout}>
