@@ -1,13 +1,11 @@
 /* @refresh reload */
+import "@fontsource/noto-sans";
+import "~/index.css";
+
 import { Route, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 
-import "~/index.css";
-
 import RootLayout from "~/layouts/Root";
-
-import "@fontsource/noto-sans";
-
 import Home from "~/pages/Home";
 import Test from "~/pages/Test";
 

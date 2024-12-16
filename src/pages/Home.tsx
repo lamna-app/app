@@ -9,7 +9,9 @@ export default function Home() {
   const [messages, setMessages] = createSignal<Message[]>([]);
 
   listen("messageCreate", (e: any) => {
-    console.log("payload:", e.payload);
+    // TODO: Type payload
+    console.log("Payload:", e.payload);
+
     const newMessage: Message = {
       id: Math.floor(Math.random() * 100_000),
       author: "Big Balls Jr. Sr.",
