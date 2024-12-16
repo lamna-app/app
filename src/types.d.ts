@@ -3,3 +3,7 @@ interface Message {
   author: string;
   content: string;
 }
+
+interface MessageCreateEvent {
+  message: string
+}
