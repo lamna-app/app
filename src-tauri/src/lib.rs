@@ -72,7 +72,7 @@ async fn websocket_task(
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let websocket_url = "ws://localhost:3000/ws";
-    let (sender, receiver) = mpsc::channel::<String>(128); // Buffer of 128 messages
+    let (sender, receiver) = mpsc::channel::<String>(256); // Buffer of 256 messages
 
     let state = Arc::new(Mutex::new(WebSocketState { sender }));
 
