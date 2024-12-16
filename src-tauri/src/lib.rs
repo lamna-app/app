@@ -22,10 +22,10 @@ struct Payload {
 #[tauri::command]
 async fn send_message(
     state: tauri::State<'_, Arc<Mutex<WebSocketState>>>,
-    msg: String,
+    message: String,
 ) -> Result<(), ()> {
     let state = state.lock().await;
-    let _ = state.sender.send(msg).await; // TODO: Handle error
+    let _ = state.sender.send(message).await; // TODO: Handle error
     drop(state);
     Ok(())
 }
@@ -36,24 +36,24 @@ async fn websocket_task(
     app_handle: tauri::AppHandle,
 ) {
     println!("Websocket task running...");
-    let (ws_stream, _) = connect_async(url)
+    let (stream, _) = connect_async(url)
         .await
         .expect("Can't connect to websocket.");
     println!("Connected to websocket.");
 
-    let (mut write, read) = ws_stream.split();
+    let (mut write, read) = stream.split();
 
     let handle = Handle::current(); // Get the current (handle to the) runtime
     handle.spawn(async move {
-        while let Some(msg) = receiver.recv().await {
-            if let Err(e) = write.send(Message::Text(msg)).await {
-                eprintln!("Failed to send message: {}", e)
+        while let Some(message) = receiver.recv().await {
+            if let Err(error) = write.send(Message::Text(message)).await {
+                eprintln!("Failed to send message: {}", error)
             }
         }
     });
 
-    read.for_each(|msg| async {
-        match msg {
+    read.for_each(|message| async {
+        match message {
             Ok(Message::Text(text)) => {
                 let _ = app_handle.emit(
                     "messageCreate",
@@ -61,9 +61,9 @@ async fn websocket_task(
                         message: text.clone(),
                     },
                 );
-                println!("msg recv: {}", text)
+                println!("message recv: {}", text)
             }
-            Err(e) => eprintln!("Err recv: {:?}", e),
+            Err(error) => eprintln!("Err recv: {:?}", error),
             _ => {}
         }
     })
@@ -73,14 +73,14 @@ async fn websocket_task(
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let websocket_url = "ws://localhost:3000/ws";
-    let (ws_tx, ws_rx) = mpsc::channel::<String>(128); // Buffer of 128 messages
+    let (sender, receiver) = mpsc::channel::<String>(128); // Buffer of 128 messages
 
-    let state = Arc::new(Mutex::new(WebSocketState { sender: ws_tx }));
+    let state = Arc::new(Mutex::new(WebSocketState { sender }));
 
     tauri::Builder::default()
         .setup(move |app| {
             let app_handle = app.handle();
-            tauri::async_runtime::spawn(websocket_task(websocket_url, ws_rx, app_handle.clone()));
+            tauri::async_runtime::spawn(websocket_task(websocket_url, receiver, app_handle.clone()));
             Ok(())
         })
         .manage(state)
