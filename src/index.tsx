@@ -7,12 +7,10 @@ import { render } from "solid-js/web";
 
 import RootLayout from "~/layouts/Root";
 import Home from "~/pages/Home";
-import Test from "~/pages/Test";
 
 render(
   () => (
     <Router root={RootLayout}>
-      <Route path="/test" component={Test} />
       <Route path="/" component={Home} />
     </Router>
   ),
