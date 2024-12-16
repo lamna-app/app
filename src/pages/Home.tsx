@@ -7,7 +7,7 @@ import ChatLog from "~/components/ChatLog";
 export default function Home() {
   const [messages, setMessages] = createSignal<Message[]>([]);
 
-  listen("", (event: Event<MessageCreateEvent>) => {
+  listen("messageCreate", (event: Event<MessageCreateEvent>) => {
     console.log("Payload:", event.payload);
 
     const newMessage: Message = {
