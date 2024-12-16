@@ -1,10 +1,10 @@
 {
+  "[rust]": {
+    "editor.indentSize": 4
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.indentSize": 2,
-  "files.eol": "\n",
-  "[rust]": {
-    "editor.indentSize": 4,
-  }
+  "files.eol": "\n"
 }

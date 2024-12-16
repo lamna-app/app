@@ -1,21 +1,14 @@
 import { createMemo, createSignal } from "solid-js";
 
-import type { JSX, Setter } from "solid-js";
+import type { JSX } from "solid-js";
 
-export default function ChatBar({ setMessages }: { setMessages: Setter<Message[]> }) {
+export default function ChatBar() {
   const [content, setContent] = createSignal<string>("");
   const isEmpty = createMemo(() => content().trim() === "");
 
   const addMessage: JSX.EventHandler<HTMLFormElement, SubmitEvent> = event => {
     event.preventDefault();
-
-    const newMessage: Message = {
-      id: Math.floor(Math.random() * 100_000),
-      author: "Big Balls Jr. Sr.",
-      content: content(),
-    };
-
-    setMessages(previousMessages => [...previousMessages, newMessage]);
+    fetch("http://localhost:3000/createMessage?content=" + content());
     setContent("");
   };
 

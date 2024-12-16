@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <a href="/test">Go to Test</a>
       <ChatLog messages={messages} />
-      <ChatBar setMessages={setMessages} />
+      <ChatBar />
     </>
   );
 }
