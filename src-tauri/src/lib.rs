@@ -26,7 +26,6 @@ async fn send_message(
 ) -> Result<(), ()> {
     let state = state.lock().await;
     let _ = state.sender.send(message).await; // TODO: Handle error
-    drop(state);
     Ok(())
 }
 
