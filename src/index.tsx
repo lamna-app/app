@@ -5,8 +5,8 @@ import { render } from "solid-js/web";
 import "~/index.css";
 
 import RootLayout from "~/layout/Root";
+import WebsocketProvider from "~/libs/WebsocketProvider";
 import Home from "~/pages/Home";
-import WebsocketProvider from "./libs/WebsocketProvider";
 
 render(
   () => (

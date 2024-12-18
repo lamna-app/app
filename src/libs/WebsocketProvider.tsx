@@ -1,7 +1,7 @@
 import { createWS } from "@solid-primitives/websocket";
 import { createSignal } from "solid-js";
 
-import { WebsocketContext } from "./websocket";
+import { WebsocketContext } from "~/libs/websocket";
 
 export default function WebsocketProvider(props: any) {
   const websocket = createWS("ws://localhost:3000/ws");
@@ -14,6 +14,7 @@ export default function WebsocketProvider(props: any) {
       author: "Big Balls Jr. Sr.",
       id: 0,
     } satisfies Message;
+
     setMessages([...messages(), newMessage]);
   });
 

@@ -6,6 +6,7 @@ import { WebsocketContext } from "~/libs/websocket";
 
 export default function Home() {
   const websocket = useContext(WebsocketContext);
+
   return (
     <>
       <ChatLog messages={websocket?.messages!} />
