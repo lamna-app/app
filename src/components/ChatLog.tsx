@@ -2,9 +2,10 @@ import { createEffect, For } from "solid-js";
 
 import Message from "~/components/Message";
 
+import type { MessageT } from "~/types";
 import type { Accessor } from "solid-js";
 
-export default function ChatLog({ messages }: { messages: Accessor<Message[]> }) {
+export default function ChatLog({ messages }: { messages: Accessor<MessageT[]> }) {
   let elementReference!: HTMLDivElement;
 
   const scrollToEnd = (_: any) =>
@@ -17,7 +18,7 @@ export default function ChatLog({ messages }: { messages: Accessor<Message[]> })
   });
 
   return (
-    <div class="flex h-full flex-col gap-4 overflow-y-auto" ref={elementReference}>
+    <div class="flex h-full flex-col gap-4 overflow-y-scroll" ref={elementReference}>
       <For each={messages()}>{properties => <Message {...properties} />}</For>
     </div>
   );

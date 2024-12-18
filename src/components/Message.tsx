@@ -1,4 +1,6 @@
-export default function Message(properties: Message) {
+import type { MessageT } from "~/types";
+
+export default function Message(properties: MessageT) {
   return (
     <div class="box-border flex min-h-28 flex-col gap-2.5 rounded-lg bg-black/10 p-4 text-black dark:bg-white/10 dark:text-white">
       <div class="text-md flex items-center gap-2.5 font-bold">
