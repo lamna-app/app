@@ -6,10 +6,12 @@
     "scripts": {
         "start": "vite",
         "dev": "vite",
+        "dev:app": "tauri dev",
         "dev:application": "tauri dev",
         "build": "vite build",
         "serve": "vite preview",
         "tauri": "tauri",
+        "fmt": "prettier --write .",
         "format": "prettier --write ."
     },
     "license": "MIT",
