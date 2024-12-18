@@ -1,6 +1,6 @@
-import type { JSX, Setter } from "solid-js";
+import type { JSX } from "solid-js";
 
-export default function ChatBar({ setMessages }: { setMessages: Setter<Message[]> }) {
+export default function ChatBar() {
   let elementReference!: HTMLInputElement;
 
   const addMessage: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = event => {
@@ -8,19 +8,12 @@ export default function ChatBar({ setMessages }: { setMessages: Setter<Message[]
 
     if (event.key !== "Enter") {
       return;
-    } else if (!contentFound.trim()) {
-      elementReference.value = "";
-
+    }
+    if (!contentFound.trim()) {
       return;
     }
 
-    const newMessage: Message = {
-      id: 1,
-      author: "Big Balls Jr. Sr.",
-      content: contentFound,
-    };
-
-    setMessages(previousMessages => [...previousMessages, newMessage]);
+    fetch(`http://localhost:3000/createMessage?content=${contentFound}`);
     elementReference.value = "";
   };
 

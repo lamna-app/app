@@ -6,12 +6,15 @@ import "~/index.css";
 
 import RootLayout from "~/layout/Root";
 import Home from "~/pages/Home";
+import WebsocketProvider from "./libs/WebsocketProvider";
 
 render(
-    () => (
-        <Router base="/app" root={RootLayout}>
-            <Route path="/" component={Home} />
-        </Router>
-    ),
-    document.getElementById("root") as HTMLElement,
+  () => (
+    <WebsocketProvider>
+      <Router base="/app" root={RootLayout}>
+        <Route path="/" component={Home} />
+      </Router>
+    </WebsocketProvider>
+  ),
+  document.getElementById("root") as HTMLElement,
 );
