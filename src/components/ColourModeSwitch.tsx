@@ -6,6 +6,7 @@ export default function ColourModeSwitch({ getter, setter }: Properties<boolean>
   // TODO: This is temporary, and the styling, etc. should be improved.
 
   const fallback = <img src="/icons/sun.svg" class="invert" />;
+
   return (
     <button
       onClick={() => setter(a => !a)}

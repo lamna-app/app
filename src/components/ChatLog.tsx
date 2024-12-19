@@ -2,10 +2,10 @@ import { createEffect, For } from "solid-js";
 
 import Message from "~/components/Message";
 
-import type { MessageT } from "~/types";
+import type { MessageType } from "~/types";
 import type { Accessor } from "solid-js";
 
-export default function ChatLog({ messages }: { messages: Accessor<MessageT[]> }) {
+export default function ChatLog({ messages }: { messages: Accessor<MessageType[]> }) {
   let elementReference!: HTMLDivElement;
 
   const scrollToEnd = (_: any) =>

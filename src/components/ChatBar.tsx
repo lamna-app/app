@@ -1,17 +1,17 @@
 import { createMemo, createSignal } from "solid-js";
 
-import { MessageT } from "~/types";
+import type { MessageType } from "~/types";
 
 import type { JSX, Setter } from "solid-js";
 
-export default function ChatBar({ setMessages }: { setMessages: Setter<MessageT[]> }) {
+export default function ChatBar({ setMessages }: { setMessages: Setter<MessageType[]> }) {
   const [content, setContent] = createSignal<string>("");
   const isEmpty = createMemo(() => content().trim() === "");
 
   const addMessage: JSX.EventHandler<HTMLFormElement, SubmitEvent> = event => {
     event.preventDefault();
 
-    const newMessage: MessageT = {
+    const newMessage: MessageType = {
       id: Math.floor(Math.random() * 100_000),
       author: "Big Balls Jr. Sr.",
       content: content(),
