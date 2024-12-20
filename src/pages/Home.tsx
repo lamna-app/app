@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      <ChatLog messages={context?.store.messages?.getter!} />
+      <ChatLog messages={context.store.messages?.getter!} />
       <ChatBar />
     </>
   );

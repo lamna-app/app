@@ -1,12 +1,12 @@
 import { createWS } from "@solid-primitives/websocket";
-import { createSignal, JSX } from "solid-js";
+import { createSignal } from "solid-js";
 
 import { GlobalContext } from "~/libs/context";
 import { setStore, store } from "~/libs/store";
 
 import type { MessageType } from "~/types";
 
-export default function GlobalProvider(props: Record<any, JSX.Element>) {
+export default function GlobalProvider(props: any) {
   const websocket = createWS("ws://localhost:3000/ws");
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
