@@ -1,37 +1,41 @@
 {
-  "name": "lamna",
-  "version": "0.1.0",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
-    "tauri": "tauri",
-    "format": "prettier --write ."
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@fontsource/noto-sans": "^5.1.0",
+    "name": "lamna",
+    "version": "0.1.0",
+    "description": "",
+    "type": "module",
+    "scripts": {
+        "start": "vite",
+        "dev": "vite",
+        "dev:app": "tauri dev",
+        "dev:application": "tauri dev",
+        "build": "vite build",
+        "serve": "vite preview",
+        "tauri": "tauri",
+        "fmt": "prettier --write .",
+        "format": "prettier --write ."
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@fontsource/noto-sans": "^5.1.0",
     "@solidjs/router": "^0.15.1",
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-shell": "^2",
-    "clsx": "^2.1.1",
+        "@tauri-apps/api": "^2",
+        "@tauri-apps/plugin-shell": "^2",
+        "clsx": "^2.1.1",
     "solid-js": "^1.7.8"
-  },
-  "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
-    "@tauri-apps/cli": "^2",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "prettier": "^3.4.1",
-    "prettier-plugin-sort-json": "^4.0.0",
-    "prettier-plugin-tailwindcss": "^0.6.9",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.2.2",
-    "vite": "^5.3.1",
-    "vite-plugin-solid": "^2.8.0",
-    "vite-tsconfig-paths": "^5.1.4"
-  }
+    },
+    "devDependencies": {
+        "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
+        "@tauri-apps/cli": "^2",
+        "@tauri-apps/tauricon": "^1.0.3",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.49",
+        "prettier": "^3.4.1",
+        "prettier-plugin-sort-json": "^4.0.0",
+        "prettier-plugin-tailwindcss": "^0.6.9",
+        "tailwindcss": "^3.4.16",
+        "typescript": "^5.2.2",
+        "vite": "^5.3.1",
+        "vite-plugin-solid": "^2.8.0",
+        "vite-tsconfig-paths": "^5.1.4"
+    }
 }
