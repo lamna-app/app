@@ -5,6 +5,7 @@ import ColourModeSwitch from "~/components/ColourModeSwitch";
 
 export default function RootLayout(props: any) {
   const [isDarkMode, setIsDarkMode] = createSignal<boolean>(true);
+
   return (
     <div
       class={clsx(
