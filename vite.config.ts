@@ -6,7 +6,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig(async () => ({
-  base: "/app",
   plugins: [solid(), tsconfigPaths()],
   // prevent vite from obscuring rust errors
   clearScreen: false,
