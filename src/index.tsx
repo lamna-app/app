@@ -3,8 +3,9 @@ import { Route, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 
 import "~/index.css";
+import "@fontsource/noto-sans";
 
-import RootLayout from "~/layout/Root";
+import RootLayout from "~/layouts/Root";
 import WebsocketProvider from "~/libs/WebsocketProvider";
 import Home from "~/pages/Home";
 

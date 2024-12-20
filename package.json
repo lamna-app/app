@@ -6,17 +6,22 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
+    "dev:app": "tauri dev",
+    "dev:application": "tauri dev",
     "build": "vite build",
     "serve": "vite preview",
     "tauri": "tauri",
+    "fmt": "prettier --write .",
     "format": "prettier --write ."
   },
   "license": "MIT",
   "dependencies": {
+    "@fontsource/noto-sans": "^5.1.0",
     "@solid-primitives/websocket": "^1.2.2",
     "@solidjs/router": "^0.15.1",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-shell": "^2",
+    "clsx": "^2.1.1",
     "solid-js": "^1.7.8"
   },
   "devDependencies": {
