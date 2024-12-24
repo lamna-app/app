@@ -10,7 +10,7 @@ import Home from "~/pages/Home";
 
 render(
   () => (
-    <Router root={RootLayout}>
+    <Router base="/app" root={RootLayout}>
       <Route path="/" component={Home} />
     </Router>
   ),
