@@ -32,7 +32,7 @@ export default function ChatBar() {
           disabled={isEmpty()}
           class="w-6 opacity-40 hover:opacity-50 disabled:cursor-not-allowed disabled:opacity-20 dark:invert"
         >
-          <img src="/icons/paper-plane.svg" />
+          <img src="/app/icons/paper-plane.svg" />
         </button>
       </div>
     </form>
