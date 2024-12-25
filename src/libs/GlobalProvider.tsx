@@ -12,6 +12,8 @@ export default function GlobalProvider(props: any) {
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
   websocket.addEventListener("message", (event: MessageEvent<string>) => {
+    console.debug(`WS Recv: ${event.data}`);
+
     const newMessage = {
       content: event.data,
       author: "Big Balls Jr. Sr.",
