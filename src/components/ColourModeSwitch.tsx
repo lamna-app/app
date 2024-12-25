@@ -10,7 +10,7 @@ export default function ColourModeSwitch({ getter, setter }: Properties<boolean>
   return (
     <button
       onClick={() => setter(a => !a)}
-      class="absolute rounded-full bg-black p-2 transition-all dark:bg-white"
+      class="absolute z-50 rounded-full bg-black p-2 transition-all dark:bg-white"
     >
       <Show when={getter()} fallback={fallback}>
         <img src="/app/icons/moon.svg" />

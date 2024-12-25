@@ -1,7 +1,6 @@
 import { createMemo, createSignal } from "solid-js";
 
 import type { MessageType } from "~/types";
-
 import type { JSX, Setter } from "solid-js";
 
 export default function ChatBar({ setMessages }: { setMessages: Setter<MessageType[]> }) {
@@ -13,7 +12,7 @@ export default function ChatBar({ setMessages }: { setMessages: Setter<MessageTy
 
     const newMessage: MessageType = {
       id: Math.floor(Math.random() * 100_000),
-      author: "Big Balls Jr. Sr.",
+      author: "Lamna User",
       content: content(),
     };
 
@@ -23,7 +22,7 @@ export default function ChatBar({ setMessages }: { setMessages: Setter<MessageTy
 
   return (
     <form onSubmit={addMessage}>
-      <div class="box-border flex items-center rounded-lg bg-black/10 p-3 dark:bg-white/5">
+      <div class="box-border flex items-center rounded-lg bg-gray-300 p-3 dark:bg-white/5">
         <input
           name="content"
           class="h-full flex-1 bg-transparent text-black outline-none dark:text-white"
