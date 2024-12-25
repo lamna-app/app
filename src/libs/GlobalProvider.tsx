@@ -6,6 +6,7 @@ import { setStore, store } from "~/libs/store";
 
 import type { MessageType } from "~/types";
 
+// TODO: Fix type, don't use `any`
 export default function GlobalProvider(props: any) {
   const websocket = createWS("ws://localhost:3000/ws");
   const [messages, setMessages] = createSignal<MessageType[]>([]);
@@ -16,6 +17,7 @@ export default function GlobalProvider(props: any) {
       author: "Big Balls Jr. Sr.",
       id: 0,
     } satisfies MessageType;
+
     setMessages([...messages(), newMessage]);
   });
 
