@@ -1,18 +1,16 @@
-import { createSignal } from "solid-js";
+import { useContext } from "solid-js";
 
 import ChatBar from "~/components/ChatBar";
 import ChatLog from "~/components/ChatLog";
-
-import type { MessageType } from "~/types";
+import { GlobalContext } from "~/libs/context";
 
 export default function Home() {
-  // TODO: Retrieve externally
-  const [messages, setMessages] = createSignal<MessageType[]>([]);
+  const context = useContext(GlobalContext)!;
 
   return (
     <>
-      <ChatLog messages={messages} />
-      <ChatBar setMessages={setMessages} />
+      <ChatLog messages={context.store.messages?.getter!} />
+      <ChatBar />
     </>
   );
 }
