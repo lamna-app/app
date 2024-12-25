@@ -12,7 +12,7 @@ export default function ChatBar({ setMessages }: { setMessages: Setter<MessageTy
 
     const newMessage: MessageType = {
       id: Math.floor(Math.random() * 100_000),
-      author: "Big Balls Jr. Sr.",
+      author: "Lamna User",
       content: content(),
     };
 

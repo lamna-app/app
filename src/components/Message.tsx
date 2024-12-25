@@ -12,7 +12,7 @@ export default function Message(message: MessageType) {
 
       <div class="mb-auto flex h-6 items-center">
         <span class="whitespace-nowrap pr-2 font-bold text-gray-700 dark:text-white/85">
-          Lamna User
+          {message.author}
         </span>
       </div>
 
