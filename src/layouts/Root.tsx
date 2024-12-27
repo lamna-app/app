@@ -8,7 +8,7 @@ import ColourModeSwitch from "~/components/ColourModeSwitch";
 export default function RootLayout(props: any) {
   const [isDarkMode, setIsDarkMode] = createSignal<boolean>(true);
 
-  // Make sure that the correct route it used.
+  // Make sure that the correct route is used.
   if (isTauri()) {
     useNavigate()("/");
   }
