@@ -1,3 +1,5 @@
+import { useNavigate } from "@solidjs/router";
+import { isTauri } from "@tauri-apps/api/core";
 import clsx from "clsx";
 import { createSignal } from "solid-js";
 
@@ -5,6 +7,11 @@ import ColourModeSwitch from "~/components/ColourModeSwitch";
 
 export default function RootLayout(props: any) {
   const [isDarkMode, setIsDarkMode] = createSignal<boolean>(true);
+
+  // Make sure that the correct route is used.
+  if (isTauri()) {
+    useNavigate()("/");
+  }
 
   return (
     <div

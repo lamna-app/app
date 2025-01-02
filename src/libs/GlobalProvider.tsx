@@ -8,7 +8,7 @@ import type { MessageType } from "~/types";
 
 // TODO: Fix type, don't use `any`
 export default function GlobalProvider(props: any) {
-  const websocket = createWS("ws://localhost:3000/ws");
+  const websocket = createWS("ws://localhost:3000/v1/ws");
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
   websocket.addEventListener("message", (event: MessageEvent<string>) => {

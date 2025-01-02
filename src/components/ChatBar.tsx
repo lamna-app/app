@@ -9,9 +9,12 @@ export default function ChatBar() {
   const addMessage: JSX.EventHandler<HTMLFormElement, SubmitEvent> = event => {
     event.preventDefault();
 
-    fetch(`http://localhost:3000/createMessage?content=${content()}`, {
+    fetch("http://localhost:3000/v1/createMessage", {
+      method: "POST",
+      body: JSON.stringify({ content: content() }),
       mode: "no-cors", // FIXME: Fix CORS.
     });
+
     setContent("");
   };
 
