@@ -9,4 +9,5 @@ export interface MessageType {
   id: number;
   author: string;
   content: string;
+  timestamp?: string;
 }

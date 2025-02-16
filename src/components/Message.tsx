@@ -1,8 +1,11 @@
 import type { MessageType } from "~/types";
 
-export default function Message(message: MessageType) {
+export default function Message({ message, grouped }: { message: MessageType; grouped: boolean }) {
   return (
-    <div class="box-border flex w-full origin-bottom transform flex-row items-start gap-2 rounded-lg bg-gray-300 p-4 dark:bg-white/5">
+    <div
+      class="my-2 box-border flex w-full origin-bottom transform flex-row items-start gap-2 rounded-lg bg-gray-300 p-4 dark:bg-white/5"
+      data-grouped={grouped}
+    >
       <div class="mb-auto aspect-square size-6 hover:cursor-pointer">
         <img
           class="size-full rounded-full"

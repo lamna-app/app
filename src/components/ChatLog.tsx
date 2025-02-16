@@ -10,15 +10,20 @@ export default function ChatLog({ messages }: { messages: Accessor<MessageType[]
   const scrollToEnd = (_: any) =>
     elementReference.scrollTo({
       top: elementReference.scrollHeight,
+      behavior: "smooth",
     });
 
   createEffect(() => {
     scrollToEnd(messages());
   });
 
+  const shouldBeGrouped = (message: MessageType, idx: number): boolean => {
+    return false;
+  };
+
   return (
-    <div class="flex h-full flex-col gap-4 overflow-y-scroll" ref={elementReference}>
-      <For each={messages()}>{properties => <Message {...properties} />}</For>
+    <div class="verflow-y-scroll flex h-full flex-col" ref={elementReference}>
+      <For each={messages()}>{(data, index) => <Message message={data} grouped={false} />}</For>
     </div>
   );
 }
