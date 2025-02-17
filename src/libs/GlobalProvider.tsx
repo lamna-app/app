@@ -15,10 +15,10 @@ type APIMessageResponse = {
 
 // TODO: Fix type, don't use `any`
 export default function GlobalProvider(props: any) {
-  const websocket = createWS("ws://100.88.207.41:3000/api/v1/ws");
+  const websocket = createWS(import.meta.env.VITE_WS_URL);
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
-  fetch("http://100.88.207.41:3000/api/v1/channels/0/messages").then(data =>
+  fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`).then(data =>
     data.json().then((json: APIMessageResponse[]) => {
       let toAdd = [] as MessageType[];
 

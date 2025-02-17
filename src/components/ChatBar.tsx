@@ -1,7 +1,3 @@
-import { createMemo, createSignal } from "solid-js";
-
-import type { JSX } from "solid-js";
-
 export default function ChatBar() {
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -14,7 +10,7 @@ export default function ChatBar() {
     if (!content) return;
 
     try {
-      await fetch("http://100.88.207.41:3000/api/v1/channels/0/messages", {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`, {
         method: "POST",
         body: JSON.stringify({
           content,
