@@ -8,12 +8,14 @@ import "@fontsource/noto-sans";
 import RootLayout from "~/layouts/Root";
 import GlobalProvider from "~/libs/GlobalProvider";
 import Home from "~/pages/Home";
+import Login from "~/pages/Login";
 
 render(
   () => (
     <GlobalProvider>
       <Router base="/app" root={RootLayout}>
         <Route path="/" component={Home} />
+        <Route path="/login" component={Login} />
       </Router>
     </GlobalProvider>
   ),

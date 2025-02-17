@@ -5,7 +5,7 @@ import type { MessageType } from "~/types";
 export default function Message({ message, grouped }: { message: MessageType; grouped: boolean }) {
   return (
     <div
-      class="box-border flex w-full origin-bottom transform flex-row items-start gap-2 rounded-lg bg-gray-300 p-4 dark:bg-white/5"
+      class="group box-border flex w-full origin-bottom transform flex-row items-start gap-2 rounded-lg bg-gray-300 p-4 dark:bg-white/5"
       style={{
         "border-radius": grouped ? "0" : undefined,
         transform: grouped ? "none" : undefined,
@@ -32,7 +32,7 @@ export default function Message({ message, grouped }: { message: MessageType; gr
 
           <p
             class={clsx(
-              "transition-animate h-full w-max select-none italic text-black opacity-0 duration-200 group-hover:opacity-100 dark:text-white",
+              "h-full w-max select-none italic text-black/20 opacity-0 group-hover:opacity-100 dark:text-white",
               "hover:opacity-20",
             )}
           >
