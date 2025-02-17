@@ -3,9 +3,6 @@ import { createMemo, createSignal } from "solid-js";
 import type { JSX } from "solid-js";
 
 export default function ChatBar() {
-  // const [content, setContent] = createSignal<string>("");
-  // const isEmpty = createMemo(() => content().trim() === "");
-
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
 
@@ -22,7 +19,6 @@ export default function ChatBar() {
         body: JSON.stringify({
           content,
         }),
-        mode: "no-cors", // (FIXME) TODO: FIX CORS
       });
     } finally {
       (event.target as HTMLFormElement).reset();

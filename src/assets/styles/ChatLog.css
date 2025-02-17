@@ -1,0 +1,32 @@
+/* @import "tailwindcss"; */
+
+
+div[data-grouped='false'] {
+  background-color: rebeccapurple;
+
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  border-radius: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+}
+
+[data-grouped=true]:not([data-grouped=true] + [data-grouped=true]) {
+  margin-top: 0.5rem;
+
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+[data-grouped=true]:has(+ :not([data-grouped=true])),
+/* Select the last item of every 'group' */
+[data-grouped]:last-child
+
+/* If the item is the last item in the container */
+  {
+  margin-bottom: 0.5rem;
+
+  border-radius: 0 0 0.5rem 0.5rem !important;
+}
+
+[data-grouped=true]+[data-grouped=true] .author {
+  display: none;
+}

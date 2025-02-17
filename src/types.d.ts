@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 import type { Accessor, Setter } from "solid-js";
 
 export interface Properties<Type> {
@@ -6,8 +8,8 @@ export interface Properties<Type> {
 }
 
 export interface MessageType {
-  id: number;
+  id: string;
   author: string;
   content: string;
-  timestamp?: string;
+  timestamp: Moment;
 }

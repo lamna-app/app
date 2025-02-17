@@ -13,7 +13,7 @@ export default function RootLayout(props: any) {
         isDarkMode() && "dark",
       )}
     >
-      <div class="absolute right-0 w-16">
+      <div class="absolute right-0 z-10 w-16">
         <ColourModeSwitch getter={isDarkMode} setter={setIsDarkMode} />
       </div>
 
