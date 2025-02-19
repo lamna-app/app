@@ -1,4 +1,12 @@
+import moment from "moment";
+import { useContext } from "solid-js";
+
+import { GlobalContext } from "~/libs/context";
+import { MessageType } from "~/types";
+
 export default function ChatBar() {
+  const context = useContext(GlobalContext)!;
+
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
 
@@ -10,12 +18,24 @@ export default function ChatBar() {
     if (!content) return;
 
     try {
-      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`, {
-        method: "POST",
-        body: JSON.stringify({
-          content,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            content,
+          }),
+        },
+      );
+
+      const data = await response.json();
+      const msg = {
+        author: "Lamna User",
+        content: data.Content,
+        id: data.MessageID,
+        timestamp: moment(data.Timestamp),
+      } satisfies MessageType;
+      context.store.messages?.setter([...context.store.messages.getter(), msg]);
     } finally {
       (event.target as HTMLFormElement).reset();
     }
