@@ -4,11 +4,9 @@ import { createSignal, useContext } from "solid-js";
 import LoginTextInput from "~/components/LoginTextInput";
 import { GlobalContext } from "~/libs/context";
 import { tempSetCookie } from "~/libs/store";
+import { CachedUser } from "~/types";
 
-import type { CachedUser } from "~/types";
-
-export default function Login() {
-  let passwordInput!: HTMLInputElement;
+export default function Signup() {
   const navigate = useNavigate();
   const context = useContext(GlobalContext)!;
 
@@ -21,19 +19,18 @@ export default function Login() {
     const payload = {
       username: data.get("username"),
       password: data.get("password"),
+      email: data.get("email"),
     };
-    const resp = await fetch(import.meta.env.VITE_BACKEND_URL + `/api/v1/login`, {
+    const resp = await fetch(import.meta.env.VITE_BACKEND_URL + `/api/v1/signup`, {
       method: "POST",
       body: JSON.stringify(payload),
     });
 
-    if (resp.status === 401) {
-      passwordInput.value = "";
-      setErrorMessage("Wrong username or password.");
+    if (resp.status === 409) {
+      setErrorMessage("This username or email is already taken.");
     } else if (resp.status === 200) {
       const json = await resp.json();
-      context.store.auth?.setter({ auth: json.auth_token, refresh: json.refresh_token }); // TODO: probably move
-
+      context.store.auth?.setter({ auth: json.auth_token, refresh: json.refresh_token }); // TODO: Maybe use other solution
       context.store.isAuthed?.setter(true);
       navigate("/");
 
@@ -51,47 +48,30 @@ export default function Login() {
         ></div>
       </div>
       <div class="absolute left-0 top-0 z-20 flex h-screen w-screen items-center justify-center">
-        <div class="relative flex h-[430px] w-[350px] flex-col gap-10 rounded-lg bg-light-bg-text px-4 py-8">
-          <h1 class="text-center text-3xl font-semibold text-white">
-            Welcome to{" "}
-            <span class="bg-gradient-to-br from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Lamna
-            </span>
-          </h1>
+        <div class="relative flex h-[450px] w-[350px] flex-col gap-8 rounded-lg bg-light-bg-text px-4 py-8">
+          <h1 class="text-center text-3xl font-semibold text-white">Create an account</h1>
           <div>
             <form class="flex flex-col gap-4 px-2" onSubmit={onSubmit}>
+              <LoginTextInput type="email" placeholder="Email" name="email" />
               <LoginTextInput type="text" placeholder="Username" name="username" />
-              <LoginTextInput
-                type="password"
-                placeholder="Password"
-                name="password"
-                ref={passwordInput}
-              />
-              <div class="flex w-full items-center justify-between">
-                <div class="flex gap-2">
-                  <input type="checkbox" id="remember" />
-                  <label for="remember" class="select-none">
-                    Remember me?
-                  </label>
-                </div>
+              <LoginTextInput type="password" placeholder="Password" name="password" />
+              <div class="w-full">
                 <button
                   type="submit"
-                  class="w-1/3 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 px-4 py-2 font-semibold text-white outline-none ring-white transition hover:brightness-110 focus:brightness-110"
+                  class="float-right w-1/3 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 px-4 py-2 font-semibold text-white outline-none ring-white transition hover:brightness-110 focus:brightness-110"
                 >
-                  Log in
+                  Sign up
                 </button>
               </div>
             </form>
           </div>
+          {/* TODO: Fix styling for error text*/}
           {errorMessage() && <p class="text-center font-semibold text-red-500">{errorMessage()}</p>}
           <div class="absolute bottom-4 flex flex-col gap-1 text-sm font-light">
-            <A href="#" class="text-pink-600 transition-colors hover:text-purple-600">
-              I forgot my password.
-            </A>
             <p class="flex gap-1">
-              Don't have an account?
-              <A href="/signup" class="text-pink-600 transition-colors hover:text-purple-600">
-                Sign up.
+              Already have an acount?
+              <A href="/login" class="text-pink-600 transition-colors hover:text-purple-600">
+                Log in.
               </A>
             </p>
           </div>

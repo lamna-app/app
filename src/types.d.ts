@@ -13,3 +13,8 @@ export interface MessageType {
   content: string;
   timestamp: Moment;
 }
+
+export interface CachedUser {
+  id: string;
+  username: string;
+}

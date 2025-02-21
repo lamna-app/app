@@ -1,11 +1,11 @@
 import { createWS } from "@solid-primitives/websocket";
 import moment from "moment";
-import { createSignal } from "solid-js";
+import { createSignal, JSX } from "solid-js";
 
 import { GlobalContext } from "~/libs/context";
 import { setStore, store, StoreData } from "~/libs/store";
 
-import type { MessageType } from "~/types";
+import type { CachedUser, MessageType } from "~/types";
 
 type APIMessageResponse = {
   id: string;
@@ -13,8 +13,7 @@ type APIMessageResponse = {
   timestamp: string;
 };
 
-// TODO: Fix type, don't use `any`
-export default function GlobalProvider(props: any) {
+export default function GlobalProvider(props: { children: JSX.Element }) {
   const websocket = createWS(import.meta.env.VITE_WS_URL);
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
@@ -55,12 +54,23 @@ export default function GlobalProvider(props: any) {
 
   websocket.addEventListener("close", (_: CloseEvent) => {
     // we need to handle this better, but for now this is fine.
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000);
   });
 
+  const [auth, setAuth] = createSignal<{ auth: string; refresh: string }>({
+    auth: "",
+    refresh: "",
+  });
+  const [isAuthed, setIsAuthed] = createSignal<boolean>(false);
+  const [user, setUser] = createSignal<CachedUser>({ id: "", username: "" });
   setStore({
     websocket,
     messages: { getter: messages, setter: setMessages },
+    auth: { getter: auth, setter: setAuth },
+    isAuthed: { getter: isAuthed, setter: setIsAuthed },
+    user: { getter: user, setter: setUser },
   } satisfies StoreData);
 
   return <GlobalContext.Provider value={{ store }}>{props.children}</GlobalContext.Provider>;

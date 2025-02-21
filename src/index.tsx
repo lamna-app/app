@@ -9,6 +9,7 @@ import RootLayout from "~/layouts/Root";
 import GlobalProvider from "~/libs/GlobalProvider";
 import Home from "~/pages/Home";
 import Login from "~/pages/Login";
+import Signup from "~/pages/Signup";
 
 render(
   () => (
@@ -16,6 +17,7 @@ render(
       <Router base="/app" root={RootLayout}>
         <Route path="/" component={Home} />
         <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </Router>
     </GlobalProvider>
   ),
