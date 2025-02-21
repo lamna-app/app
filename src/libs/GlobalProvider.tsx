@@ -1,19 +1,20 @@
 import { createWS } from "@solid-primitives/websocket";
 import moment from "moment";
-import { createSignal, JSX } from "solid-js";
+import { createSignal, ParentProps } from "solid-js";
 
 import { GlobalContext } from "~/libs/context";
 import { setStore, store, StoreData } from "~/libs/store";
 
 import type { CachedUser, MessageType } from "~/types";
 
+type Properties = ParentProps;
 type APIMessageResponse = {
   id: string;
   content: string;
   timestamp: string;
 };
 
-export default function GlobalProvider(props: { children: JSX.Element }) {
+export default function GlobalProvider(properties: Properties) {
   const websocket = createWS(import.meta.env.VITE_WS_URL);
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
@@ -73,5 +74,5 @@ export default function GlobalProvider(props: { children: JSX.Element }) {
     user: { getter: user, setter: setUser },
   } satisfies StoreData);
 
-  return <GlobalContext.Provider value={{ store }}>{props.children}</GlobalContext.Provider>;
+  return <GlobalContext.Provider value={{ store }}>{properties.children}</GlobalContext.Provider>;
 }
