@@ -1,8 +1,3 @@
-import moment from "moment";
-
-import { setStore, store } from "~/libs/store";
-import { MessageType } from "~/types";
-
 export default function ChatBar() {
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
