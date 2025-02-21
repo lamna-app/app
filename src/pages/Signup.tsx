@@ -1,14 +1,11 @@
 import { A, useNavigate } from "@solidjs/router";
-import { createSignal, useContext } from "solid-js";
+import { createSignal } from "solid-js";
 
 import LoginTextInput from "~/components/LoginTextInput";
-import { GlobalContext } from "~/libs/context";
-import { tempSetCookie } from "~/libs/store";
-import { CachedUser } from "~/types";
+import { setStore, tempSetCookie } from "~/libs/store";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const context = useContext(GlobalContext)!;
 
   const [errorMessage, setErrorMessage] = createSignal<string | null>(null);
 
@@ -30,11 +27,12 @@ export default function Signup() {
       setErrorMessage("This username or email is already taken.");
     } else if (resp.status === 200) {
       const json = await resp.json();
-      context.store.auth?.setter({ auth: json.auth_token, refresh: json.refresh_token }); // TODO: Maybe use other solution
-      context.store.isAuthed?.setter(true);
+      setStore("auth", { auth: json.auth_token, refresh: json.refresh_token });
+
+      setStore("isAuthed", true);
       navigate("/");
 
-      context.store.user?.setter({ id: json.id, username: json.username } satisfies CachedUser);
+      setStore("user", { username: json.username, id: json.id });
       tempSetCookie(json.auth_token);
     }
   };

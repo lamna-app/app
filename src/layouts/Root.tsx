@@ -1,22 +1,19 @@
 import { A, useNavigate } from "@solidjs/router";
 import clsx from "clsx";
-import { createEffect, createSignal, useContext } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 import ColourModeSwitch from "~/components/ColourModeSwitch";
-import { GlobalContext } from "~/libs/context";
-import { tempGetCookie, tempSetCookie } from "~/libs/store";
+import { setStore, store, tempGetCookie, tempSetCookie } from "~/libs/store";
 
 export default function RootLayout(props: any) {
   const [isDarkMode, setIsDarkMode] = createSignal<boolean>(true);
-  const context = useContext(GlobalContext)!;
   const navigate = useNavigate();
 
   createEffect(async () => {
     const cookie = tempGetCookie("lamna-auth");
     if (cookie) {
-      context.store.auth?.setter({ auth: cookie, refresh: "" });
-      context.store?.isAuthed?.setter(true);
-
+      setStore("auth", { auth: cookie, refresh: "" });
+      setStore("isAuthed", true);
       let resp;
       try {
         resp = await fetch(import.meta.env.VITE_BACKEND_URL + `/api/v1/me`, {
@@ -28,7 +25,7 @@ export default function RootLayout(props: any) {
       }
 
       const json = await resp.json();
-      context.store.user?.setter({ id: json.id, username: json.username });
+      setStore("user", { username: json.username, id: json.id });
     }
   });
 
@@ -51,14 +48,14 @@ export default function RootLayout(props: any) {
               <div>
                 User:
                 <br />
-                {context.store.user?.getter().username}
+                {store.user?.username}
               </div>
               <button
                 onClick={() => {
                   tempSetCookie("");
-                  context.store.auth?.setter({ auth: "", refresh: "" });
-                  context.store.isAuthed?.setter(false);
-                  context.store.user?.setter({ id: "", username: "" });
+                  setStore("auth", {});
+                  setStore("isAuthed", false);
+                  setStore("user", {});
                   navigate("/login");
                 }}
               >

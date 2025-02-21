@@ -1,3 +1,8 @@
+import moment from "moment";
+
+import { setStore, store } from "~/libs/store";
+import { MessageType } from "~/types";
+
 export default function ChatBar() {
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -10,24 +15,12 @@ export default function ChatBar() {
     if (!content) return;
 
     try {
-      /*const response =*/ await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            content,
-          }),
-        },
-      );
-
-      // const data = await response.json();
-      // const msg = {
-      //   author: "Lamna User",
-      //   content: data.Content,
-      //   id: data.MessageID,
-      //   timestamp: moment(data.Timestamp),
-      // } satisfies MessageType;
-      // context.store.messages?.setter([...context.store.messages.getter(), msg]);
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`, {
+        method: "POST",
+        body: JSON.stringify({
+          content,
+        }),
+      });
     } finally {
       (event.target as HTMLFormElement).reset();
     }

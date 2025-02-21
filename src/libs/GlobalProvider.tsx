@@ -1,11 +1,10 @@
 import { createWS } from "@solid-primitives/websocket";
 import moment from "moment";
-import { createSignal, ParentProps } from "solid-js";
+import { ParentProps } from "solid-js";
 
-import { GlobalContext } from "~/libs/context";
-import { setStore, store, StoreData } from "~/libs/store";
+import { setStore } from "~/libs/store";
 
-import type { CachedUser, MessageType } from "~/types";
+import type { MessageType } from "~/types";
 
 type Properties = ParentProps;
 type APIMessageResponse = {
@@ -16,7 +15,6 @@ type APIMessageResponse = {
 
 export default function GlobalProvider(properties: Properties) {
   const websocket = createWS(import.meta.env.VITE_WS_URL);
-  const [messages, setMessages] = createSignal<MessageType[]>([]);
 
   fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`).then(data =>
     data.json().then((json: APIMessageResponse[]) => {
@@ -36,7 +34,7 @@ export default function GlobalProvider(properties: Properties) {
       });
 
       toAdd.sort((a, b) => Number(a.timestamp) - Number(b.timestamp));
-      setMessages([...messages(), ...toAdd]);
+      setStore("messages", messages => [...messages, ...toAdd]);
     }),
   );
 
@@ -50,7 +48,7 @@ export default function GlobalProvider(properties: Properties) {
       timestamp: moment(message.timestamp, moment.ISO_8601),
     } satisfies MessageType;
 
-    setMessages([...messages(), newMessage]);
+    setStore("messages", messages => [...messages, newMessage]);
   });
 
   websocket.addEventListener("close", (_: CloseEvent) => {
@@ -60,19 +58,8 @@ export default function GlobalProvider(properties: Properties) {
     }, 5000);
   });
 
-  const [auth, setAuth] = createSignal<{ auth: string; refresh: string }>({
-    auth: "",
-    refresh: "",
-  });
-  const [isAuthed, setIsAuthed] = createSignal<boolean>(false);
-  const [user, setUser] = createSignal<CachedUser>({ id: "", username: "" });
-  setStore({
-    websocket,
-    messages: { getter: messages, setter: setMessages },
-    auth: { getter: auth, setter: setAuth },
-    isAuthed: { getter: isAuthed, setter: setIsAuthed },
-    user: { getter: user, setter: setUser },
-  } satisfies StoreData);
+  setStore("websocket", websocket);
 
-  return <GlobalContext.Provider value={{ store }}>{properties.children}</GlobalContext.Provider>;
+  // return <GlobalContext.Provider value={{ store }}>{properties.children}</GlobalContext.Provider>;
+  return <>{properties.children}</>;
 }

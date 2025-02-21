@@ -1,17 +1,20 @@
 import { createStore, SetStoreFunction } from "solid-js/store";
 
-import type { CachedUser, MessageType, Properties } from "~/types";
+import type { MessageType } from "~/types";
 
 export type StoreData = {
   websocket?: WebSocket;
-  messages?: Properties<MessageType[]>;
-  auth?: Properties<{ auth: string; refresh: string }>; // TODO: Will probably be moved
-  isAuthed?: Properties<boolean>;
-  user?: Properties<CachedUser>;
+  messages: MessageType[];
+  auth?: { auth: string; refresh: string };
+  isAuthed: boolean;
+  user?: { username: string; id: string };
 };
 
 export const [store, setStore]: [store: StoreData, setStore: SetStoreFunction<StoreData>] =
-  createStore({});
+  createStore<StoreData>({
+    messages: [],
+    isAuthed: false,
+  });
 
 export const tempSetCookie = (token: string) => {
   // As you can see, proof-of-concept:
