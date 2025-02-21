@@ -1,20 +1,20 @@
 import { createWS } from "@solid-primitives/websocket";
 import moment from "moment";
-import { createSignal } from "solid-js";
+import { createSignal, ParentProps } from "solid-js";
 
 import { GlobalContext } from "~/libs/context";
 import { setStore, store, StoreData } from "~/libs/store";
 
 import type { MessageType } from "~/types";
 
+type Properties = ParentProps;
 type APIMessageResponse = {
   id: string;
   content: string;
   timestamp: string;
 };
 
-// TODO: Fix type, don't use `any`
-export default function GlobalProvider(props: any) {
+export default function GlobalProvider(properties: Properties) {
   const websocket = createWS(import.meta.env.VITE_WS_URL);
   const [messages, setMessages] = createSignal<MessageType[]>([]);
 
@@ -63,5 +63,5 @@ export default function GlobalProvider(props: any) {
     messages: { getter: messages, setter: setMessages },
   } satisfies StoreData);
 
-  return <GlobalContext.Provider value={{ store }}>{props.children}</GlobalContext.Provider>;
+  return <GlobalContext.Provider value={{ store }}>{properties.children}</GlobalContext.Provider>;
 }
