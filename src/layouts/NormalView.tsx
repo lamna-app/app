@@ -1,14 +1,10 @@
 import { createWS } from "@solid-primitives/websocket";
 import moment from "moment";
-import { ParentProps } from "solid-js";
 
+import { APIClient } from "~/libs/client";
 import { setStore } from "~/libs/store";
-import { APIClient } from "./client";
 
-type Properties = ParentProps;
-
-export default function GlobalProvider(properties: Properties) {
-  return <>{properties.children}</>;
+export default function NormalView(props: any) {
   const websocket = createWS(import.meta.env.VITE_WS_URL);
 
   APIClient.channelHistory(1).then(({ data }) => {
@@ -33,7 +29,10 @@ export default function GlobalProvider(properties: Properties) {
   });
 
   setStore("websocket", websocket);
-
-  // return <GlobalContext.Provider value={{ store }}>{properties.children}</GlobalContext.Provider>;
-  return <>{properties.children}</>;
+  return (
+    <>
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      {props.children}
+    </>
+  );
 }

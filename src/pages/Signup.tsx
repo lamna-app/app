@@ -1,39 +1,57 @@
 import { A, useNavigate } from "@solidjs/router";
 import { createSignal } from "solid-js";
+import { z } from "zod";
 
 import LoginTextInput from "~/components/LoginTextInput";
+import { APIClient } from "~/libs/client";
 import { setStore, tempSetCookie } from "~/libs/store";
+
+const SignInData = z.object({
+  email: z.string().nonempty().email("Invalid email"),
+  username: z.string().nonempty("Invalid username").trim(),
+  password: z.string().nonempty("Invalid password").min(8).trim(),
+});
 
 export default function Signup() {
   const navigate = useNavigate();
 
-  const [errorMessage, setErrorMessage] = createSignal<string | null>(null);
+  const [formErrors, setFormError] = createSignal<z.typeToFlattenedError<
+    z.TypeOf<typeof SignInData>
+  > | null>(null);
 
   const onSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget as HTMLFormElement);
 
-    const payload = {
+    const parsed = SignInData.safeParse({
+      email: data.get("email"),
       username: data.get("username"),
       password: data.get("password"),
-      email: data.get("email"),
-    };
-    const resp = await fetch(import.meta.env.VITE_BACKEND_URL + `/api/v1/signup`, {
-      method: "POST",
-      body: JSON.stringify(payload),
     });
 
-    if (resp.status === 409) {
-      setErrorMessage("This username or email is already taken.");
-    } else if (resp.status === 200) {
-      const json = await resp.json();
-      setStore("auth", { auth: json.auth_token, refresh: json.refresh_token });
+    if (!parsed.success) {
+      return setFormError(parsed.error.flatten());
+    }
+
+    const parsedData = parsed.data!;
+
+    const { data: resp, status } = await APIClient.signup(
+      parsedData.username,
+      parsedData.email,
+      parsedData.password,
+    );
+
+    if (status === 409) {
+      setFormError({ formErrors: ["User already exists"], fieldErrors: {} });
+    } else if (status === 200) {
+      setStore("auth", { auth: resp.auth_token, refresh: resp.refresh_token });
 
       setStore("isAuthed", true);
       navigate("/");
 
-      setStore("user", { username: json.username, id: json.id });
-      tempSetCookie(json.auth_token);
+      setStore("user", { username: resp.user.username, id: resp.user.id });
+      tempSetCookie("lamna-auth", resp.auth_token);
     }
   };
 
@@ -45,14 +63,28 @@ export default function Signup() {
           class="h-full w-full scale-125 bg-gradient-to-br from-purple-600 to-pink-600 opacity-40"
         ></div>
       </div>
+
       <div class="absolute left-0 top-0 z-20 flex h-screen w-screen items-center justify-center">
         <div class="relative flex h-[450px] w-[350px] flex-col gap-8 rounded-lg bg-light-bg-text px-4 py-8">
           <h1 class="text-center text-3xl font-semibold text-white">Create an account</h1>
           <div>
             <form class="flex flex-col gap-4 px-2" onSubmit={onSubmit}>
-              <LoginTextInput type="email" placeholder="Email" name="email" />
-              <LoginTextInput type="text" placeholder="Username" name="username" />
-              <LoginTextInput type="password" placeholder="Password" name="password" />
+              <LoginTextInput type="email" placeholder="Email" name="email" error={formErrors} />
+
+              <LoginTextInput
+                type="text"
+                placeholder="Username"
+                name="username"
+                error={formErrors}
+              />
+
+              <LoginTextInput
+                type="password"
+                placeholder="Password"
+                name="password"
+                error={formErrors}
+              />
+
               <div class="w-full">
                 <button
                   type="submit"
@@ -63,8 +95,12 @@ export default function Signup() {
               </div>
             </form>
           </div>
-          {/* TODO: Fix styling for error text*/}
-          {errorMessage() && <p class="text-center font-semibold text-red-500">{errorMessage()}</p>}
+
+          {/* TODO: Fix styling for error text */}
+          {formErrors()?.["formErrors"]?.[0] && (
+            <p class="font-semibold text-red-500">{formErrors()?.["formErrors"]?.[0]}</p>
+          )}
+
           <div class="absolute bottom-4 flex flex-col gap-1 text-sm font-light">
             <p class="flex gap-1">
               Already have an acount?

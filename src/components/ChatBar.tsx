@@ -1,3 +1,5 @@
+import { APIClient } from "~/libs/client";
+
 export default function ChatBar() {
   const formHandler = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -10,12 +12,7 @@ export default function ChatBar() {
     if (!content) return;
 
     try {
-      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/channels/0/messages`, {
-        method: "POST",
-        body: JSON.stringify({
-          content,
-        }),
-      });
+      await APIClient.createMessage(String(content), 1);
     } finally {
       (event.target as HTMLFormElement).reset();
     }

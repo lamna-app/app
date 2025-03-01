@@ -1,10 +1,10 @@
 import { createStore, SetStoreFunction } from "solid-js/store";
 
-import type { MessageType } from "~/types";
+import type { Message } from "~/types";
 
 export type StoreData = {
   websocket?: WebSocket;
-  messages: MessageType[];
+  messages: Message[];
   auth?: { auth: string; refresh: string };
   isAuthed: boolean;
   user?: { username: string; id: string };
@@ -16,9 +16,10 @@ export const [store, setStore]: [store: StoreData, setStore: SetStoreFunction<St
     isAuthed: false,
   });
 
-export const tempSetCookie = (token: string) => {
+export const tempSetCookie = (name: string, token: string) => {
+  return;
   // As you can see, proof-of-concept:
-  document.cookie = `lamna-auth=${token}; expires=Sat 01 March 2025 00:00:00 UTC; domain=100.88.207.41; path=/;`;
+  document.cookie = `${name}=${token}; expires=Sat 01 December 2025 00:00:00 UTC; domain=100.88.207.41; path=/;`;
 };
 
 export const tempGetCookie = (name: string): string => {

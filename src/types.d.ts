@@ -7,11 +7,19 @@ export interface Properties<Type> {
   setter: Setter<Type>;
 }
 
-export interface MessageType {
+export interface User {
   id: string;
-  author: string;
+  username: string;
+  bot: boolean;
+  staff: boolean;
+}
+
+export interface Message {
+  id: string;
   content: string;
-  timestamp: Moment;
+  timestamp: moment;
+  author: User;
+  channelId: string;
 }
 
 export interface CachedUser {
