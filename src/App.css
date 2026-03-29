@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@fontsource-variable/dm-sans";
+
+@theme {
+  --default-font-family: "DM Sans Variable", "sans-serif";
+
+  --color-background: rgb(42, 42, 42);
+  --color-text: rgb(228, 227, 224);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}

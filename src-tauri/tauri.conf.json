@@ -1,35 +1,29 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "app": {
-    "security": {
-      "csp": null
-    },
-    "windows": [
-      {
-        "height": 600,
-        "title": "lamna",
-        "width": 800
-      }
-    ]
-  },
+  "productName": "lamna-app",
+  "version": "0.1.0",
+  "identifier": "com.lamna.lamna-app",
   "build": {
-    "beforeBuildCommand": "bun run build",
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "lamna-app",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
   },
   "bundle": {
     "active": true,
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ],
-    "targets": "all"
-  },
-  "identifier": "com.lamna.app",
-  "productName": "lamna",
-  "version": "0.1.0"
+    "targets": "all",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+  }
 }

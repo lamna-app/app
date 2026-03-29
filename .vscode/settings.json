@@ -1,6 +1,12 @@
 {
-  "editor.detectIndentation": false,
   "editor.formatOnSave": true,
-  "editor.indentSize": 2,
-  "files.eol": "\n"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "vite.config.ts": "tsconfig.json, .prettierrc.toml, .gitignore",
+    "package.json": "bun.lock",
+    "tauri.conf.json": "Cargo.toml, Cargo.lock"
+  }
 }

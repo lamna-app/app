@@ -1,0 +1,10 @@
+arrowParens = "avoid"
+semi = false
+singleQuote = false
+bracketSameLine = true
+tabWidth = 2
+useTabs = false
+trailingComma = "none"
+printWidth = 125
+htmlWhitespaceSensitivity = "ignore"
+plugins = ["prettier-plugin-tailwindcss"]
