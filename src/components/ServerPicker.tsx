@@ -24,7 +24,7 @@ export default function ServerPicker({ guilds }: { guilds: Guild[] }) {
   return (
     <div class="bg-dark-hl p-2">
       <div onWheel={e => onScroll(e)} class="no-scrollbar flex gap-2 overflow-x-auto">
-        <div class="bg-hl flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-2xl hover:rounded-2xl">
+        <div class="bg-hl flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl hover:rounded-2xl">
           <Plus size={48} />
         </div>
         {guilds.map(guild => (
