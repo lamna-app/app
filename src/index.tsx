@@ -2,15 +2,21 @@
 import { render } from "solid-js/web"
 import { Route, Router } from "@solidjs/router"
 
-import App from "./App"
+import "./App.css"
+
 import HomeLayout from "./layouts/HomeLayout"
 import RootLayout from "./layouts/RootLayout"
+import Debug from "./pages/Debug"
+import Login from "./pages/Login"
+import Channel from "./pages/Channel"
 
 render(
   () => (
     <Router base="/app" root={RootLayout}>
+      <Route path="/login" component={Login} />
       <Route path="/" component={HomeLayout}>
-        <Route path="/" component={App} />
+        <Route path="/" component={Debug} />
+        <Route path="/channels/:guildID/:channelID" component={Channel}></Route>
       </Route>
     </Router>
   ),

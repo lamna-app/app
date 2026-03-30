@@ -4,10 +4,12 @@
 @theme {
   --default-font-family: "DM Sans Variable", "sans-serif";
 
-  --color-background: rgb(42, 42, 42);
-  --color-hl: rgb(50, 50, 50);
-  --color-dark-hl: rgb(27, 27, 27);
-  --color-text: rgb(228, 227, 224);
+  --color-background: rgb(49, 51, 56);
+  --color-light: rgb(64, 68, 75);
+  --color-light-hl: rgb(79, 84, 92);
+  --color-dark: rgb(35, 36, 40);
+  --color-dark-hl: rgb(24, 25, 28);
+  --color-text: rgb(220, 221, 222);
 }
 
 @utility no-scrollbar {

@@ -1,37 +1,65 @@
-import { Guild } from "@/types/basic"
+import { Guild } from "@/types/models"
 import { Plus } from "lucide-solid"
+import GuildIcon from "./utils/GuildIcon"
+import { For, JSXElement, Resource } from "solid-js"
+import { useGuild } from "@/contexts/GuildContext"
 
-export default function ServerPicker({ guilds }: { guilds: Guild[] }) {
-  let scroll = 0
-  const onScroll = (e: WheelEvent) => {
-    e.preventDefault()
-    const target = e.currentTarget as HTMLDivElement
-    scroll += e.deltaY
+import Icon from "@/assets/icon.png"
+import { Option } from "@/types/utils"
 
-    const animate = () => {
-      const diff = scroll * 0.1
-      if (Math.abs(diff) < 0.5) {
-        scroll = 0
-        return
-      }
-      target.scrollLeft += diff
-      scroll -= diff
-      requestAnimationFrame(animate)
+let scroll = 0
+const onScroll = (e: WheelEvent) => {
+  e.preventDefault()
+  const target = e.currentTarget as HTMLDivElement
+  scroll += e.deltaY
+
+  const animate = () => {
+    const diff = scroll * 0.1
+    if (Math.abs(diff) < 0.5) {
+      scroll = 0
+      return
     }
+    target.scrollLeft += diff
+    scroll -= diff
     requestAnimationFrame(animate)
   }
+  requestAnimationFrame(animate)
+}
+
+const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: () => void }) => {
+  return (
+    <div
+      onClick={onClick}
+      class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl">
+      {children}
+    </div>
+  )
+}
+
+export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) {
+  const { setGuild } = useGuild()
+  const onClick = (g: Option<Guild>) => setGuild(g)
 
   return (
-    <div class="bg-dark-hl p-2">
+    <div class="bg-dark p-2">
       <div onWheel={e => onScroll(e)} class="no-scrollbar flex gap-2 overflow-x-auto">
-        <div class="bg-hl flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl hover:rounded-2xl">
-          <Plus size={48} />
-        </div>
-        {guilds.map(guild => (
-          <div class="shrink-0 cursor-pointer">
-            <img src={guild.icon_url} class="rounded-3xl transition-all duration-50 hover:rounded-2xl" width={54} />
-          </div>
-        ))}
+        <GuildCircle onClick={() => setGuild(null)}>
+          <img src={Icon} width={38} />
+        </GuildCircle>
+        <For each={guilds()}>
+          {guild => (
+            <GuildCircle onClick={() => onClick(guild)}>
+              {guild.icon_url ? (
+                <img src={guild.icon_url} class="rounded-3xl transition-all duration-50 hover:rounded-2xl" width={54} />
+              ) : (
+                <GuildIcon name={guild.name} />
+              )}
+            </GuildCircle>
+          )}
+        </For>
+        <GuildCircle>
+          <Plus size={32} />
+        </GuildCircle>
       </div>
     </div>
   )
