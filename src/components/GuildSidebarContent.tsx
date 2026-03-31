@@ -29,7 +29,7 @@ const Channels = ({
             classList={{
               "bg-light": channel.id === currentChannel()?.id
             }}
-            class="hover:bg-light active:bg-light w-[90%] cursor-default rounded-lg p-1 font-medium"
+            class="hover:bg-light active:bg-light w-[90%] transition-colors duration-25 cursor-default rounded-lg p-1 font-medium"
           >
             <span class="flex items-center gap-1">
               <Hash size={18} />

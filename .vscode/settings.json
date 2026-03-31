@@ -15,8 +15,14 @@
     "package.json": "bun.lock",
     "tauri.conf.json": "Cargo.toml, Cargo.lock"
   },
-  "[typescriptreact][typescript]": {
+  "[typescriptreact]": {
     "editor.tabSize": 2,
-    "editor.indentSize": "tabSize"
+    "editor.indentSize": "tabSize",
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.tabSize": 2,
+    "editor.indentSize": "tabSize",
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }
