@@ -27,12 +27,12 @@ const onScroll = (e: WheelEvent) => {
 
 const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: () => void }) => {
   return (
-    <div
+    <button
       onClick={onClick}
       class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl"
     >
       {children}
-    </div>
+    </button>
   )
 }
 

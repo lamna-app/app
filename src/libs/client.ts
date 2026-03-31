@@ -10,7 +10,7 @@ export class Client {
     this.token = localStorage.getItem("token") as string
   }
 
-  private async request<T>(endpoint: string, method: Method, body?: Record<string, any>): Promise<ClientResponse<T>> {
+  private async request<T>(endpoint: string, method: Method, body?: Record<string, unknown>): Promise<ClientResponse<T>> {
     const resp = await fetch(`${Client.BASE}${endpoint}`, {
       body: body ? JSON.stringify(body) : null,
       method: method,
@@ -30,7 +30,7 @@ export class Client {
       throw new Error(await resp.text())
     }
 
-    if (endpoint == "/auth/login") {
+    if (endpoint === "/auth/login") {
       this.token = resp.headers.get("Authorization") as string
     }
 

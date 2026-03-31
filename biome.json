@@ -20,12 +20,14 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useImportType": "error"
+        "useImportType": "error",
+        "noNonNullAssertion": "info"
       },
       "a11y": {
         "useKeyWithClickEvents": "off",
         "useKeyWithMouseEvents": "off",
-        "useAltText": "off"
+        "useAltText": "off",
+        "useButtonType": "off"
       }
     }
   },

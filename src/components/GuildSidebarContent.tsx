@@ -24,10 +24,10 @@ const Channels = ({
     <div class="flex w-full flex-col items-center gap-2">
       <For each={channels()}>
         {channel => (
-          <div
+          <button
             onClick={() => onClick(channel)}
             classList={{
-              "bg-light": channel.id == currentChannel()?.id
+              "bg-light": channel.id === currentChannel()?.id
             }}
             class="hover:bg-light active:bg-light w-[90%] cursor-default rounded-lg p-1 font-medium"
           >
@@ -35,7 +35,7 @@ const Channels = ({
               <Hash size={18} />
               {channel.name}
             </span>
-          </div>
+          </button>
         )}
       </For>
     </div>

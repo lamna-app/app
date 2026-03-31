@@ -7,5 +7,6 @@ const GuildContext = createContext<{
   setGuild: (guild: Option<Guild>) => void
 }>()
 
+// biome-ignore lint/style/noNonNullAssertion: context is always provided within provider
 export const useGuild = () => useContext(GuildContext)!
 export default GuildContext

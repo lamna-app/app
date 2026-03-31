@@ -7,5 +7,6 @@ const ChannelContext = createContext<{
   setChannel: (channel: Option<Channel>) => void
 }>()
 
+// biome-ignore lint/style/noNonNullAssertion: context is always provided within provider
 export const useChannel = () => useContext(ChannelContext)!
 export default ChannelContext
