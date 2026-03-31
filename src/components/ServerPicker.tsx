@@ -1,11 +1,10 @@
-import { Guild } from "@/types/models"
 import { Plus } from "lucide-solid"
-import GuildIcon from "./utils/GuildIcon"
-import { For, JSXElement, Resource } from "solid-js"
-import { useGuild } from "@/contexts/GuildContext"
-
+import { For, type JSXElement, type Resource } from "solid-js"
 import Icon from "@/assets/icon.png"
-import { Option } from "@/types/utils"
+import { useGuild } from "@/contexts/GuildContext"
+import type { Guild } from "@/types/models"
+import type { Option } from "@/types/utils"
+import GuildIcon from "./utils/GuildIcon"
 
 let scroll = 0
 const onScroll = (e: WheelEvent) => {
@@ -30,7 +29,8 @@ const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: ()
   return (
     <div
       onClick={onClick}
-      class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl">
+      class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl"
+    >
       {children}
     </div>
   )

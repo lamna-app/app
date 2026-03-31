@@ -1,5 +1,5 @@
 import type { ClientResponse, LoginResponse, MeResponse } from "@/types/client"
-import { Channel, Guild, Message } from "@/types/models"
+import type { Channel, Guild, Message } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export class Client {

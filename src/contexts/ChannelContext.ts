@@ -1,6 +1,6 @@
-import { Channel } from "@/types/models"
-import { Option } from "@/types/utils"
 import { createContext, useContext } from "solid-js"
+import type { Channel } from "@/types/models"
+import type { Option } from "@/types/utils"
 
 const ChannelContext = createContext<{
   channel: () => Option<Channel>

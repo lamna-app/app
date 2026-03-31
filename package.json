@@ -8,7 +8,10 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "lint": "biome lint .",
+    "format": "biome format . --write",
+    "check": "biome check . --write"
   },
   "license": "MIT",
   "dependencies": {
@@ -22,10 +25,9 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.10",
     "@tauri-apps/cli": "^2",
     "@types/node": "^25.5.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "~5.6.2",
     "vite": "^6.0.3",
     "vite-plugin-solid": "^2.11.0"

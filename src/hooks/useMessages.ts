@@ -1,7 +1,7 @@
-import { useChannel } from "@/contexts/ChannelContext"
-import { useClient } from "./useClient"
 import { createEffect, createMemo } from "solid-js"
+import { useChannel } from "@/contexts/ChannelContext"
 import { messages, setMessages } from "@/stores/messageStore"
+import { useClient } from "./useClient"
 
 export function useMessages() {
   const client = useClient()

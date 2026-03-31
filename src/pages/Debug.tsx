@@ -1,6 +1,6 @@
-import { useClient } from "@/hooks/useClient"
-import { MeResponse } from "@/types/client"
 import { createSignal } from "solid-js"
+import { useClient } from "@/hooks/useClient"
+import type { MeResponse } from "@/types/client"
 
 const Me = () => {
   const client = useClient()

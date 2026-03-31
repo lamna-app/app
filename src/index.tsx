@@ -1,14 +1,15 @@
 /* @refresh reload */
-import { render } from "solid-js/web"
+
 import { Route, Router } from "@solidjs/router"
+import { render } from "solid-js/web"
 
 import "./App.css"
 
 import HomeLayout from "./layouts/HomeLayout"
 import RootLayout from "./layouts/RootLayout"
+import Channel from "./pages/Channel"
 import Debug from "./pages/Debug"
 import Login from "./pages/Login"
-import Channel from "./pages/Channel"
 
 render(
   () => (

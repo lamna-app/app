@@ -1,6 +1,6 @@
-import { Guild } from "@/types/models"
-import { Option } from "@/types/utils"
 import { createContext, useContext } from "solid-js"
+import type { Guild } from "@/types/models"
+import type { Option } from "@/types/utils"
 
 const GuildContext = createContext<{
   guild: () => Option<Guild>

@@ -1,5 +1,5 @@
-import { useMessages } from "@/hooks/useMessages"
 import { For } from "solid-js"
+import { useMessages } from "@/hooks/useMessages"
 
 export default function Channel() {
   const messages = useMessages()

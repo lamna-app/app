@@ -1,11 +1,10 @@
+import { type Navigator, useNavigate } from "@solidjs/router"
+import { Hash } from "lucide-solid"
+import { type Accessor, For, Show } from "solid-js"
+import { useChannel } from "@/contexts/ChannelContext"
 import { useGuild } from "@/contexts/GuildContext"
 import { useChannels } from "@/hooks/useChannels"
-import { Channel, Guild } from "@/types/models"
-import { Accessor, For, Show } from "solid-js"
-
-import { Hash } from "lucide-solid"
-import { useChannel } from "@/contexts/ChannelContext"
-import { type Navigator, useNavigate } from "@solidjs/router"
+import type { Channel, Guild } from "@/types/models"
 
 const Channels = ({
   channels,
@@ -30,7 +29,8 @@ const Channels = ({
             classList={{
               "bg-light": channel.id == currentChannel()?.id
             }}
-            class="hover:bg-light active:bg-light w-[90%] cursor-default rounded-lg p-1 font-medium">
+            class="hover:bg-light active:bg-light w-[90%] cursor-default rounded-lg p-1 font-medium"
+          >
             <span class="flex items-center gap-1">
               <Hash size={18} />
               {channel.name}
