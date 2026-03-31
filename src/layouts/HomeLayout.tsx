@@ -1,6 +1,7 @@
 import { createEffect, createResource, createSignal } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
+import { useMessageSocket } from "@/hooks/useMessageSocket"
 
 import ChannelContext from "@/contexts/ChannelContext"
 import GuildContext from "@/contexts/GuildContext"
@@ -14,6 +15,7 @@ import type { Channel, Guild } from "@/types/models"
 
 export default function HomeLayout<T extends { children?: JSXElement }>(props: T) {
   const client = useClient()
+  useMessageSocket()
   const [guilds] = createResource(async () => {
     return (await client.guilds()).data
   })
@@ -29,17 +31,17 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
   return (
     <GuildContext.Provider value={{ guild, setGuild }}>
       <ChannelContext.Provider value={{ channel, setChannel }}>
-        {/* */}
-        <div class="flex h-screen flex-col overflow-hidden">
+        <div class="flex h-screen overflow-hidden flex-col">
           <ServerPicker guilds={guilds} />
+
           <div class="flex min-h-0 flex-1">
             <Sidebar>
               <GuildSidebarContent />
             </Sidebar>
-            <main class="min-w-0 flex-1 overflow-hidden">{props.children}</main>
+
+            <main class="flex-1">{props.children}</main>
           </div>
         </div>
-        {/* */}
       </ChannelContext.Provider>
     </GuildContext.Provider>
   )

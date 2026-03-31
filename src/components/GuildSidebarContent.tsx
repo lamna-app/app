@@ -49,6 +49,7 @@ const Channels = ({
 
 export default function GuildSidebarContent() {
   const { guild } = useGuild()
+
   const channels = useChannels()
   const navigate = useNavigate()
 

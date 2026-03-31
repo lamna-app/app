@@ -3,7 +3,7 @@ import { For } from "solid-js"
 
 import { useGuild } from "@/contexts/GuildContext"
 
-import Icon from "@/assets/icon.png"
+import Logo from "@/assets/logo.svg"
 
 import GuildIcon from "./utils/GuildIcon"
 
@@ -22,6 +22,7 @@ const onScroll = (e: WheelEvent) => {
       scroll = 0
       return
     }
+
     target.scrollLeft += diff
     scroll -= diff
     requestAnimationFrame(animate)
@@ -47,10 +48,13 @@ export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) 
 
   return (
     <div class="bg-dark p-2">
-      <div onWheel={e => onScroll(e)} class="no-scrollbar flex gap-2 overflow-x-auto">
+      <div onWheel={e => onScroll(e)} class="no-scrollbar flex items-center gap-2 overflow-x-auto">
         <GuildCircle onClick={() => setGuild(null)}>
-          <img src={Icon} width={38} />
+          <Logo />
         </GuildCircle>
+
+        <div class="mx-1 w-0.5 h-8 rounded-full bg-gray-600/40" />
+
         <For each={guilds()}>
           {guild => (
             <GuildCircle onClick={() => onClick(guild)}>
@@ -62,6 +66,7 @@ export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) 
             </GuildCircle>
           )}
         </For>
+
         <GuildCircle>
           <Plus size={32} />
         </GuildCircle>

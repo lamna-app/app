@@ -27,6 +27,7 @@
         "useKeyWithClickEvents": "off",
         "useKeyWithMouseEvents": "off",
         "useAltText": "off",
+        "noSvgWithoutTitle": "off",
         "useButtonType": "off"
       }
     }
