@@ -1,6 +1,8 @@
 import { For } from "solid-js"
-import MessageInput from "@/components/MessageInput"
+
 import { useMessages } from "@/hooks/useMessages"
+
+import MessageInput from "@/components/MessageInput"
 
 export default function Channel() {
   const messages = useMessages()

@@ -1,9 +1,13 @@
 import { createEffect, createMemo, onCleanup, onMount } from "solid-js"
-import { useChannel } from "@/contexts/ChannelContext"
+
 import { messages, setMessages } from "@/stores/messageStore"
-import type { Message } from "@/types/models"
+
+import { useChannel } from "@/contexts/ChannelContext"
+
 import { useClient } from "./useClient"
 import { useSocket } from "./useSocket"
+
+import type { Message } from "@/types/models"
 
 export function useMessages() {
   const client = useClient()

@@ -20,7 +20,7 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useImportType": "error",
+        "useImportType": { "level": "error", "options": { "style": "separatedType" } },
         "noNonNullAssertion": "info"
       },
       "a11y": {
@@ -59,6 +59,35 @@
   },
   "assist": {
     "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              { "type": false, "source": [":NODE:", ":BUN:"] },
+              ":BLANK_LINE:",
+              { "type": false, "source": ":PACKAGE:" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/hooks/**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/stores/**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/contexts/**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/libs/**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/assets/**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "**" },
+              ":BLANK_LINE:",
+              { "type": false, "source": "@/components/**" },
+              ":BLANK_LINE:",
+              { "type": true }
+            ]
+          }
+        }
+      }
+    }
   }
 }

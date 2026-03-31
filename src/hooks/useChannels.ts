@@ -1,6 +1,9 @@
 import { createEffect, createMemo } from "solid-js"
-import { useGuild } from "@/contexts/GuildContext"
+
 import { channels, setChannels } from "@/stores/channelStore"
+
+import { useGuild } from "@/contexts/GuildContext"
+
 import { useClient } from "./useClient"
 
 export function useChannels() {

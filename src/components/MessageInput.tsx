@@ -1,5 +1,6 @@
-import { useChannel } from "@/contexts/ChannelContext"
 import { useClient } from "@/hooks/useClient"
+
+import { useChannel } from "@/contexts/ChannelContext"
 
 export default function MessageInput() {
   const client = useClient()

@@ -1,10 +1,14 @@
 import { Plus } from "lucide-solid"
-import { For, type JSXElement, type Resource } from "solid-js"
-import Icon from "@/assets/icon.png"
+import { For } from "solid-js"
+
 import { useGuild } from "@/contexts/GuildContext"
-import type { Guild } from "@/types/models"
-import type { Option } from "@/types/utils"
+
+import Icon from "@/assets/icon.png"
+
 import GuildIcon from "./utils/GuildIcon"
+
+import type { JSXElement, Resource } from "solid-js"
+import type { Guild } from "@/types/models"
 
 let scroll = 0
 const onScroll = (e: WheelEvent) => {
@@ -22,6 +26,7 @@ const onScroll = (e: WheelEvent) => {
     scroll -= diff
     requestAnimationFrame(animate)
   }
+
   requestAnimationFrame(animate)
 }
 

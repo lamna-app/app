@@ -1,5 +1,6 @@
 import { useNavigate } from "@solidjs/router"
 import { onMount } from "solid-js"
+
 import { useClient } from "@/hooks/useClient"
 
 export default function Login() {

@@ -1,5 +1,7 @@
 import { createSignal } from "solid-js"
+
 import { useClient } from "@/hooks/useClient"
+
 import type { MeResponse } from "@/types/client"
 
 const Me = () => {

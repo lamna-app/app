@@ -1,12 +1,16 @@
-import { createEffect, createResource, createSignal, type JSXElement } from "solid-js"
+import { createEffect, createResource, createSignal } from "solid-js"
+
+import { useClient } from "@/hooks/useClient"
+
+import ChannelContext from "@/contexts/ChannelContext"
+import GuildContext from "@/contexts/GuildContext"
+
 import GuildSidebarContent from "@/components/GuildSidebarContent"
 import ServerPicker from "@/components/ServerPicker"
 import Sidebar from "@/components/Sidebar"
-import ChannelContext from "@/contexts/ChannelContext"
-import GuildContext from "@/contexts/GuildContext"
-import { useClient } from "@/hooks/useClient"
+
+import type { JSXElement } from "solid-js"
 import type { Channel, Guild } from "@/types/models"
-import type { Option } from "@/types/utils"
 
 export default function HomeLayout<T extends { children?: JSXElement }>(props: T) {
   const client = useClient()
