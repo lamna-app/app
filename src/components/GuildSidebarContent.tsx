@@ -32,7 +32,8 @@ const Channels = ({
           <button
             onClick={() => onClick(channel)}
             classList={{
-              "bg-light": channel.id === currentChannel()?.id
+              "bg-light text-white": channel.id === currentChannel()?.id,
+              "text-gray-500 hover:text-white hover:bg-light/20": channel.id !== currentChannel()?.id
             }}
             class="hover:bg-light active:bg-light w-[90%] transition-colors duration-100 cursor-default rounded-lg p-1 font-medium"
           >
