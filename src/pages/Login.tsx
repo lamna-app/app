@@ -3,6 +3,8 @@ import { onMount } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
 
+import Logo from "@/assets/logo.svg?component-solid"
+
 export default function Login() {
   const client = useClient()
   const navigate = useNavigate()
@@ -29,19 +31,25 @@ export default function Login() {
   }
 
   return (
-    <div class="flex h-screen w-screen justify-center pt-12">
-      <form onSubmit={onSubmit} class="w-64">
-        <div class="flex flex-col">
-          <label for="email">Email</label>
-          <input name="email" type="text" class="border border-white" />
+    <div class="flex h-screen w-screen justify-center items-center">
+      <div class="bg-dark w-75 h-96 rounded-lg flex flex-col items-center justify-center gap-6">
+        <div class="flex items-center">
+          <Logo class="size-18" />
+          <h1 class="text-5xl font-bold">Lamna</h1>
         </div>
+        <form onSubmit={onSubmit} class="w-64 ">
+          <div class="flex flex-col">
+            <label for="email">Email</label>
+            <input name="email" type="text" class="rounded-lg p-2 bg-dark-hl outline-0" />
+          </div>
 
-        <div class="flex flex-col">
-          <label for="password">Password</label>
-          <input name="password" type="text" class="border border-white" />
-        </div>
-        <button class="border border-white p-1">Login</button>
-      </form>
+          <div class="flex flex-col">
+            <label for="password">Password</label>
+            <input name="password" type="text" class="rounded-lg bg-dark-hl outline-0 p-2" />
+          </div>
+          <button class="rounded-lg px-4 py-2 font-semibold bg-light mt-4 cursor-pointer hover:bg-light-hl">Login</button>
+        </form>
+      </div>
     </div>
   )
 }
