@@ -4,6 +4,7 @@ import type { Channel, Guild, Message } from "@/types/models"
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export class Client {
   private static BASE = import.meta.env.VITE_API_URL
+  private static VERSION = 1
   private token?: string
 
   constructor() {
@@ -11,7 +12,7 @@ export class Client {
   }
 
   private async request<T>(endpoint: string, method: Method, body?: Record<string, unknown>): Promise<ClientResponse<T>> {
-    const resp = await fetch(`${Client.BASE}${endpoint}`, {
+    const resp = await fetch(`${Client.BASE}/v${Client.VERSION}${endpoint}`, {
       body: body ? JSON.stringify(body) : null,
       method: method,
       headers: {

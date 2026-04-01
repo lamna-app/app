@@ -1,14 +1,14 @@
 type EventHandler<T> = (data: T) => void
 
 export class Socket {
-  private ws?: WebSocket
+  private static BASE = import.meta.env.VITE_WS_URL
+  private static VERSION = 1
 
+  private ws?: WebSocket
   private _handlers: Map<string, EventHandler<unknown>[]> = new Map()
 
-  private static BASE = import.meta.env.VITE_WS_URL
-
   connect(token: string) {
-    this.ws = new WebSocket(`${Socket.BASE}/v1/ws?token=${token}`)
+    this.ws = new WebSocket(`${Socket.BASE}/v${Socket.VERSION}/ws?token=${token}`)
 
     this.ws.onopen = () => console.log("Websocket connected")
     this.ws.onclose = () => console.log("Websocket disconnected")
