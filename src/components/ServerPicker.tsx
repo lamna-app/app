@@ -53,7 +53,7 @@ export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) 
           <Logo />
         </GuildCircle>
 
-        <div class="mx-1 w-0.5 h-8 rounded-full bg-gray-600/40" />
+        <div class="mx-1 w-0.5 h-8 rounded-full bg-light" />
 
         <For each={guilds()}>
           {guild => (
