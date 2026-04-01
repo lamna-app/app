@@ -1,13 +1,15 @@
 import { Plus } from "lucide-solid"
 import { For } from "solid-js"
 
+import { guilds } from "@/stores/guildStore"
+
 import { useGuild } from "@/contexts/GuildContext"
 
-import Logo from "@/assets/logo.svg"
+import Logo from "@/assets/logo.svg?component-solid"
 
 import GuildIcon from "./utils/GuildIcon"
 
-import type { JSXElement, Resource } from "solid-js"
+import type { JSXElement } from "solid-js"
 import type { Guild } from "@/types/models"
 
 let scroll = 0
@@ -42,7 +44,7 @@ const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: ()
   )
 }
 
-export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) {
+export default function ServerPicker() {
   const { setGuild } = useGuild()
   const onClick = (g: Option<Guild>) => setGuild(g)
 
@@ -50,12 +52,12 @@ export default function ServerPicker({ guilds }: { guilds: Resource<Guild[]> }) 
     <div class="bg-dark p-2">
       <div onWheel={e => onScroll(e)} class="no-scrollbar flex items-center gap-2 overflow-x-auto">
         <GuildCircle onClick={() => setGuild(null)}>
-          <Logo />
+          <Logo class="size-9" />
         </GuildCircle>
 
         <div class="mx-1 w-0.5 h-8 rounded-full bg-light" />
 
-        <For each={guilds()}>
+        <For each={guilds}>
           {guild => (
             <GuildCircle onClick={() => onClick(guild)}>
               {guild.icon_url ? (

@@ -16,13 +16,14 @@ export class Client {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: this.token ?? ""
+        Authorization: `Bearer ${this.token}`
       }
     })
 
     if (!resp.ok) {
       if (resp.status === 401) {
         if (window.location.pathname !== "/app/login") {
+          localStorage.removeItem("token")
           window.location.href = "/app/login"
         }
       }
@@ -31,7 +32,7 @@ export class Client {
     }
 
     if (endpoint === "/auth/login") {
-      this.token = resp.headers.get("Authorization") as string
+      this.token = resp.headers.get("Authorization")?.split(" ")[1] as string
     }
 
     return {
