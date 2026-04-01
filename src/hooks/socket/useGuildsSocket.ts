@@ -15,12 +15,14 @@ export function useGuildSocket() {
     }
 
     const readyHandler = (data: { guilds: Guild[] }) => {
-      console.log("ready", data.guilds)
       setGuilds(data.guilds)
     }
 
     socket.on("guild.join", handler)
     socket.on("ready", readyHandler)
-    onCleanup(() => console.log("cleanup")) // TOOD: add socket.off
+    onCleanup(() => {
+      socket.off("guild.join", handler)
+      socket.off("ready", readyHandler)
+    })
   })
 }

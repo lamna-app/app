@@ -15,6 +15,6 @@ export function useMessageSocket() {
     }
 
     socket.on("message.create", handler)
-    onCleanup(() => console.log("cleanup")) // TOOD: add socket.off
+    onCleanup(() => socket.off("message.create", handler))
   })
 }

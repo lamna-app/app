@@ -1,10 +1,10 @@
 import { useNavigate } from "@solidjs/router"
 import { createEffect, createSignal, onMount } from "solid-js"
 
+import { useGuildSocket } from "@/hooks/socket/useGuildsSocket"
+import { useMessageSocket } from "@/hooks/socket/useMessageSocket"
+import { useSocket } from "@/hooks/socket/useSocket"
 import { useClient } from "@/hooks/useClient"
-import { useGuildSocket } from "@/hooks/useGuildsSocket"
-import { useMessageSocket } from "@/hooks/useMessageSocket"
-import { useSocket } from "@/hooks/useSocket"
 
 import ChannelContext from "@/contexts/ChannelContext"
 import GuildContext from "@/contexts/GuildContext"
