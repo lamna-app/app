@@ -1,6 +1,6 @@
 import { useNavigate } from "@solidjs/router"
 import { Hash } from "lucide-solid"
-import { For, Show } from "solid-js"
+import { createEffect, For, Show } from "solid-js"
 
 import { useChannels } from "@/hooks/useChannels"
 
@@ -25,6 +25,13 @@ const Channels = ({
     setChannel(channel)
     navigate(`/channels/${guild.id}/${channel.id}`)
   }
+
+  createEffect(() => {
+    const chns = channels()
+    if (!chns || chns.length === 0) return
+    onClick(chns[0])
+  })
+
   return (
     <div class="flex w-full flex-col items-center gap-2">
       <For each={channels()}>
@@ -35,7 +42,7 @@ const Channels = ({
               "bg-light text-white": channel.id === currentChannel()?.id,
               "text-gray-500 hover:text-white hover:bg-light/20": channel.id !== currentChannel()?.id
             }}
-            class="hover:bg-light active:bg-light w-[90%] transition-colors duration-100 cursor-default rounded-lg p-1 font-medium"
+            class="w-[90%] transition-colors duration-100 cursor-default rounded-lg p-1 font-medium"
           >
             <span class="flex items-center gap-1">
               <Hash size={18} />
