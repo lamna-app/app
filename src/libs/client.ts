@@ -3,7 +3,7 @@ import type { Channel, Guild, Message } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export class Client {
-  private static BASE = "http://localhost:3000/v1"
+  private static BASE = import.meta.env.VITE_API_URL
   private token?: string
 
   constructor() {
