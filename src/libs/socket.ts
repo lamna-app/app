@@ -5,14 +5,14 @@ export class Socket {
 
   private _handlers: Map<string, EventHandler<unknown>[]> = new Map()
 
-  private static BASE_URL = "ws://localhost:3000"
+  private static BASE = import.meta.env.VITE_WS_URL
 
   connect(token: string) {
-    this.ws = new WebSocket(`${Socket.BASE_URL}/v1/ws?token=${token}`)
+    this.ws = new WebSocket(`${Socket.BASE}/v1/ws?token=${token}`)
 
-    this.ws.onopen = () => console.log("ws connected")
-    this.ws.onclose = () => console.log("ws disconnected")
-    this.ws.onerror = err => console.error("ws error", err)
+    this.ws.onopen = () => console.log("Websocket connected")
+    this.ws.onclose = () => console.log("Websocket disconnected")
+    this.ws.onerror = err => console.error("Websocket error:", err)
 
     this.ws.onmessage = event => {
       const { e: type, d: data } = JSON.parse(event.data)
@@ -30,5 +30,12 @@ export class Socket {
 
   on<T>(event: string, handler: EventHandler<T>) {
     this._handlers.set(event, [...this.handlers(event), handler as EventHandler<unknown>])
+  }
+
+  off<T>(event: string, handler: EventHandler<T>) {
+    this._handlers.set(
+      event,
+      this.handlers(event).filter(h => h !== handler)
+    )
   }
 }
