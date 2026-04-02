@@ -6,6 +6,8 @@ import { useMessageSocket } from "@/hooks/socket/useMessageSocket"
 import { useSocket } from "@/hooks/socket/useSocket"
 import { useClient } from "@/hooks/useClient"
 
+import { setUser } from "@/stores/userStore"
+
 import ChannelContext from "@/contexts/ChannelContext"
 import GuildContext from "@/contexts/GuildContext"
 
@@ -23,7 +25,7 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
 
   onMount(async () => {
     try {
-      await client.me()
+      setUser((await client.me()).data)
     } catch {
       navigate("/login")
     }
