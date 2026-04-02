@@ -1,4 +1,3 @@
-import { Plus } from "lucide-solid"
 import { For } from "solid-js"
 
 import { guilds } from "@/stores/guildStore"
@@ -7,6 +6,7 @@ import { useGuild } from "@/contexts/GuildContext"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
+import Plus from "~icons/lucide/Plus"
 import GuildIcon from "./utils/GuildIcon"
 
 import type { JSXElement } from "solid-js"
@@ -70,7 +70,7 @@ export default function ServerPicker() {
         </For>
 
         <GuildCircle>
-          <Plus size={32} />
+          <Plus height={32} width={32} />
         </GuildCircle>
       </div>
     </div>

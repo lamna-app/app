@@ -1,11 +1,12 @@
 import { useNavigate } from "@solidjs/router"
-import { Hash } from "lucide-solid"
 import { createEffect, For, Show } from "solid-js"
 
 import { useChannels } from "@/hooks/useChannels"
 
 import { useChannel } from "@/contexts/ChannelContext"
 import { useGuild } from "@/contexts/GuildContext"
+
+import Hash from "~icons/lucide/home"
 
 import type { Navigator } from "@solidjs/router"
 import type { Accessor } from "solid-js"
@@ -45,7 +46,7 @@ const Channels = ({
             class="w-[90%] transition-colors duration-100 cursor-default rounded-lg p-1 font-medium"
           >
             <span class="flex items-center gap-1">
-              <Hash size={18} />
+              <Hash width={18} height={18} />
               {channel.name}
             </span>
           </button>

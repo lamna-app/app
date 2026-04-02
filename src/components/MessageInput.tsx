@@ -1,8 +1,8 @@
-import { Send } from "lucide-solid"
-
 import { useClient } from "@/hooks/useClient"
 
 import { useChannel } from "@/contexts/ChannelContext"
+
+import Send from "~icons/lucide/Send"
 
 export default function MessageInput() {
   const client = useClient()
@@ -34,7 +34,7 @@ export default function MessageInput() {
         />
 
         <button type="submit" class="absolute right-3 top-3.5">
-          <Send size={24} />
+          <Send height={24} width={24} />
         </button>
       </div>
     </form>
