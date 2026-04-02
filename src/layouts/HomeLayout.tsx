@@ -25,7 +25,7 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
     try {
       await client.me()
     } catch {
-      navigate("/")
+      navigate("/login")
     }
 
     socket.connect(localStorage.getItem("token") as string)
