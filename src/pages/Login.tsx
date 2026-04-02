@@ -5,6 +5,32 @@ import { useClient } from "@/hooks/useClient"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
+import type { JSX } from "solid-js"
+
+const InputField = ({
+  label,
+  name,
+  type = "text"
+}: {
+  label: string
+  name: string
+  type?: JSX.InputHTMLAttributes<HTMLInputElement>["type"]
+}) => (
+  <div class="flex flex-col gap-1">
+    <label for={name} class="text-sm font-medium select-none">
+      {label}
+    </label>
+
+    <input
+      id={name}
+      name={name}
+      type={type}
+      autocomplete="off"
+      class="bg-dark-hl rounded-lg p-2 outline-none transition-all focus:ring-2 focus:ring-light"
+    />
+  </div>
+)
+
 export default function Login() {
   const client = useClient()
   const navigate = useNavigate()
@@ -31,23 +57,24 @@ export default function Login() {
   }
 
   return (
-    <div class="flex h-screen w-screen justify-center items-center">
-      <div class="bg-dark w-75 h-96 rounded-lg flex flex-col items-center justify-center gap-6">
-        <div class="flex items-center">
+    <div class="flex min-h-screen w-full items-center justify-center p-4">
+      <div class="bg-dark flex w-full max-w-sm flex-col items-center justify-center gap-8 rounded-xl p-8 shadow-lg">
+        <div class="flex items-center gap-3">
           <Logo class="size-18" />
-          <h1 class="text-5xl font-bold">Lamna</h1>
-        </div>
-        <form onSubmit={onSubmit} class="w-64 ">
-          <div class="flex flex-col">
-            <label for="email">Email</label>
-            <input name="email" type="text" class="rounded-lg p-2 bg-dark-hl outline-0" />
-          </div>
 
-          <div class="flex flex-col">
-            <label for="password">Password</label>
-            <input name="password" type="text" class="rounded-lg bg-dark-hl outline-0 p-2" />
-          </div>
-          <button class="rounded-lg px-4 py-2 font-semibold bg-light mt-4 cursor-pointer hover:bg-light-hl">Login</button>
+          <h1 class="text-5xl font-bold select-none">Lamna</h1>
+        </div>
+
+        <form onSubmit={onSubmit} class="flex w-full flex-col space-y-4">
+          <InputField label="Email" name="email" />
+          <InputField label="Password" name="password" type="password" />
+
+          <button
+            type="submit"
+            class="bg-light hover:bg-light-hl mt-4 w-full cursor-pointer rounded-lg px-4 py-2 font-semibold transition-colors"
+          >
+            Login
+          </button>
         </form>
       </div>
     </div>
