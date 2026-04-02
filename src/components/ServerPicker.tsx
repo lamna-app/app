@@ -1,5 +1,4 @@
 import { useNavigate } from "@solidjs/router"
-import { Plus } from "lucide-solid"
 import { For } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
@@ -55,6 +54,7 @@ export default function ServerPicker() {
       HomeClick()
       return
     }
+
     await selectGuild(g, client)
     navigate(`/channels/${g?.id || ""}`)
   }

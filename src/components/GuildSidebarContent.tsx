@@ -1,15 +1,11 @@
 import { useNavigate } from "@solidjs/router"
-import { ChevronDown, Hash, Plus } from "lucide-solid"
-import { createEffect, For, For, Show, Show } from "solid-js"
-
-import { useChannels } from "@/hooks/useChannels"
-
-import { useChannel } from "@/contexts/ChannelContext"
-import { useGuild } from "@/contexts/GuildContext"
+import { For, Show } from "solid-js"
 
 import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
 import { useGuild } from "@/features/guild"
-import Hash from "~icons/lucide/home"
+import ChevronDown from "~icons/lucide/ChevronDown"
+import Hash from "~icons/lucide/Hash"
+import Plus from "~icons/lucide/Plus"
 
 import type { Navigator } from "@solidjs/router"
 import type { Channel, Guild } from "@/types/models"
@@ -33,11 +29,11 @@ const Channels = ({ channels, guild, navigate }: { channels: () => Channel[]; gu
     <div class="flex w-full flex-col items-center gap-2 select-none">
       <div class="flex items-center w-[90%] justify-between m-1 text-gray-400 group">
         <div class="flex items-center text-[11px] font-bold uppercase tracking-wider gap-1">
-          <ChevronDown size={11} />
+          <ChevronDown height={11} width={11} />
           Text Channels
         </div>
 
-        <Plus size={11} class="hidden group-hover:block cursor-pointer" onClick={onNewChannel} />
+        <Plus height={11} width={11} class="hidden group-hover:block cursor-pointer" onClick={onNewChannel} />
       </div>
 
       <For each={channels()}>

@@ -1,11 +1,8 @@
-import { Send } from "lucide-solid"
-
 import { useClient } from "@/hooks/useClient"
 
-import { useChannel } from "@/contexts/ChannelContext"
-
 import { currentChannel } from "@/features/channel"
-import Send from "~icons/lucide/Send"
+import Plus from "~icons/lucide/Plus"
+import Smile from "~icons/lucide/Smile"
 
 export default function MessageInput() {
   const client = useClient()
