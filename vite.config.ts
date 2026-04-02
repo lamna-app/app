@@ -3,13 +3,12 @@ import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
 import solid from "vite-plugin-solid"
-import solidPlugin from "vite-plugin-solid"
 import solidSvg from "vite-plugin-solid-svg"
 
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig(async () => ({
-  plugins: [solid(), tailwindcss(), solidPlugin(), solidSvg()],
+  plugins: [solid(), tailwindcss(), solidSvg()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))
