@@ -17,7 +17,6 @@ export default defineConfig(async () => ({
   },
 
   clearScreen: false,
-  base: "/app",
   server: {
     port: 1420,
     strictPort: true,
