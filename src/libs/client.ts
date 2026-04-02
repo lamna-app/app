@@ -2,6 +2,18 @@ import type { ClientResponse, LoginResponse, MeResponse } from "@/types/client"
 import type { Channel, Guild, Message } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
+
+export class APIError extends Error {
+  status: number
+
+  constructor(message: string, status: number) {
+    super(message)
+
+    this.name = "APIError"
+    this.status = status
+  }
+}
+
 export class Client {
   private static BASE = import.meta.env.VITE_API_URL
   private static VERSION = 1
@@ -23,16 +35,17 @@ export class Client {
 
     if (!resp.ok) {
       if (resp.status === 401) {
-        if (window.location.pathname !== "/app/login") {
+        if (window.location.pathname !== "/login") {
           localStorage.removeItem("token")
-          window.location.href = "/app/login"
+          window.location.href = "/login"
         }
       }
 
-      throw new Error(await resp.text())
+      const err = await resp.text()
+      throw new APIError(err, resp.status)
     }
 
-    if (endpoint === "/auth/login") {
+    if (["/auth/login", "/auth/register"].includes(endpoint)) {
       this.token = resp.headers.get("Authorization")?.split(" ")[1] as string
     }
 
@@ -42,12 +55,26 @@ export class Client {
     }
   }
 
+  async register(username: string, email: string, password: string) {
+    const resp = await this.request<LoginResponse>("/auth/register", "POST", {
+      username,
+      email,
+      password
+    })
+
+    localStorage.setItem("token", this.token as string)
+
+    return resp
+  }
+
   async login(email: string, password: string): Promise<ClientResponse<LoginResponse>> {
     const resp = await this.request<LoginResponse>("/auth/login", "POST", {
       email,
       password
     })
+
     localStorage.setItem("token", this.token as string)
+
     return resp
   }
 
@@ -55,8 +82,6 @@ export class Client {
     this.token = null
     localStorage.removeItem("token")
   }
-
-  async register(_email: string, _username: string, _password: string) {}
 
   async me(): Promise<ClientResponse<MeResponse>> {
     return await this.request<MeResponse>("/@me", "GET")

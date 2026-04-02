@@ -21,7 +21,7 @@ export function useChannels() {
 
   return createMemo(() => {
     const g = guild()
-    if (!g) return
+    if (!g) return []
 
     return channels[g.id] ?? []
   })

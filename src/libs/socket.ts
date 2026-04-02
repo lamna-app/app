@@ -24,6 +24,11 @@ export class Socket {
     this.ws?.close()
   }
 
+  isOpen() {
+    if (!this.ws) return false
+    return this.ws?.readyState === this.ws?.OPEN
+  }
+
   handlers(event: string) {
     return this._handlers.get(event) ?? []
   }

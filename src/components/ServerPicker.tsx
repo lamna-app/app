@@ -1,12 +1,13 @@
+import { useNavigate } from "@solidjs/router"
 import { Plus } from "lucide-solid"
 import { For } from "solid-js"
 
-import { guilds } from "@/stores/guildStore"
-
-import { useGuild } from "@/contexts/GuildContext"
+import { useClient } from "@/hooks/useClient"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
+import { setCurrentChannel } from "@/features/channel"
+import { guilds, selectGuild, setCurrentGuild } from "@/features/guild"
 import GuildIcon from "./utils/GuildIcon"
 
 import type { JSXElement } from "solid-js"
@@ -45,19 +46,34 @@ const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: ()
 }
 
 export default function ServerPicker() {
-  const { setGuild } = useGuild()
-  const onClick = (g: Option<Guild>) => setGuild(g)
+  const client = useClient()
+  const navigate = useNavigate()
+
+  const onClick = async (g: Option<Guild>) => {
+    if (!g) {
+      HomeClick()
+      return
+    }
+    await selectGuild(g, client)
+    navigate(`/channels/${g?.id || ""}`)
+  }
+
+  const HomeClick = () => {
+    setCurrentGuild(null)
+    setCurrentChannel(null)
+    navigate("/channels/@me")
+  }
 
   return (
     <div class="bg-dark p-2">
       <div onWheel={e => onScroll(e)} class="no-scrollbar flex items-center gap-2 overflow-x-auto">
-        <GuildCircle onClick={() => setGuild(null)}>
+        <GuildCircle onClick={HomeClick}>
           <Logo class="size-9" />
         </GuildCircle>
 
         <div class="mx-1 w-0.5 h-8 rounded-full bg-light" />
 
-        <For each={guilds}>
+        <For each={Object.values(guilds)}>
           {guild => (
             <GuildCircle onClick={() => onClick(guild)}>
               {guild.icon_url ? (
@@ -70,7 +86,7 @@ export default function ServerPicker() {
         </For>
 
         <GuildCircle>
-          <Plus size={32} />
+          <Plus size={24} />
         </GuildCircle>
       </div>
     </div>
