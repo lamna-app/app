@@ -5,7 +5,7 @@ type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 export class Client {
   private static BASE = import.meta.env.VITE_API_URL
   private static VERSION = 1
-  private token?: string
+  private token: Option<string> = null
 
   constructor() {
     this.token = localStorage.getItem("token") as string
@@ -49,6 +49,11 @@ export class Client {
     })
     localStorage.setItem("token", this.token as string)
     return resp
+  }
+
+  logout() {
+    this.token = null
+    localStorage.removeItem("token")
   }
 
   async register(_email: string, _username: string, _password: string) {}
