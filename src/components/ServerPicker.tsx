@@ -55,7 +55,7 @@ export default function ServerPicker() {
       return
     }
 
-    await selectGuild(g, client)
+    await selectGuild(g)
     navigate(`/channels/${g?.id || ""}`)
   }
 

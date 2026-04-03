@@ -1,4 +1,5 @@
-import { setGuilds } from "../guild"
+import { setChannels } from "../channel"
+import { guilds, setGuilds } from "../guild"
 import { setMessages } from "../message"
 import { setUser } from "../user"
 
@@ -14,6 +15,8 @@ export const registerEvents = (socket: Socket) => {
   socket.on("ready", (data: { guilds: Guild[] }) => {
     data.guilds.forEach(g => {
       setGuilds(g.id, g)
+
+      setChannels(g.id, g.channels)
     })
   })
 

@@ -3,6 +3,7 @@ export interface Guild {
   name: string
   icon_url?: string
   owner_id: string
+  channels: Channel[]
   created_at: string
 }
 
