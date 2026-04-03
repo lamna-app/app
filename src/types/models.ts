@@ -22,5 +22,5 @@ export interface Message {
     created_at: string
   }
   channel_id: string
-  created_at: string
+  created_at: Date
 }

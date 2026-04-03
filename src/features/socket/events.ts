@@ -22,6 +22,9 @@ export const registerEvents = (socket: Socket) => {
   })
 
   socket.on("message.create", (data: Message) => {
-    setMessages(data.channel_id, msgs => [data, ...(msgs ?? [])])
+    const msg = data
+    msg.created_at = new Date(msg.created_at)
+
+    setMessages(data.channel_id, msgs => [msg, ...(msgs ?? [])])
   })
 }

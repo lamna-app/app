@@ -17,7 +17,10 @@ export const useMessages = (channelID: Accessor<string>) => {
     setMessages(id, [])
 
     const resp = await client.messages(id)
-    setMessages(id, resp.data)
+    setMessages(
+      id,
+      resp.data?.map(msg => ({ ...msg, created_at: new Date(msg.created_at) }))
+    )
   })
 
   return () => messages[channelID()] ?? []
