@@ -1,4 +1,4 @@
-import { For, Show } from "solid-js"
+import { For, onCleanup, onMount, Show } from "solid-js"
 
 import MessageInput from "@/components/MessageInput"
 import { currentChannel } from "@/features/channel"
@@ -40,6 +40,19 @@ function Message({ message, compact }: { message: MessageT; compact: boolean }) 
 }
 
 export default function Channel() {
+  let bottomRef: HTMLDivElement | undefined
+
+  onMount(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        bottomRef?.scrollIntoView({ behavior: "smooth" })
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    onCleanup(() => window.removeEventListener("keydown", handleKeyDown))
+  })
+
   const shouldGroup = (current: MessageT, previous?: MessageT) => {
     if (!previous) return false
 
@@ -59,6 +72,8 @@ export default function Channel() {
         return (
           <div class="flex flex-col h-full">
             <div class="grow overflow-y-auto flex flex-col-reverse mb-4">
+              <div ref={bottomRef} />
+
               <For each={messages()}>
                 {(message, index) => {
                   const previousMessage = messages()[index() + 1]
