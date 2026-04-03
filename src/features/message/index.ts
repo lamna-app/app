@@ -10,9 +10,9 @@ import type { Message } from "@/types/models"
 export const [messages, setMessages] = createStore<Record<string, Message[]>>({})
 export const useMessages = (channelID: Accessor<string>) => {
   const client = useClient()
+
   createEffect(async () => {
     const id = channelID()
-
     if (messages[id] !== undefined) return
     setMessages(id, [])
 

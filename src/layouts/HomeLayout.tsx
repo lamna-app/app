@@ -1,13 +1,13 @@
 import { useNavigate } from "@solidjs/router"
 import { onMount } from "solid-js"
 
-import { useSocket } from "@/hooks/socket/useSocket"
 import { useClient } from "@/hooks/useClient"
+import { useSocket } from "@/hooks/useSocket"
 
 import { setUser } from "@/stores/userStore"
 
-import GuildSidebarContent from "@/components/GuildSidebarContent"
-import ServerPicker from "@/components/ServerPicker"
+import GuildPicker from "@/components/GuildPicker"
+import GuildSidebar from "@/components/GuildSidebar"
 import Sidebar from "@/components/Sidebar"
 import { registerEvents } from "@/features/socket/events"
 
@@ -43,11 +43,11 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
 
   return (
     <div class="flex h-screen overflow-hidden flex-col">
-      <ServerPicker />
+      <GuildPicker />
 
       <div class="flex min-h-0 flex-1">
         <Sidebar>
-          <GuildSidebarContent />
+          <GuildSidebar />
         </Sidebar>
 
         <main class="flex-1">{props.children}</main>

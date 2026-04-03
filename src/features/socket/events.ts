@@ -1,5 +1,5 @@
 import { setChannels } from "../channel"
-import { guilds, setGuilds } from "../guild"
+import { setGuilds } from "../guild"
 import { setMessages } from "../message"
 import { setUser } from "../user"
 

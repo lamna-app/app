@@ -1,8 +1,6 @@
 import { useNavigate } from "@solidjs/router"
 import { For } from "solid-js"
 
-import { useClient } from "@/hooks/useClient"
-
 import Logo from "@/assets/logo.svg?component-solid"
 
 import { setCurrentChannel } from "@/features/channel"
@@ -46,7 +44,6 @@ const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: ()
 }
 
 export default function ServerPicker() {
-  const client = useClient()
   const navigate = useNavigate()
 
   const onClick = async (g: Option<Guild>) => {
@@ -62,6 +59,7 @@ export default function ServerPicker() {
   const HomeClick = () => {
     setCurrentGuild(null)
     setCurrentChannel(null)
+
     navigate("/channels/@me")
   }
 

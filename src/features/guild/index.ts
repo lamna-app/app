@@ -9,16 +9,16 @@ import type { Guild } from "@/types/models"
 export const [guilds, setGuilds] = createStore<Record<string, Guild>>({})
 
 export const [currentGuild, setCurrentGuild] = createSignal<Option<Guild>>(null)
-export const useGuild = () => currentGuild
 
-export const selectGuild = async (guild: Guild) => {
-  setCurrentChannel(null)
+export const selectGuild = async (guild: Guild, channelID?: string) => {
   setCurrentGuild(guild)
-
-  if (channels[guild.id]) {
-    setCurrentChannel(channels[guild.id][0])
+  if (!channels[guild.id]) {
+    setCurrentChannel(null)
     return
   }
+
+  const ch = channelID ? channels[guild.id].find(ch => ch.id === channelID) : channels[guild.id][0]
+  setCurrentChannel(ch ?? null)
 }
 
 export const useGuildChannels = (guildID: string) => () => channels[guildID] ?? []

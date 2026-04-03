@@ -1,7 +1,9 @@
-import { For, onCleanup, onMount, Show } from "solid-js"
+import { useParams } from "@solidjs/router"
+import { createEffect, For, onCleanup, onMount, Show } from "solid-js"
 
 import MessageInput from "@/components/MessageInput"
-import { currentChannel } from "@/features/channel"
+import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
+import { currentGuild, guilds, setCurrentGuild } from "@/features/guild"
 import { useMessages } from "@/features/message"
 
 import type { Message as MessageT } from "@/types/models"
@@ -40,6 +42,40 @@ function Message({ message, compact }: { message: MessageT; compact: boolean }) 
 }
 
 export default function Channel() {
+  const params = useParams<{ guildID: string; channelID?: string }>()
+
+  // Set guild from guildID param
+  createEffect(() => {
+    const guildID = params.guildID
+    if (!guildID) return
+    else if (guildID === "@me") {
+      setCurrentGuild(null)
+      setCurrentChannel(null)
+      return
+    }
+
+    const guild = guilds[guildID]
+    if (!guild) return
+
+    if (currentGuild()?.id !== guild.id) {
+      setCurrentGuild(guild)
+    }
+  })
+
+  // Set channel from channelID param
+  createEffect(() => {
+    const guildID = params.guildID
+    const channelID = params.channelID
+
+    if (!guildID || !channelID) return
+
+    const guildChannels = channels[guildID]
+    if (!guildChannels || guildChannels.length === 0) return
+
+    const channel = guildChannels.find(ch => ch.id === channelID)
+    if (channel && currentChannel()?.id !== channel.id) setCurrentChannel(channel)
+  })
+
   let bottomRef: HTMLDivElement | undefined
 
   onMount(() => {
