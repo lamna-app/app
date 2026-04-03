@@ -48,7 +48,7 @@ function Register({ onToggle, onSubmit }: Props) {
   return (
     <form onSubmit={onSubmit} class="flex w-full flex-col space-y-4">
       <InputField label="Username" name="username" minLength={2} maxLength={25} />
-      <InputField label="Email" name="email" />
+      <InputField label="Email" name="email" type="email" />
       <InputField label="Password" name="password" type="password" minLength={5} />
 
       <button
