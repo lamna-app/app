@@ -20,5 +20,3 @@ export const selectGuild = async (guild: Guild, channelID?: string) => {
   const ch = channelID ? channels[guild.id].find(ch => ch.id === channelID) : channels[guild.id][0]
   setCurrentChannel(ch ?? null)
 }
-
-export const useGuildChannels = (guildID: string) => () => channels[guildID] ?? []

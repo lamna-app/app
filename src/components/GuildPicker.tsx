@@ -3,7 +3,7 @@ import { For } from "solid-js"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
-import { setCurrentChannel } from "@/features/channel"
+import { currentChannel, setCurrentChannel } from "@/features/channel"
 import { guilds, selectGuild, setCurrentGuild } from "@/features/guild"
 import Plus from "~icons/lucide/Plus"
 import GuildIcon from "./utils/GuildIcon"
@@ -53,7 +53,8 @@ export default function ServerPicker() {
     }
 
     await selectGuild(g)
-    navigate(`/channels/${g?.id || ""}`)
+    const channelID = currentChannel()?.id
+    navigate(`/channels/${g.id}${channelID ? `/${channelID}` : ""}`)
   }
 
   const HomeClick = () => {

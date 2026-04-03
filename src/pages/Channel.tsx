@@ -1,10 +1,11 @@
 import { useParams } from "@solidjs/router"
-import { createEffect, For, onCleanup, onMount, Show } from "solid-js"
+import { createEffect, For, on, onCleanup, onMount, Show } from "solid-js"
 
 import MessageInput from "@/components/MessageInput"
 import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
 import { currentGuild, guilds, setCurrentGuild } from "@/features/guild"
 import { useMessages } from "@/features/message"
+import Radar from "~icons/lucide/Radar"
 
 import type { Message as MessageT } from "@/types/models"
 
@@ -48,9 +49,11 @@ export default function Channel() {
   createEffect(() => {
     const guildID = params.guildID
     if (!guildID) return
-    else if (guildID === "@me") {
+
+    if (guildID === "@me") {
       setCurrentGuild(null)
       setCurrentChannel(null)
+
       return
     }
 
@@ -62,19 +65,24 @@ export default function Channel() {
     }
   })
 
-  // Set channel from channelID param
-  createEffect(() => {
-    const guildID = params.guildID
-    const channelID = params.channelID
+  // When the URL has a channelID and the channel data is available
+  // find the matching channel and set it to active.
+  // Uses on() to reliably re-trigger when the store gets populated
+  createEffect(
+    on(
+      () => [params.guildID, params.channelID, channels[params.guildID]] as const, // <- watch these
+      // run this when they change
+      ([guildID, channelID, guildChannels]) => {
+        if (!guildID || !channelID || !guildChannels?.length) return
 
-    if (!guildID || !channelID) return
+        const channel = guildChannels.find(ch => String(ch.id) === channelID)
 
-    const guildChannels = channels[guildID]
-    if (!guildChannels || guildChannels.length === 0) return
-
-    const channel = guildChannels.find(ch => ch.id === channelID)
-    if (channel && currentChannel()?.id !== channel.id) setCurrentChannel(channel)
-  })
+        if (channel && currentChannel()?.id !== channel.id) {
+          setCurrentChannel(channel)
+        }
+      }
+    )
+  )
 
   let bottomRef: HTMLDivElement | undefined
 
@@ -103,21 +111,32 @@ export default function Channel() {
   return (
     <Show when={currentChannel()}>
       {channel => {
-        const messages = useMessages(() => channel().id)
+        const { messages, loading } = useMessages(() => channel().id)
 
         return (
           <div class="flex flex-col h-full">
             <div class="grow overflow-y-auto flex flex-col-reverse mb-4">
               <div ref={bottomRef} />
 
-              <For each={messages()}>
-                {(message, index) => {
-                  const previousMessage = messages()[index() + 1]
-                  const isGrouped = shouldGroup(message, previousMessage)
+              <Show
+                when={!loading()}
+                fallback={
+                  <div class="flex items-center justify-center gap-4 animate-pulse">
+                    <Radar class="size-16" />
 
-                  return <Message message={message} compact={isGrouped} />
-                }}
-              </For>
+                    <p class="text-4xl font-medium">Scanning for messages...</p>
+                  </div>
+                }
+              >
+                <For each={messages()}>
+                  {(message, index) => {
+                    const previousMessage = messages()[index() + 1]
+                    const isGrouped = shouldGroup(message, previousMessage)
+
+                    return <Message message={message} compact={isGrouped} />
+                  }}
+                </For>
+              </Show>
             </div>
 
             <MessageInput />

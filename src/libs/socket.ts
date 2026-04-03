@@ -16,7 +16,11 @@ export class Socket {
 
     this.ws.onmessage = event => {
       const { e: type, d: data } = JSON.parse(event.data)
-      for (const handler of this.handlers(type)) handler(data)
+      for (const handler of this.handlers(type)) {
+        try {
+          handler(data)
+        } catch {}
+      }
     }
   }
 

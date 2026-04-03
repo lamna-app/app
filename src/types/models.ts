@@ -11,6 +11,7 @@ export interface Channel {
   id: string
   name: string
   channel_type: number
+  parent_id: string | null
   created_at: string
 }
 

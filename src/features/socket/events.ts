@@ -14,9 +14,12 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("ready", (data: { guilds: Guild[] }) => {
     data.guilds.forEach(g => {
-      setGuilds(g.id, g)
+      setGuilds(String(g.id), { ...g, id: String(g.id) })
 
-      setChannels(g.id, g.channels)
+      setChannels(
+        String(g.id),
+        g.channels?.map(ch => ({ ...ch, id: String(ch.id), parent_id: ch.parent_id ? String(ch.parent_id) : null })) ?? []
+      )
     })
   })
 

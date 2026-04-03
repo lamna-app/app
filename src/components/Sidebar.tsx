@@ -4,8 +4,7 @@ import { Show } from "solid-js"
 import { useClient } from "@/hooks/useClient"
 
 import { useUser } from "@/features/user"
-
-import LogOut from "~icons/lucide/LogOut"
+import Settings from "~icons/lucide/Settings"
 
 import type { Navigator } from "@solidjs/router"
 import type { JSXElement } from "solid-js"
@@ -18,16 +17,23 @@ const UserBar = ({ user, navigate, logout }: { user: MeResponse; navigate: Navig
   }
 
   return (
-    <div class="bg-light rounded-full absolute w-[90%] left-1/2 -translate-x-1/2 h-16 bottom-8 flex items-center gap-2">
-      <img src="https://itswilli.dev/milo.jpg" class="size-18 rounded-full -ml-2" />
-      <div class="flex flex-col">
-        <h1 class="text-xl font-semibold">{user.username}</h1>
-        <p class="text-sm text-gray-400">{user.id}</p>
-      </div>
+    <div class="w-full p-3">
+      <div class="flex items-center w-full gap-2 p-2 transition-colors bg-light/70 rounded-md select-none">
+        <img src="https://itswilli.dev/milo.jpg" class="size-10 rounded-full" />
 
-      <button onClick={onClick} class="absolute right-5 cursor-pointer hover:scale-105 transition-transform">
-        <LogOut />
-      </button>
+        <div class="flex flex-col flex-1 overflow-hidden">
+          <h1 class="text-sm font-semibold leading-tight text-gray-200 truncate">{user.username}</h1>
+
+          <p class="text-[11px] leading-tight text-gray-400 truncate">{user.id}</p>
+        </div>
+
+        <button
+          onClick={onClick}
+          class="p-1.5 text-gray-400 transition-colors rounded-md hover:text-gray-100 cursor-pointer"
+        >
+          <Settings height={18} width={18} />
+        </button>
+      </div>
     </div>
   )
 }
@@ -38,8 +44,8 @@ export default function Sidebar({ children }: { children?: JSXElement }) {
   const user = useUser()
 
   return (
-    <div class="bg-dark w-72 shrink-0 relative">
-      {children}
+    <div class="flex flex-col shrink-0 h-full w-72 bg-dark">
+      <div class="flex flex-col flex-1 overflow-hidden">{children}</div>
 
       <Show when={user()}>{user => <UserBar user={user()} navigate={navigate} logout={() => client.logout()} />}</Show>
     </div>

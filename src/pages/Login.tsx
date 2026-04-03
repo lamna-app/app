@@ -101,7 +101,7 @@ export default function Entry() {
   onMount(async () => {
     try {
       await client.me()
-      navigate("/")
+      navigate("/channels/@me")
     } catch {}
   })
 
@@ -118,7 +118,7 @@ export default function Entry() {
       const resp = await client.login(email, password)
 
       if (resp.status === 200) {
-        navigate("/")
+        navigate("/channels/@me")
       }
     } catch (err) {
       if (!(err instanceof APIError)) {
