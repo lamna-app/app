@@ -33,7 +33,7 @@ function Message({ message, compact }: { message: MessageT; compact: boolean }) 
           </div>
         )}
 
-        <div class="text-[15px] leading-6 wrap-break-word whitespace-pre-wrap">{message.content}</div>
+        <div class="text-[15px] leading-6 break-all whitespace-pre-wrap">{message.content}</div>
       </div>
     </div>
   )
