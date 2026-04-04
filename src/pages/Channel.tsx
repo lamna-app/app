@@ -199,7 +199,7 @@ export default function Channel() {
       ([guildID, channelID, guildChannels]) => {
         if (!guildID || !channelID || !guildChannels?.length) return
 
-        const channel = guildChannels.find(ch => String(ch.id) === channelID)
+        const channel = guildChannels.find(ch => ch.id === channelID)
 
         if (channel && currentChannel()?.id !== channel.id) {
           setCurrentChannel(channel)
