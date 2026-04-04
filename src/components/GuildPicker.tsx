@@ -1,11 +1,14 @@
 import { useNavigate } from "@solidjs/router"
-import { For } from "solid-js"
+import { createSignal, For } from "solid-js"
+
+import { useClient } from "@/hooks/useClient"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
 import { currentChannel, setCurrentChannel } from "@/features/channel"
 import { guilds, selectGuild, setCurrentGuild } from "@/features/guild"
 import Plus from "~icons/lucide/Plus"
+import AddServerModal from "./modals/AddServerModal"
 import GuildIcon from "./utils/GuildIcon"
 
 import type { JSXElement } from "solid-js"
@@ -32,19 +35,20 @@ const onScroll = (e: WheelEvent) => {
   requestAnimationFrame(animate)
 }
 
-const GuildCircle = ({ children, onClick }: { children: JSXElement; onClick?: () => void }) => {
+const GuildCircle = (props: { children: JSXElement; onClick?: (event: MouseEvent) => void }) => {
   return (
     <button
-      onClick={onClick}
+      onClick={props.onClick}
       class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl"
     >
-      {children}
+      {props.children}
     </button>
   )
 }
 
 export default function ServerPicker() {
   const navigate = useNavigate()
+  const client = useClient()
 
   const onClick = async (g: Option<Guild>) => {
     if (!g) {
@@ -62,6 +66,12 @@ export default function ServerPicker() {
     setCurrentChannel(null)
 
     navigate("/channels/@me")
+  }
+
+  const [modalOpen, setModalOpen] = createSignal<boolean>(false)
+  const onInviteSubmit = async (code: string) => {
+    await client.invite(code)
+    setModalOpen(false)
   }
 
   return (
@@ -85,9 +95,16 @@ export default function ServerPicker() {
           )}
         </For>
 
-        <GuildCircle>
+        <GuildCircle
+          onClick={() => {
+            console.log("click")
+            setModalOpen(true)
+          }}
+        >
           <Plus height={32} width={32} />
         </GuildCircle>
+
+        <AddServerModal open={modalOpen()} onClose={() => setModalOpen(false)} onSubmit={onInviteSubmit} />
       </div>
     </div>
   )

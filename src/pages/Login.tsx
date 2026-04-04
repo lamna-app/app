@@ -7,37 +7,9 @@ import { APIError } from "@/libs/client"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
+import InputField from "@/components/common/Input"
+
 import type { JSX } from "solid-js"
-
-const InputField = ({
-  label,
-  name,
-  type = "text",
-  minLength,
-  maxLength
-}: {
-  label: string
-  name: string
-  type?: JSX.InputHTMLAttributes<HTMLInputElement>["type"]
-  minLength?: number
-  maxLength?: number
-}) => (
-  <div class="flex flex-col gap-1">
-    <label for={name} class="text-sm font-medium select-none">
-      {label}
-    </label>
-
-    <input
-      id={name}
-      name={name}
-      type={type}
-      autocomplete="off"
-      minLength={minLength}
-      maxLength={maxLength}
-      class="bg-dark-hl rounded-lg p-2 outline-none transition-all focus:ring-2 focus:ring-light"
-    />
-  </div>
-)
 
 type Props = {
   onToggle: () => void

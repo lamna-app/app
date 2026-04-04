@@ -35,6 +35,7 @@ export class Socket {
 
     this.ws.onmessage = event => {
       const { e: type, d: data } = JSON.parse(event.data)
+
       for (const handler of this.handlers(type)) {
         try {
           handler(data)
@@ -48,8 +49,7 @@ export class Socket {
   }
 
   isOpen() {
-    if (!this.ws) return false
-    return this.ws?.readyState === this.ws?.OPEN
+    return this.ws && this.ws.readyState === this.ws.OPEN
   }
 
   handlers(event: string) {

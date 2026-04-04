@@ -87,6 +87,10 @@ export class Client {
     return await this.request<MeResponse>("/@me", "GET")
   }
 
+  async invite(code: string) {
+    return await this.request(`/@me/invite/${code}`, "POST")
+  }
+
   async guilds(): Promise<ClientResponse<Guild[]>> {
     return await this.request<Guild[]>("/@me/guilds", "GET")
   }
@@ -95,8 +99,11 @@ export class Client {
     return await this.request<Channel[]>(`/guilds/${guildID}/channels`, "GET")
   }
 
-  async messages(channelID: string): Promise<ClientResponse<Message[]>> {
-    return await this.request<Message[]>(`/channels/${channelID}/messages`, "GET")
+  async messages(channelID: string, limit: number = 50, before?: string): Promise<ClientResponse<Message[]>> {
+    const params = new URLSearchParams({ limit: limit.toString() })
+    if (before) params.append("before", before)
+
+    return await this.request<Message[]>(`/channels/${channelID}/messages?${params.toString()}`, "GET")
   }
 
   async sendMessage(channelID: string, content: string) {
