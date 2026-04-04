@@ -1,11 +1,11 @@
-import { setChannels } from "../channel"
+import { channels, setChannels } from "../channel"
 import { setGuilds } from "../guild"
 import { setMessages } from "../message"
 import { setUser } from "../user"
 
 import type { Socket } from "@/libs/socket"
 import type { MeResponse } from "@/types/client"
-import type { Guild, Message } from "@/types/models"
+import type { Channel, Guild, Message } from "@/types/models"
 
 export const registerEvents = (socket: Socket) => {
   socket.on("authenticated", (data: MeResponse) => {
@@ -27,6 +27,18 @@ export const registerEvents = (socket: Socket) => {
     const msg = data
     msg.created_at = new Date(msg.created_at)
 
-    setMessages(data.channel_id, msgs => [msg, ...(msgs ?? [])])
+    setMessages(data.channel_id, messages => [msg, ...messages])
+  })
+
+  socket.on("message.delete", (data: Message) => {
+    setMessages(data.channel_id, messages => messages.filter(msg => msg.id !== data.id))
+  })
+
+  socket.on("channel.create", (data: Channel) => {
+    setChannels(data.guild_id, channels => [...channels, data])
+  })
+
+  socket.on("channel.delete", (data: Channel) => {
+    setChannels(data.guild_id, channels => channels.filter(ch => ch.id !== data.id))
   })
 }

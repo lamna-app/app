@@ -10,8 +10,9 @@ export interface Guild {
 export interface Channel {
   id: string
   name: string
-  channel_type: number
+  guild_id: string
   parent_id: string | null
+  channel_type: number
   created_at: string
 }
 
