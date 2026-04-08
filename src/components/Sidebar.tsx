@@ -41,6 +41,7 @@ const UserBar = ({ user, navigate, logout }: { user: MeResponse; navigate: Navig
 export default function Sidebar({ children }: { children?: JSXElement }) {
   const navigate = useNavigate()
   const client = useClient()
+
   const user = useUser()
 
   return (

@@ -11,14 +11,7 @@ import type { Channel, Guild } from "@/types/models"
 
 function GuildBanner(props: { guild: Guild }) {
   return (
-    <div
-      class="flex items-end justify-between w-full h-26 p-4 group/server cursor-pointer border-b border-gray-900 shadow-sm transition-all bg-cover bg-center bg-no-repeat bg-linear-to-br from-gray-800/50 to-gray-900/80 hover:brightness-110 shrink-0"
-      // style={{
-      //   "background-image": guild().bannerUrl
-      //     ? `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2), transparent), url('${guild().bannerUrl}')`
-      //     : undefined
-      // }}
-    >
+    <div class="flex items-end justify-between w-full h-26 p-4 group/server cursor-pointer border-b border-gray-900 shadow-sm transition-all bg-cover bg-center bg-no-repeat bg-linear-to-br from-gray-800/50 to-gray-900/80 hover:brightness-110 shrink-0">
       <h1 class="text-[1.35rem] font-bold leading-tight tracking-tight text-gray-100 line-clamp-2 drop-shadow-md">
         {props.guild.name}
       </h1>
@@ -96,7 +89,6 @@ const Channels = (props: { channels: () => Channel[] }) => {
   const getChildrenForCategory = (categoryId: string) => props.channels().filter(c => c.parent_id === categoryId)
 
   const onChannelClick = (channel: Channel) => {
-    console.log("set current channel as", channel)
     setCurrentChannel(channel)
     navigate(`/channels/${currentGuild()?.id}/${channel.id}`)
   }
@@ -127,7 +119,7 @@ const Channels = (props: { channels: () => Channel[] }) => {
   )
 }
 
-export default function GuildSidebarContent() {
+export default function GuildSidebar() {
   return (
     <Show when={currentGuild()}>
       {guild => (

@@ -74,8 +74,6 @@
               ":BLANK_LINE:",
               { "type": false, "source": "@/stores/**" },
               ":BLANK_LINE:",
-              { "type": false, "source": "@/contexts/**" },
-              ":BLANK_LINE:",
               { "type": false, "source": "@/libs/**" },
               ":BLANK_LINE:",
               { "type": false, "source": "@/assets/**" },

@@ -31,16 +31,6 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
     }
   })
 
-  // createEffect(() => {
-  //   const g = guild()
-  //   const c = channels()
-  //   if (!g || !c || c.length === 0) {
-  //     setChannel(null)
-  //     return
-  //   }
-  //   setChannel(c[0])
-  // })
-
   return (
     <div class="flex h-screen overflow-hidden flex-col">
       <GuildPicker />

@@ -17,6 +17,9 @@ export const selectGuild = async (guild: Guild, channelID?: string) => {
     return
   }
 
-  const ch = channelID ? channels[guild.id].find(ch => ch.id === channelID) : channels[guild.id][0]
+  const ch = channelID
+    ? channels[guild.id].find(ch => ch.id === channelID)
+    : channels[guild.id].find(ch => ch.channel_type === 2)
+
   setCurrentChannel(ch ?? null)
 }

@@ -1,6 +1,6 @@
-import { channels, setChannels } from "../channel"
+import { setChannels } from "../channel"
 import { setGuilds } from "../guild"
-import { setMessages } from "../message"
+import { chatStore, setChatStore } from "../message"
 import { setUser } from "../user"
 
 import type { Socket } from "@/libs/socket"
@@ -25,13 +25,17 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("message.create", (data: Message) => {
     const msg = data
-    msg.created_at = new Date(msg.created_at)
+    data.created_at = new Date(data.created_at)
 
-    setMessages(data.channel_id, messages => [msg, ...messages])
+    if (chatStore[data.channel_id]) {
+      setChatStore(data.channel_id, "messages", prevMessages => [msg, ...prevMessages])
+    }
   })
 
   socket.on("message.delete", (data: Message) => {
-    setMessages(data.channel_id, messages => messages.filter(msg => msg.id !== data.id))
+    if (chatStore[data.channel_id]) {
+      setChatStore(data.channel_id, "messages", prevMessages => prevMessages.filter(msg => msg.id !== data.id))
+    }
   })
 
   socket.on("channel.create", (data: Channel) => {
