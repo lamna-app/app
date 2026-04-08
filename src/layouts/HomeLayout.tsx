@@ -9,6 +9,7 @@ import { setUser } from "@/stores/userStore"
 import GuildPicker from "@/components/GuildPicker"
 import GuildSidebar from "@/components/GuildSidebar"
 import Sidebar from "@/components/Sidebar"
+import UserSidebar from "@/components/UserSidebar"
 import { registerEvents } from "@/features/socket/events"
 
 import type { JSXElement } from "solid-js"
@@ -36,11 +37,15 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
       <GuildPicker />
 
       <div class="flex min-h-0 flex-1">
-        <Sidebar>
+        <Sidebar withUser={true}>
           <GuildSidebar />
         </Sidebar>
 
         <main class="flex-1">{props.children}</main>
+
+        <Sidebar>
+          <UserSidebar />
+        </Sidebar>
       </div>
     </div>
   )

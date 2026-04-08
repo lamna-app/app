@@ -1,6 +1,7 @@
 import { createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
 
+import { ChannelType } from "@/types/models"
 import { channels, setCurrentChannel } from "../channel"
 
 import type { Guild } from "@/types/models"
@@ -19,7 +20,7 @@ export const selectGuild = async (guild: Guild, channelID?: string) => {
 
   const ch = channelID
     ? channels[guild.id].find(ch => ch.id === channelID)
-    : channels[guild.id].find(ch => ch.channel_type === 2)
+    : channels[guild.id].find(ch => ch.channel_type === ChannelType.TextChannel)
 
   setCurrentChannel(ch ?? null)
 }

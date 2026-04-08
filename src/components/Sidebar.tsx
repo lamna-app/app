@@ -38,7 +38,7 @@ const UserBar = ({ user, navigate, logout }: { user: MeResponse; navigate: Navig
   )
 }
 
-export default function Sidebar({ children }: { children?: JSXElement }) {
+export default function Sidebar({ children, withUser }: { children?: JSXElement; withUser?: boolean }) {
   const navigate = useNavigate()
   const client = useClient()
 
@@ -48,7 +48,9 @@ export default function Sidebar({ children }: { children?: JSXElement }) {
     <div class="flex flex-col shrink-0 h-full w-72 bg-dark">
       <div class="flex flex-col flex-1 overflow-hidden">{children}</div>
 
-      <Show when={user()}>{user => <UserBar user={user()} navigate={navigate} logout={() => client.logout()} />}</Show>
+      <Show when={withUser && user()}>
+        {user => <UserBar user={user()} navigate={navigate} logout={() => client.logout()} />}
+      </Show>
     </div>
   )
 }
