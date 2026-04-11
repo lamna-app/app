@@ -7,7 +7,7 @@ import { setUsers, users } from "../users"
 
 import type { Socket } from "@/libs/socket"
 import type { MeResponse } from "@/types/client"
-import type { Channel, Guild, Message, PresenceUpdatePayload, ReadyPayload } from "@/types/models"
+import type { Channel, Guild, MemberJoinPayload, Message, PresenceUpdatePayload, ReadyPayload } from "@/types/models"
 
 export const registerEvents = (socket: Socket) => {
   socket.on("authenticated", (data: MeResponse) => {
@@ -35,6 +35,18 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("guild.join", (data: Guild) => {
     setGuilds(data.id, data)
+  })
+
+  socket.on("member.join", ({ member, user }: MemberJoinPayload) => {
+    setUsers(user.id, user)
+
+    if (!guildMembers[member.guild_id]) {
+      setGuildMembers(member.guild_id, {})
+    }
+
+    if (!guildMembers[member.guild_id][member.user_id]) {
+      setGuildMember(member.guild_id, member.user_id, member)
+    }
   })
 
   socket.on("message.create", (data: Message) => {

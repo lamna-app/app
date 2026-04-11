@@ -59,3 +59,8 @@ export interface PresenceUpdatePayload {
   user_id: string
   status: UserPresence
 }
+
+export interface MemberJoinPayload {
+  member: GuildMember
+  user: User
+}
