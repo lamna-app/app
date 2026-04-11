@@ -70,8 +70,8 @@ export default function ServerPicker() {
 
   const [modalOpen, setModalOpen] = createSignal<boolean>(false)
   const onInviteSubmit = async (code: string) => {
+    await new Promise(res => setTimeout(res, 5000))
     await client.invite(code)
-    setModalOpen(false)
   }
 
   return (

@@ -4,15 +4,15 @@ import Modal from "../utils/Modal"
 interface AddServerModalProps {
   open: boolean
   onClose: () => void
-  onSubmit: (inviteCode: string) => void
+  onSubmit: (inviteCode: string) => Promise<void>
 }
 
 export default function AddServerModal(props: AddServerModalProps) {
   let inputRef: HTMLInputElement | undefined
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!inputRef) return
-    props.onSubmit(inputRef.value)
+    await props.onSubmit(inputRef.value)
   }
 
   return (
