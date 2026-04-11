@@ -9,6 +9,7 @@ import HomeLayout from "./layouts/HomeLayout"
 import RootLayout from "./layouts/RootLayout"
 import Channel from "./pages/Channel"
 import Debug from "./pages/Debug"
+import Invite from "./pages/Invite"
 import Login from "./pages/Login"
 
 render(

@@ -4,11 +4,11 @@ import { currentGuild } from "@/features/guild"
 import { guildMembers } from "@/features/guild_members"
 import { users } from "@/features/users"
 
-import type { GuildMember, User, UserStatus } from "@/types/models"
+import type { GuildMember, User, UserPresence } from "@/types/models"
 
 type ResolvedMember = GuildMember & { user: User }
 
-const STATUS_COLORS: Record<UserStatus, string> = {
+const STATUS_COLORS: Record<UserPresence, string> = {
   online: "#00c950",
   idle: "#f0b100",
   dnd: "#fb2c36",
@@ -16,14 +16,14 @@ const STATUS_COLORS: Record<UserStatus, string> = {
 }
 
 function MemberItem(props: { member: ResolvedMember; user: User }) {
-  const isOffline = props.user.status === "offline"
+  const isOffline = props.user.presence === "offline"
 
   return (
     <div class="flex items-center gap-3 p-2 hover:bg-light/20 cursor-pointer rounded-lg">
       <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-500/30 text-white">
         <div
           style={{
-            "background-color": STATUS_COLORS[props.user.status]
+            "background-color": STATUS_COLORS[props.user.presence]
           }}
           class="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-dark"
         />
@@ -78,12 +78,12 @@ export default function UserSidebar() {
       {
         id: "online",
         title: "Online",
-        members: members.filter(m => m.user.status !== "offline")
+        members: members.filter(m => m.user.presence !== "offline")
       },
       {
         id: "offline",
         title: "Offline",
-        members: members.filter(m => m.user.status === "offline")
+        members: members.filter(m => m.user.presence === "offline")
       }
     ]
   }

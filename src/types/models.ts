@@ -40,12 +40,12 @@ export interface GuildMember {
   joined_at: string
 }
 
-export type UserStatus = "online" | "dnd" | "idle" | "offline"
+export type UserPresence = "online" | "dnd" | "idle" | "offline"
 
 export interface User {
   id: string
   username: string
-  status: UserStatus
+  presence: UserPresence
   created_at: string
 }
 
@@ -57,5 +57,5 @@ export interface ReadyPayload {
 
 export interface PresenceUpdatePayload {
   user_id: string
-  status: UserStatus
+  status: UserPresence
 }
