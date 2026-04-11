@@ -70,8 +70,12 @@ export default function ServerPicker() {
 
   const [modalOpen, setModalOpen] = createSignal<boolean>(false)
   const onInviteSubmit = async (code: string) => {
-    await new Promise(res => setTimeout(res, 5000))
-    await client.invite(code)
+    const cleanInput = code.trim().replace(/\/+$/, "")
+
+    const parts = cleanInput.split("/")
+    const cleanCode = parts[parts.length - 1]
+
+    await client.joinInvite(cleanCode)
   }
 
   return (

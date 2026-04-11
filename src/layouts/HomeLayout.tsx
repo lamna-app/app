@@ -1,4 +1,4 @@
-import { useNavigate } from "@solidjs/router"
+import { useLocation, useNavigate } from "@solidjs/router"
 import { onMount } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
@@ -17,13 +17,19 @@ import type { JSXElement } from "solid-js"
 export default function HomeLayout<T extends { children?: JSXElement }>(props: T) {
   const client = useClient()
   const navigate = useNavigate()
+  const location = useLocation()
   const socket = useSocket()
 
   onMount(async () => {
     try {
-      setUser((await client.me()).data)
+      const { data: me } = await client.me()
+
+      setUser(me)
     } catch {
-      navigate("/login")
+      if (location.pathname !== "/login") {
+        const currentPath = encodeURIComponent(location.pathname)
+        navigate(`/login?redirect=${currentPath}`, { replace: true })
+      }
     }
 
     if (!socket.isOpen()) {

@@ -1,4 +1,4 @@
-import { useNavigate } from "@solidjs/router"
+import { useNavigate, useSearchParams } from "@solidjs/router"
 import { createSignal, onMount, Show } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
@@ -7,6 +7,7 @@ import { APIError } from "@/libs/client"
 
 import Logo from "@/assets/logo.svg?component-solid"
 
+import Button from "@/components/common/Button"
 import InputField from "@/components/common/Input"
 
 import type { JSX } from "solid-js"
@@ -23,12 +24,7 @@ function Register({ onToggle, onSubmit }: Props) {
       <InputField label="Email" name="email" type="email" />
       <InputField label="Password" name="password" type="password" minLength={5} />
 
-      <button
-        type="submit"
-        class="bg-light hover:bg-light-hl mt-4 w-full cursor-pointer rounded-lg px-4 py-2 font-semibold transition-colors"
-      >
-        Register
-      </button>
+      <Button type="submit">Register</Button>
 
       <div class="mt-2 text-sm text-gray-400">
         Already have an account?{" "}
@@ -46,12 +42,7 @@ function Login({ onToggle, onSubmit }: Props) {
       <InputField label="Email" name="email" type="email" />
       <InputField label="Password" name="password" type="password" minLength={5} />
 
-      <button
-        type="submit"
-        class="bg-light hover:bg-light-hl mt-4 w-full cursor-pointer rounded-lg px-4 py-2 font-semibold transition-colors"
-      >
-        Login
-      </button>
+      <Button type="submit">Login</Button>
 
       <div class="mt-2 text-sm text-gray-400">
         Need an account?{" "}
@@ -67,13 +58,19 @@ export default function Entry() {
   const client = useClient()
   const navigate = useNavigate()
 
+  const [searchParams] = useSearchParams()
+
   const [isLogin, setIsLogin] = createSignal<boolean>(true)
   const [error, setError] = createSignal<Option<string>>(null)
+
+  const getRedirectPath = (): string => {
+    return (searchParams.redirect as string) || "/channels/@me"
+  }
 
   onMount(async () => {
     try {
       await client.me()
-      navigate("/channels/@me")
+      navigate(getRedirectPath(), { replace: true })
     } catch {}
   })
 
@@ -90,7 +87,7 @@ export default function Entry() {
       const resp = await client.login(email, password)
 
       if (resp.status === 200) {
-        navigate("/channels/@me")
+        navigate(getRedirectPath(), { replace: true })
       }
     } catch (err) {
       if (!(err instanceof APIError)) {
@@ -119,7 +116,7 @@ export default function Entry() {
       const resp = await client.register(username, email, password)
 
       if (resp.status === 201) {
-        navigate("/")
+        navigate(getRedirectPath(), { replace: true })
       }
     } catch (err) {
       if (!(err instanceof APIError)) {

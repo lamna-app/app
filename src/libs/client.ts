@@ -1,4 +1,4 @@
-import type { ClientResponse, LoginResponse, MeResponse } from "@/types/client"
+import type { ClientResponse, InviteInfo, LoginResponse, MeResponse } from "@/types/client"
 import type { Channel, Guild, Message } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -35,10 +35,7 @@ export class Client {
 
     if (!resp.ok) {
       if (resp.status === 401) {
-        if (window.location.pathname !== "/login") {
-          localStorage.removeItem("token")
-          window.location.href = "/login"
-        }
+        localStorage.removeItem("token")
       }
 
       const err = await resp.text()
@@ -87,8 +84,12 @@ export class Client {
     return await this.request<MeResponse>("/@me", "GET")
   }
 
-  async invite(code: string) {
-    return await this.request(`/@me/invite/${code}`, "POST")
+  async getInvite(code: string): Promise<ClientResponse<InviteInfo>> {
+    return await this.request(`/invite/${code}`, "GET")
+  }
+
+  async joinInvite(code: string) {
+    return await this.request(`/invite/${code}`, "POST")
   }
 
   async guilds(): Promise<ClientResponse<Guild[]>> {
