@@ -92,8 +92,6 @@ export default function Entry() {
 
     try {
       setLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 3000))
-
       const resp = await client.login(email, password)
 
       if (resp.status === 200) {
