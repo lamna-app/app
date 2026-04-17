@@ -1,14 +1,12 @@
 import { useNavigate } from "@solidjs/router"
 import { createSignal, For } from "solid-js"
 
-import { useClient } from "@/hooks/useClient"
-
 import Logo from "@/assets/logo.svg?component-solid"
 
 import { currentChannel, setCurrentChannel } from "@/features/channel"
 import { guilds, selectGuild, setCurrentGuild } from "@/features/guild"
 import Plus from "~icons/lucide/Plus"
-import AddServerModal from "./modals/AddServerModal"
+import AddGuildModal from "./modals/AddGuildModal"
 import GuildIcon from "./utils/GuildIcon"
 
 import type { JSXElement } from "solid-js"
@@ -48,7 +46,6 @@ const GuildCircle = (props: { children: JSXElement; onClick?: (event: MouseEvent
 
 export default function ServerPicker() {
   const navigate = useNavigate()
-  const client = useClient()
 
   const onClick = async (g: Option<Guild>) => {
     if (!g) {
@@ -69,14 +66,6 @@ export default function ServerPicker() {
   }
 
   const [modalOpen, setModalOpen] = createSignal<boolean>(false)
-  const onInviteSubmit = async (code: string) => {
-    const cleanInput = code.trim().replace(/\/+$/, "")
-
-    const parts = cleanInput.split("/")
-    const cleanCode = parts[parts.length - 1]
-
-    await client.joinInvite(cleanCode)
-  }
 
   return (
     <div class="bg-dark p-2">
@@ -101,14 +90,13 @@ export default function ServerPicker() {
 
         <GuildCircle
           onClick={() => {
-            console.log("click")
             setModalOpen(true)
           }}
         >
           <Plus height={32} width={32} />
         </GuildCircle>
 
-        <AddServerModal open={modalOpen()} onClose={() => setModalOpen(false)} onSubmit={onInviteSubmit} />
+        <AddGuildModal open={modalOpen()} onClose={() => setModalOpen(false)} />
       </div>
     </div>
   )

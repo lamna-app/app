@@ -15,7 +15,7 @@ interface ModalAction {
   closeOnSuccess?: boolean
 }
 
-interface ModalProps {
+export interface ModalProps {
   open: boolean
   onClose: () => void
   title?: string
@@ -92,7 +92,7 @@ export default function Modal(props: ModalProps) {
   }
 
   const onBackdropClick = (e: MouseEvent) => {
-    if (isLoading()) return
+    if (isLoading() || e.target !== dialogRef) return
     if (props.closeOnBackdrop ?? true) {
       const rect = dialogRef?.getBoundingClientRect()
       if (!rect) return
@@ -138,7 +138,7 @@ export default function Modal(props: ModalProps) {
                 <div class="grid gap-2">
                   <h1 class="text-2xl font-semibold">{props.title}</h1>
                   <Show when={props.subtitle}>
-                    <p class="text-sm -mt-2 text-text/75">Join an existing guild by entering the invite below</p>
+                    <p class="text-sm -mt-2 text-text/75">{props.subtitle}</p>
                   </Show>
                 </div>
                 <button

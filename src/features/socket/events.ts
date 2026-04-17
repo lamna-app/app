@@ -35,6 +35,7 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("guild.join", (data: Guild) => {
     setGuilds(data.id, data)
+    setChannels(data.id, data.channels ?? [])
   })
 
   socket.on("member.join", ({ member, user }: MemberJoinPayload) => {

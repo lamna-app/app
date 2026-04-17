@@ -96,6 +96,10 @@ export class Client {
     return await this.request<Guild[]>("/@me/guilds", "GET")
   }
 
+  async createGuild(name: string): Promise<ClientResponse<Guild>> {
+    return await this.request<Guild>("/guilds", "POST", { name })
+  }
+
   async channels(guildID: string): Promise<ClientResponse<Channel[]>> {
     return await this.request<Channel[]>(`/guilds/${guildID}/channels`, "GET")
   }
