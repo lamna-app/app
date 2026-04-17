@@ -1,5 +1,5 @@
 import { createTimeline } from "animejs"
-import { createEffect, createSignal, onMount, Show } from "solid-js"
+import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 
 import Loader from "~icons/lucide/loader-circle"
@@ -19,6 +19,7 @@ interface ModalProps {
   open: boolean
   onClose: () => void
   title?: string
+  subtitle?: string
   children: JSXElement
   actions?: ModalAction[]
   closeOnBackdrop?: boolean
@@ -40,7 +41,21 @@ export default function Modal(props: ModalProps) {
     else if (!props.open && dialogRef.open) dialogRef.close()
   }
 
-  onMount(() => syncDialog())
+  onMount(() => {
+    syncDialog()
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || !props.open) return
+
+      e.preventDefault()
+      e.stopImmediatePropagation()
+
+      if (isLoading()) return
+      if (props.closeOnEscape ?? true) closeWithAnimation()
+    }
+    window.addEventListener("keydown", handleKeyDown, true)
+    onCleanup(() => window.removeEventListener("keydown", handleKeyDown, true))
+  })
 
   createEffect(() => {
     if (props.open) {
@@ -65,14 +80,14 @@ export default function Modal(props: ModalProps) {
       setLoadingIndex(index)
       try {
         await result
-        if (action.closeOnSuccess ?? true) props.onClose()
+        if (action.closeOnSuccess ?? true) closeWithAnimation()
       } catch (e) {
         setError(e instanceof Error ? e.message : String(e))
       } finally {
         setLoadingIndex(null)
       }
     } else if (action.closeOnSuccess ?? true) {
-      props.onClose()
+      closeWithAnimation()
     }
   }
 
@@ -120,7 +135,12 @@ export default function Modal(props: ModalProps) {
           >
             <Show when={props.title}>
               <header class="flex justify-between items-center mb-2">
-                <h1 class="text-2xl font-semibold">{props.title}</h1>
+                <div class="grid gap-2">
+                  <h1 class="text-2xl font-semibold">{props.title}</h1>
+                  <Show when={props.subtitle}>
+                    <p class="text-sm -mt-2 text-text/75">Join an existing guild by entering the invite below</p>
+                  </Show>
+                </div>
                 <button
                   onClick={() => !isLoading() && closeWithAnimation()}
                   disabled={isLoading()}

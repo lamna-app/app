@@ -18,12 +18,11 @@ export default function AddServerModal(props: AddServerModalProps) {
   return (
     <Modal
       title="Got an invite?"
+      subtitle="Join an existing guild by entering the invite below"
       open={props.open}
       onClose={props.onClose}
       actions={[{ label: "Join Guild", variant: "primary", onClick: onSubmit }]}
     >
-      <p class="text-sm -mt-2 text-text/75">Join an existing guild by entering the invite below</p>
-
       <div class="pt-4">
         <InputField ref={inputRef} label="Invite Code" placeholder="lamna.gg/abc123def" />
       </div>
