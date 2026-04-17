@@ -14,7 +14,7 @@ export default function InputField({ label, name, ...props }: Props) {
         name={name}
         autocomplete="off"
         {...props}
-        class="bg-dark-hl rounded-lg p-2 outline-none transition-all focus:ring-2 focus:ring-light"
+        class="bg-dark-hl rounded-lg p-2 outline-none transition-all focus:ring-2 focus:ring-light disabled:opacity-50 disabled:pointer-events-auto disabled:bg-red-300"
       />
     </div>
   )

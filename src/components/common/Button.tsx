@@ -2,9 +2,9 @@ import { Show } from "solid-js"
 
 import Loader from "~icons/lucide/loader-circle"
 
-import type { JSX } from "solid-js"
+import type { Accessor, JSX } from "solid-js"
 
-type Props = { isLoading?: () => boolean } & JSX.ButtonHTMLAttributes<HTMLButtonElement>
+type Props = { isLoading?: Accessor<boolean> } & JSX.ButtonHTMLAttributes<HTMLButtonElement>
 
 export default function Button({ children, isLoading, ...props }: Props) {
   return (

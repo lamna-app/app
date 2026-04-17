@@ -10,25 +10,28 @@ import Logo from "@/assets/logo.svg?component-solid"
 import Button from "@/components/common/Button"
 import InputField from "@/components/common/Input"
 
-import type { JSX } from "solid-js"
+import type { Accessor, JSX } from "solid-js"
 
 type Props = {
   onToggle: () => void
   onSubmit: JSX.CustomEventHandlersCamelCase<HTMLFormElement>["onSubmit"]
+  isLoading: Accessor<boolean>
 }
 
-function Register({ onToggle, onSubmit }: Props) {
+function Register(props: Props) {
   return (
-    <form onSubmit={onSubmit} class="flex w-full flex-col space-y-4">
-      <InputField label="Username" name="username" minLength={2} maxLength={25} />
-      <InputField label="Email" name="email" type="email" />
-      <InputField label="Password" name="password" type="password" minLength={5} />
+    <form onSubmit={props.onSubmit} class="flex w-full flex-col space-y-4">
+      <InputField label="Username" name="username" minLength={2} maxLength={25} disabled={props.isLoading()} />
+      <InputField label="Email" name="email" type="email" disabled={props.isLoading()} />
+      <InputField label="Password" name="password" type="password" minLength={5} disabled={props.isLoading()} />
 
-      <Button type="submit">Register</Button>
+      <Button type="submit" isLoading={props.isLoading}>
+        Register
+      </Button>
 
       <div class="mt-2 text-sm text-gray-400">
         Already have an account?{" "}
-        <button type="button" onClick={onToggle} class="text-blue-400 hover:underline cursor-pointer font-medium">
+        <button type="button" onClick={props.onToggle} class="text-blue-400 hover:underline cursor-pointer font-medium">
           Login
         </button>
       </div>
@@ -36,17 +39,19 @@ function Register({ onToggle, onSubmit }: Props) {
   )
 }
 
-function Login({ onToggle, onSubmit }: Props) {
+function Login(props: Props) {
   return (
-    <form onSubmit={onSubmit} class="flex w-full flex-col space-y-4">
-      <InputField label="Email" name="email" type="email" />
-      <InputField label="Password" name="password" type="password" minLength={5} />
+    <form onSubmit={props.onSubmit} class="flex w-full flex-col space-y-4">
+      <InputField label="Email" name="email" type="email" disabled={props.isLoading()} />
+      <InputField label="Password" name="password" type="password" minLength={5} disabled={props.isLoading()} />
 
-      <Button type="submit">Login</Button>
+      <Button type="submit" isLoading={props.isLoading}>
+        Login
+      </Button>
 
       <div class="mt-2 text-sm text-gray-400">
         Need an account?{" "}
-        <button type="button" onClick={onToggle} class="text-blue-400 hover:underline cursor-pointer font-medium">
+        <button type="button" onClick={props.onToggle} class="text-blue-400 hover:underline cursor-pointer font-medium">
           Register
         </button>
       </div>
@@ -62,6 +67,8 @@ export default function Entry() {
 
   const [isLogin, setIsLogin] = createSignal<boolean>(true)
   const [error, setError] = createSignal<Option<string>>(null)
+
+  const [isLoading, setLoading] = createSignal<boolean>(false)
 
   const getRedirectPath = (): string => {
     return (searchParams.redirect as string) || "/channels/@me"
@@ -84,6 +91,9 @@ export default function Entry() {
     const password = data.get("password") as string
 
     try {
+      setLoading(true)
+      await new Promise(resolve => setTimeout(resolve, 3000))
+
       const resp = await client.login(email, password)
 
       if (resp.status === 200) {
@@ -99,6 +109,8 @@ export default function Entry() {
       } else {
         setError(err.message)
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -113,6 +125,7 @@ export default function Entry() {
     const password = data.get("password") as string
 
     try {
+      setLoading(true)
       const resp = await client.register(username, email, password)
 
       if (resp.status === 201) {
@@ -128,6 +141,8 @@ export default function Entry() {
       } else {
         setError(err.message)
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -155,6 +170,7 @@ export default function Entry() {
                   setIsLogin(true)
                 }}
                 onSubmit={onRegister}
+                isLoading={isLoading}
               />
             }
           >
@@ -163,6 +179,7 @@ export default function Entry() {
                 setIsLogin(false)
               }}
               onSubmit={onLogin}
+              isLoading={isLoading}
             />
           </Show>
         </div>

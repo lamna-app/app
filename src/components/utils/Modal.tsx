@@ -178,6 +178,7 @@ export default function Modal(props: ModalProps) {
                       <Show when={thisLoading()}>
                         <Loader class="animate-spin" width={16} height={16} />
                       </Show>
+
                       {action.label}
                     </button>
                   )
