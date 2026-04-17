@@ -1,25 +1,61 @@
 import { useNavigate } from "@solidjs/router"
-import { For, Show } from "solid-js"
+import { createSignal, For, Show } from "solid-js"
 
 import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
 import { currentGuild } from "@/features/guild"
+import { ChannelType } from "@/types/utils"
 import ChevronDown from "~icons/lucide/ChevronDown"
 import Hash from "~icons/lucide/Hash"
 import Plus from "~icons/lucide/Plus"
+import Menu from "./common/Menu"
+import CreateChannelModal from "./modals/CreateChannelModal"
 
 import type { Channel, Guild } from "@/types/models"
+import type { MenuItemProps } from "./common/Menu"
+
+type ActiveModal = "createChannel" | "createInvite" | "leave" | null
 
 function GuildBanner(props: { guild: Guild }) {
-  return (
-    <div class="flex items-end justify-between w-full h-26 p-4 group/server cursor-pointer border-b border-gray-900 shadow-sm transition-all bg-cover bg-center bg-no-repeat bg-linear-to-br from-gray-800/50 to-gray-900/80 hover:brightness-110 shrink-0">
-      <h1 class="text-[1.35rem] font-bold leading-tight tracking-tight text-gray-100 line-clamp-2 drop-shadow-md">
-        {props.guild.name}
-      </h1>
+  const [menuOpen, setMenuOpen] = createSignal<boolean>(false)
+  const [activeModal, setActiveModal] = createSignal<ActiveModal>(null)
 
-      <ChevronDown
-        class="relative z-10 mb-1 text-gray-300 transition-all duration-200 opacity-0 group-hover/server:opacity-100 group-hover/server:translate-y-0.5"
-        height={20}
-        width={20}
+  const openModal = (modal: ActiveModal) => {
+    setActiveModal(modal)
+    setMenuOpen(false)
+  }
+
+  const menuItems = [
+    { label: "Create channel", icon: Hash, onClick: () => openModal("createChannel") }
+  ] satisfies MenuItemProps[]
+
+  return (
+    <div class="relative shrink-0">
+      <div
+        onClick={e => {
+          e.stopImmediatePropagation()
+          setMenuOpen(!menuOpen())
+        }}
+        class="flex items-end justify-between w-full h-26 p-4 group/server cursor-pointer border-b border-gray-900 shadow-sm transition-all bg-cover bg-center bg-no-repeat bg-linear-to-br from-gray-800/50 to-gray-900/80 hover:brightness-110 shrink-0"
+      >
+        <h1 class="text-[1.35rem] font-bold leading-tight tracking-tight text-gray-100 line-clamp-2 drop-shadow-md">
+          {props.guild.name}
+        </h1>
+
+        <ChevronDown
+          class="relative z-10 mb-1 text-gray-300 transition-all duration-200 opacity-0 group-hover/server:opacity-100 group-hover/server:translate-y-0.5"
+          height={20}
+          width={20}
+        />
+      </div>
+
+      <div class="absolute top-full left-2 right-2 mt-2 z-50">
+        <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} />
+      </div>
+
+      <CreateChannelModal
+        open={activeModal() === "createChannel"}
+        onClose={() => setActiveModal(null)}
+        guild={props.guild}
       />
     </div>
   )
@@ -83,8 +119,9 @@ function CategoryItem(props: {
 const Channels = (props: { channels: () => Channel[] }) => {
   const navigate = useNavigate()
 
-  const categories = () => props.channels().filter(c => c.channel_type === 1)
-  const uncategorizedChannels = () => props.channels().filter(c => c.channel_type !== 1 && c.parent_id === null)
+  const categories = () => props.channels().filter(c => c.channel_type === ChannelType.CategoryChannel)
+  const uncategorizedChannels = () =>
+    props.channels().filter(c => c.channel_type !== ChannelType.CategoryChannel && c.parent_id === null)
 
   const getChildrenForCategory = (categoryId: string) => props.channels().filter(c => c.parent_id === categoryId)
 
@@ -103,7 +140,6 @@ const Channels = (props: { channels: () => Channel[] }) => {
           <ChannelItem channel={channel} isActive={channel.id === currentChannel()?.id} onChannelClick={onChannelClick} />
         )}
       </For>
-
       <For each={categories()}>
         {category => (
           <CategoryItem

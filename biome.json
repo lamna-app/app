@@ -28,7 +28,8 @@
         "useKeyWithMouseEvents": "off",
         "useAltText": "off",
         "noSvgWithoutTitle": "off",
-        "useButtonType": "off"
+        "useButtonType": "off",
+        "noStaticElementInteractions": "off"
       }
     }
   },

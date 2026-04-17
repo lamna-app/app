@@ -10,16 +10,12 @@ import GuildIcon from "../utils/GuildIcon"
 import Modal from "../utils/Modal"
 
 import type { Guild } from "@/types/models"
+import type { ModalConsumerProps } from "@/types/utils"
 import type { ModalProps } from "../utils/Modal"
-
-interface AddGuildModalProps {
-  open: boolean
-  onClose: () => void
-}
 
 type Page = "invite" | "create" | "success"
 
-export default function AddGuildModal(props: AddGuildModalProps) {
+export default function AddGuildModal(props: ModalConsumerProps) {
   let codeInputRef: HTMLInputElement | undefined
 
   const client = useClient()

@@ -1,3 +1,5 @@
+import { ChannelType } from "@/types/utils"
+
 import type { ClientResponse, InviteInfo, LoginResponse, MeResponse } from "@/types/client"
 import type { Channel, Guild, Message } from "@/types/models"
 
@@ -102,6 +104,10 @@ export class Client {
 
   async channels(guildID: string): Promise<ClientResponse<Channel[]>> {
     return await this.request<Channel[]>(`/guilds/${guildID}/channels`, "GET")
+  }
+
+  async createChannel(guildID: string, name: string, type: ChannelType = ChannelType.TextChannel) {
+    return await this.request<Channel>(`/guilds/${guildID}/channels`, "POST", { name, channel_type: type })
   }
 
   async messages(channelID: string, limit: number = 50, before?: string): Promise<ClientResponse<Message[]>> {
