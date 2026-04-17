@@ -1,3 +1,4 @@
+import { createTimeline } from "animejs"
 import { createEffect, createSignal, onMount, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 
@@ -26,6 +27,7 @@ interface ModalProps {
 
 export default function Modal(props: ModalProps) {
   let dialogRef: HTMLDialogElement | undefined
+  let backdropRef: HTMLDivElement | undefined
 
   const [loadingIndex, setLoadingIndex] = createSignal<number | null>(null)
   const [error, setError] = createSignal<string | null>(null)
@@ -44,6 +46,10 @@ export default function Modal(props: ModalProps) {
     if (props.open) {
       setLoadingIndex(null)
       setError(null)
+      if (!dialogRef || !backdropRef) return
+      createTimeline({ defaults: { duration: 150, playbackEase: "outQuad" } })
+        .add([backdropRef, dialogRef], { opacity: { from: 0, to: 1 } }, 0)
+        .add(dialogRef, { scale: { from: 0.95, to: 1 } }, 0)
     }
   })
 
@@ -84,15 +90,23 @@ export default function Modal(props: ModalProps) {
         e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom
 
       if (clickedOutside) {
-        props.onClose()
+        closeWithAnimation()
       }
     }
+  }
+  const closeWithAnimation = () => {
+    if (!dialogRef || !backdropRef) return
+    createTimeline({ defaults: { duration: 150, ease: "inQuad" } })
+      .add([backdropRef, dialogRef], { opacity: [1, 0] }, 0)
+      .add(dialogRef, { scale: [1, 0.95] }, 0)
+      .then(() => props.onClose())
   }
 
   return (
     <>
       <Show when={props.open}>
         <Portal>
+          <div ref={backdropRef} class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
           <dialog
             ref={el => {
               dialogRef = el
@@ -101,13 +115,13 @@ export default function Modal(props: ModalProps) {
               })
             }}
             onClick={onBackdropClick}
-            class="rounded-lg max-w-120 w-full bg-dark text-white p-6 absolute top-1/2 left-1/2 -translate-1/2"
+            class="rounded-lg max-w-120 w-full bg-dark text-white p-6 m-auto"
           >
             <Show when={props.title}>
               <header class="flex justify-between items-center mb-2">
                 <h1 class="text-2xl font-semibold">{props.title}</h1>
                 <button
-                  onClick={() => !isLoading() && props.onClose()}
+                  onClick={() => !isLoading() && closeWithAnimation()}
                   disabled={isLoading()}
                   aria-label="Close"
                   class="cursor-pointer hover:bg-light-hl p-1 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -155,8 +169,7 @@ export default function Modal(props: ModalProps) {
 
       <style>
         {`dialog:open::backdrop {
-          background-color: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(3px);
+          opacity: 0;
         }`}
       </style>
     </>

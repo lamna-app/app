@@ -1,3 +1,6 @@
+import { animate } from "animejs"
+import { onMount } from "solid-js"
+
 import type { Message as MessageT } from "@/types/models"
 
 const MESSAGE_GROUP_TIME_LIMIT = 2 * 60000
@@ -47,8 +50,21 @@ export function Message(props: { message: MessageT; compact: boolean }) {
     hour12: false
   })
 
+  let ref: HTMLDivElement | undefined
+  onMount(() => {
+    if (!ref) return
+
+    animate(ref, {
+      opacity: [0, 1],
+      translateY: [10, 0],
+      duration: 150,
+      ease: "outQuad"
+    })
+  })
+
   return (
     <div
+      ref={ref}
       class="group flex items-start px-6 hover:bg-white/5"
       style={{ "margin-top": props.compact ? "0.125rem" : "0.9rem" }}
     >
