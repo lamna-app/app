@@ -56,8 +56,8 @@ export function Message(props: { message: MessageT; compact: boolean }) {
 
     animate(ref, {
       opacity: [0, 1],
-      translateY: [10, 0],
-      duration: 150,
+      translateY: [5, 0],
+      duration: 75,
       ease: "outQuad"
     })
   })
