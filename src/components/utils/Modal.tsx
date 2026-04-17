@@ -46,10 +46,6 @@ export default function Modal(props: ModalProps) {
     if (props.open) {
       setLoadingIndex(null)
       setError(null)
-      if (!dialogRef || !backdropRef) return
-      createTimeline({ defaults: { duration: 150, playbackEase: "outQuad" } })
-        .add([backdropRef, dialogRef], { opacity: { from: 0, to: 1 } }, 0)
-        .add(dialogRef, { scale: { from: 0.95, to: 1 } }, 0)
     }
   })
 
@@ -106,15 +102,20 @@ export default function Modal(props: ModalProps) {
     <>
       <Show when={props.open}>
         <Portal>
-          <div ref={backdropRef} class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+          <div ref={backdropRef} style={{ opacity: 0 }} class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
           <dialog
             ref={el => {
               dialogRef = el
               queueMicrotask(() => {
                 if (!el.open) el.showModal()
+                if (!dialogRef) return
+                createTimeline({ defaults: { duration: 150, playbackEase: "outQuad" } })
+                  .add([backdropRef, el], { opacity: { from: 0, to: 1 } }, 0)
+                  .add(el, { scale: { from: 0.95, to: 1 } }, 0)
               })
             }}
             onClick={onBackdropClick}
+            style={{ opacity: 0, scale: 0.95 }}
             class="rounded-lg max-w-120 w-full bg-dark text-white p-6 m-auto"
           >
             <Show when={props.title}>
