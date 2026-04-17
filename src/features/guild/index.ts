@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
 
-import { ChannelType } from "@/types/models"
+import { ChannelType } from "@/types/utils"
 import { channels, setCurrentChannel } from "../channel"
 
 import type { Guild } from "@/types/models"

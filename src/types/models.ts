@@ -1,3 +1,5 @@
+import type { ChannelType } from "./utils"
+
 export interface Guild {
   id: string
   name: string
@@ -5,12 +7,6 @@ export interface Guild {
   owner_id: string
   channels: Channel[]
   created_at: string
-}
-
-export enum ChannelType {
-  CategoryChannel = 1,
-  TextChannel = 2,
-  VoiceChannel = 3
 }
 
 export interface Channel {
