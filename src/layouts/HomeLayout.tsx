@@ -33,8 +33,8 @@ export default function HomeLayout<T extends { children?: JSXElement }>(props: T
     }
 
     if (!socket.isOpen()) {
-      registerEvents(socket)
       socket.connect(localStorage.getItem("token") as string)
+      registerEvents(socket)
     }
   })
 
