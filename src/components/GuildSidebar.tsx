@@ -7,8 +7,10 @@ import { ChannelType } from "@/types/utils"
 import ChevronDown from "~icons/lucide/ChevronDown"
 import Hash from "~icons/lucide/Hash"
 import Plus from "~icons/lucide/Plus"
+import UserPlus from "~icons/lucide/UserPlus"
 import Menu from "./common/Menu"
 import CreateChannelModal from "./modals/CreateChannelModal"
+import CreateInviteModal from "./modals/CreateInviteModal"
 
 import type { Channel, Guild } from "@/types/models"
 import type { MenuItemProps } from "./common/Menu"
@@ -25,6 +27,7 @@ function GuildBanner(props: { guild: Guild }) {
   }
 
   const menuItems = [
+    { label: "Create invite", icon: UserPlus, onClick: () => openModal("createInvite") },
     { label: "Create channel", icon: Hash, onClick: () => openModal("createChannel") }
   ] satisfies MenuItemProps[]
 
@@ -51,6 +54,8 @@ function GuildBanner(props: { guild: Guild }) {
       <div class="absolute top-full left-2 right-2 mt-2 z-50">
         <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} />
       </div>
+
+      <CreateInviteModal open={activeModal() === "createInvite"} onClose={() => setActiveModal(null)} guild={props.guild} />
 
       <CreateChannelModal
         open={activeModal() === "createChannel"}
