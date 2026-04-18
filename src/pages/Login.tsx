@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from "@solidjs/router"
 import { createSignal, onMount, Show } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
+import { useSocket } from "@/hooks/useSocket"
 
 import { APIError } from "@/libs/client"
 
@@ -61,6 +62,7 @@ function Login(props: Props) {
 
 export default function Entry() {
   const client = useClient()
+  const socket = useSocket()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -75,6 +77,7 @@ export default function Entry() {
   }
 
   onMount(async () => {
+    if (socket.isOpen()) socket.disconnect()
     try {
       await client.me()
       navigate(getRedirectPath(), { replace: true })

@@ -1,6 +1,7 @@
 import { ChannelType } from "@/types/utils"
+import logout from "@/utils/logout"
 
-import type { ClientResponse, InviteInfo, LoginResponse, MeResponse } from "@/types/client"
+import type { ClientResponse, Invite, LoginResponse, MeResponse } from "@/types/client"
 import type { Channel, Guild, Message } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
@@ -37,7 +38,7 @@ export class Client {
 
     if (!resp.ok) {
       if (resp.status === 401) {
-        localStorage.removeItem("token")
+        logout()
       }
 
       const err = await resp.text()
@@ -66,7 +67,7 @@ export class Client {
     return resp
   }
 
-  async login(email: string, password: string): Promise<ClientResponse<LoginResponse>> {
+  async login(email: string, password: string) {
     const resp = await this.request<LoginResponse>("/auth/login", "POST", {
       email,
       password
@@ -82,11 +83,11 @@ export class Client {
     localStorage.removeItem("token")
   }
 
-  async me(): Promise<ClientResponse<MeResponse>> {
+  async me() {
     return await this.request<MeResponse>("/@me", "GET")
   }
 
-  async getInvite(code: string): Promise<ClientResponse<InviteInfo>> {
+  async getInvite(code: string) {
     return await this.request(`/invite/${code}`, "GET")
   }
 
@@ -94,15 +95,19 @@ export class Client {
     return await this.request(`/invite/${code}`, "POST")
   }
 
-  async guilds(): Promise<ClientResponse<Guild[]>> {
+  async createInvite(guildID: string, maxAge: number, maxUses: number) {
+    return await this.request<Invite>(`/guilds/${guildID}/invites`, "POST", { max_age: maxAge, max_uses: maxUses })
+  }
+
+  async guilds() {
     return await this.request<Guild[]>("/@me/guilds", "GET")
   }
 
-  async createGuild(name: string): Promise<ClientResponse<Guild>> {
+  async createGuild(name: string) {
     return await this.request<Guild>("/guilds", "POST", { name })
   }
 
-  async channels(guildID: string): Promise<ClientResponse<Channel[]>> {
+  async channels(guildID: string) {
     return await this.request<Channel[]>(`/guilds/${guildID}/channels`, "GET")
   }
 
@@ -110,7 +115,7 @@ export class Client {
     return await this.request<Channel>(`/guilds/${guildID}/channels`, "POST", { name, channel_type: type })
   }
 
-  async messages(channelID: string, limit: number = 50, before?: string): Promise<ClientResponse<Message[]>> {
+  async messages(channelID: string, limit: number = 50, before?: string) {
     const params = new URLSearchParams({ limit: limit.toString() })
     if (before) params.append("before", before)
 

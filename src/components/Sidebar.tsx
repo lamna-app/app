@@ -1,16 +1,15 @@
 import { useNavigate } from "@solidjs/router"
 import { Show } from "solid-js"
 
-import { useClient } from "@/hooks/useClient"
-
 import { useUser } from "@/features/user"
+import logout from "@/utils/logout"
 import Settings from "~icons/lucide/Settings"
 
 import type { Navigator } from "@solidjs/router"
 import type { JSXElement } from "solid-js"
 import type { MeResponse } from "@/types/client"
 
-const UserBar = ({ user, navigate, logout }: { user: MeResponse; navigate: Navigator; logout: () => void }) => {
+const UserBar = ({ user, navigate }: { user: MeResponse; navigate: Navigator }) => {
   const onClick = () => {
     logout()
     navigate("/login")
@@ -40,17 +39,13 @@ const UserBar = ({ user, navigate, logout }: { user: MeResponse; navigate: Navig
 
 export default function Sidebar({ children, withUser }: { children?: JSXElement; withUser?: boolean }) {
   const navigate = useNavigate()
-  const client = useClient()
-
   const user = useUser()
 
   return (
     <div class="flex flex-col shrink-0 h-full w-72 bg-dark">
       <div class="flex flex-col flex-1 overflow-hidden">{children}</div>
 
-      <Show when={withUser && user()}>
-        {user => <UserBar user={user()} navigate={navigate} logout={() => client.logout()} />}
-      </Show>
+      <Show when={withUser && user()}>{user => <UserBar user={user()} navigate={navigate} />}</Show>
     </div>
   )
 }

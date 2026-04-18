@@ -11,6 +11,7 @@ export class Socket {
   private _heartbeat = 30 // seconds
 
   connect(token: string) {
+    this._handlers = new Map() // Clear stale state
     this.ws = new WebSocket(`${Socket.BASE}/v${Socket.VERSION}/ws?token=${token}`)
 
     this.ws.onopen = () => {
