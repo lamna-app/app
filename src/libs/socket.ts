@@ -10,12 +10,24 @@ export class Socket {
   private _heartbeatInterval: Option<number> = null
   private _heartbeat = 30 // seconds
 
+  private _token?: string
+
+  private _reconnectTimeout: Option<number> = null
+  private _shouldReconnect = false
+  private _reconnectDelay = 3
+
   connect(token: string) {
-    this._handlers = new Map() // Clear stale state
-    this.ws = new WebSocket(`${Socket.BASE}/v${Socket.VERSION}/ws?token=${token}`)
+    this._token = token
+    this._shouldReconnect = true
+    this._handlers = new Map()
+    this._open()
+  }
+
+  private _open() {
+    this.ws = new WebSocket(`${Socket.BASE}/v${Socket.VERSION}/ws?token=${this._token}`)
 
     this.ws.onopen = () => {
-      console.log("Websocket connected")
+      console.log("[websocket] connected")
 
       this._heartbeatInterval = setInterval(() => {
         if (this.isOpen()) {
@@ -25,14 +37,19 @@ export class Socket {
     }
 
     this.ws.onclose = () => {
-      console.log("Websocket disconnected")
+      console.log("[websocket] disconnected")
+      if (this._heartbeatInterval) clearInterval(this._heartbeatInterval)
 
-      if (this._heartbeatInterval) {
-        clearInterval(this._heartbeatInterval)
+      if (this._shouldReconnect) {
+        console.log(`[websocket] reconnecting in ${this._reconnectDelay}s...`)
+
+        this._reconnectTimeout = setTimeout(() => {
+          this._open()
+        }, this._reconnectDelay * 1000)
       }
     }
 
-    this.ws.onerror = err => console.error("Websocket error:", err)
+    this.ws.onerror = err => console.error("[websocket] error:", err)
 
     this.ws.onmessage = event => {
       const { e: type, d: data } = JSON.parse(event.data)
@@ -46,6 +63,10 @@ export class Socket {
   }
 
   disconnect() {
+    this._shouldReconnect = false
+    if (this._reconnectTimeout) clearTimeout(this._reconnectTimeout)
+
+    this._token = undefined
     this.ws?.close()
   }
 

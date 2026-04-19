@@ -1,24 +1,37 @@
+import { splitProps } from "solid-js"
+
 import type { JSX } from "solid-js"
+
+export function Label(props: { for?: string } & JSX.InputHTMLAttributes<HTMLLabelElement>) {
+  const [local, rest] = splitProps(props, ["for", "class", "children"])
+
+  return (
+    <label for={local.for} class={`text-sm font-medium select-none ${local.class}`} {...rest}>
+      {local.children}
+    </label>
+  )
+}
 
 type Props = { label: string } & JSX.InputHTMLAttributes<HTMLInputElement>
 
-export default function InputField({ label, name, value, children, ...props }: Props) {
+export default function Input(props: Props) {
+  const [local, rest] = splitProps(props, ["label", "name", "children"])
+
   return (
     <div class="flex flex-col gap-1">
-      <label for={name} class="text-sm font-medium select-none">
-        {label}
-      </label>
+      <Label for={local.name} class="text-sm font-medium select-none">
+        {local.label}
+      </Label>
 
       <div class="relative">
         <input
-          id={name}
-          name={name}
-          value={value ?? ""}
+          id={local.name}
+          name={local.name}
           autocomplete="off"
-          {...props}
-          class="bg-dark-hl rounded-lg w-full p-2 outline-none transition-all focus:ring-2 focus:ring-light disabled:opacity-50 disabled:pointer-events-auto disabled:bg-red-300"
+          {...rest}
+          class="bg-dark-hl rounded-lg w-full p-2 outline-none transition-all focus:ring-2 focus:ring-light disabled:opacity-50 disabled:pointer-events-auto"
         />
-        {children}
+        {local.children}
       </div>
     </div>
   )

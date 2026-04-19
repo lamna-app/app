@@ -1,6 +1,8 @@
 import { useNavigate } from "@solidjs/router"
 import { createSignal, For, Show } from "solid-js"
 
+import { createModalRouter, ModalRouterProvider, useModalRouter } from "@/hooks/useModalRouter"
+
 import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
 import { currentGuild } from "@/features/guild"
 import { ChannelType } from "@/types/utils"
@@ -15,15 +17,15 @@ import CreateInviteModal from "./modals/CreateInviteModal"
 import type { Channel, Guild } from "@/types/models"
 import type { MenuItemProps } from "./common/Menu"
 
-type ActiveModal = "createChannel" | "createInvite" | "leave" | null
+type GuildModal = "createChannel" | "createInvite" | "leave"
 
 function GuildBanner(props: { guild: Guild }) {
   const [menuOpen, setMenuOpen] = createSignal<boolean>(false)
-  const [activeModal, setActiveModal] = createSignal<ActiveModal>(null)
+  const modals = useModalRouter<GuildModal>()
 
-  const openModal = (modal: ActiveModal) => {
-    setActiveModal(modal)
+  const openModal = (modal: GuildModal) => {
     setMenuOpen(false)
+    modals.open(modal)
   }
 
   const menuItems = [
@@ -55,13 +57,9 @@ function GuildBanner(props: { guild: Guild }) {
         <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} />
       </div>
 
-      <CreateInviteModal open={activeModal() === "createInvite"} onClose={() => setActiveModal(null)} guild={props.guild} />
+      <CreateInviteModal open={modals.isOpen("createInvite")} onClose={modals.close} guild={props.guild} />
 
-      <CreateChannelModal
-        open={activeModal() === "createChannel"}
-        onClose={() => setActiveModal(null)}
-        guild={props.guild}
-      />
+      <CreateChannelModal open={modals.isOpen("createChannel")} onClose={modals.close} guild={props.guild} />
     </div>
   )
 }
@@ -123,6 +121,7 @@ function CategoryItem(props: {
 
 const Channels = (props: { channels: () => Channel[] }) => {
   const navigate = useNavigate()
+  const modals = useModalRouter<GuildModal>()
 
   const categories = () => props.channels().filter(c => c.channel_type === ChannelType.CategoryChannel)
   const uncategorizedChannels = () =>
@@ -135,8 +134,9 @@ const Channels = (props: { channels: () => Channel[] }) => {
     navigate(`/channels/${currentGuild()?.id}/${channel.id}`)
   }
 
-  // TODO: present a modal or something with whatever they want for the channel
-  const onNewChannel = (_parentId?: string) => {}
+  const onNewChannel = (_parentId?: string) => {
+    modals.open("createChannel")
+  }
 
   return (
     <div class="flex w-full flex-col items-center gap-2">
@@ -145,6 +145,7 @@ const Channels = (props: { channels: () => Channel[] }) => {
           <ChannelItem channel={channel} isActive={channel.id === currentChannel()?.id} onChannelClick={onChannelClick} />
         )}
       </For>
+
       <For each={categories()}>
         {category => (
           <CategoryItem
@@ -161,17 +162,20 @@ const Channels = (props: { channels: () => Channel[] }) => {
 }
 
 export default function GuildSidebar() {
+  const modals = createModalRouter<GuildModal>()
   return (
-    <Show when={currentGuild()}>
-      {guild => (
-        <div class="flex flex-col h-full w-full select-none gap-2">
-          <GuildBanner guild={guild()} />
+    <ModalRouterProvider router={modals}>
+      <Show when={currentGuild()}>
+        {guild => (
+          <div class="flex flex-col h-full w-full select-none gap-2">
+            <GuildBanner guild={guild()} />
 
-          <div class="flex-1 overflow-y-auto">
-            <Channels channels={() => channels[guild().id] ?? []} />
+            <div class="flex-1 overflow-y-auto">
+              <Channels channels={() => channels[guild().id] ?? []} />
+            </div>
           </div>
-        </div>
-      )}
-    </Show>
+        )}
+      </Show>
+    </ModalRouterProvider>
   )
 }

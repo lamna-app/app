@@ -20,6 +20,7 @@ export interface ModalProps {
   onClose: () => void
   title?: string
   subtitle?: string
+  message?: string
   children: JSXElement
   actions?: ModalAction[]
   closeOnBackdrop?: boolean
@@ -30,8 +31,8 @@ export default function Modal(props: ModalProps) {
   let dialogRef: HTMLDialogElement | undefined
   let backdropRef: HTMLDivElement | undefined
 
-  const [loadingIndex, setLoadingIndex] = createSignal<number | null>(null)
-  const [error, setError] = createSignal<string | null>(null)
+  const [loadingIndex, setLoadingIndex] = createSignal<Option<number>>(null)
+  const [error, setError] = createSignal<Option<string>>(null)
 
   const isLoading = () => loadingIndex() !== null
 
@@ -152,13 +153,19 @@ export default function Modal(props: ModalProps) {
               </header>
             </Show>
 
-            <div>{props.children}</div>
-
             <Show when={error()}>
               <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/40 text-red-300 text-sm px-3 py-2">
                 {error()}
               </div>
             </Show>
+
+            <Show when={props.message}>
+              <div class="mt-4 rounded-lg bg-green-500/10 border border-green-500/40 text-green-300 text-sm px-3 py-2">
+                {props.message}
+              </div>
+            </Show>
+
+            <div classList={{ "mt-2": Boolean(props.message) || Boolean(error()) }}>{props.children}</div>
 
             <Show when={props.actions?.length}>
               <div class="flex justify-end gap-2 mt-5">

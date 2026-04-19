@@ -111,8 +111,12 @@ export class Client {
     return await this.request<Channel[]>(`/guilds/${guildID}/channels`, "GET")
   }
 
-  async createChannel(guildID: string, name: string, type: ChannelType = ChannelType.TextChannel) {
-    return await this.request<Channel>(`/guilds/${guildID}/channels`, "POST", { name, channel_type: type })
+  async createChannel(guildID: string, name: string, type: ChannelType = ChannelType.TextChannel, parentChannelId?: string) {
+    return await this.request<Channel>(`/guilds/${guildID}/channels`, "POST", {
+      name,
+      channel_type: type,
+      parent: parentChannelId
+    })
   }
 
   async messages(channelID: string, limit: number = 50, before?: string) {

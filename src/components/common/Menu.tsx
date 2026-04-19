@@ -49,7 +49,7 @@ export default function Menu(props: MenuProps) {
   })
   return (
     <Show when={props.open}>
-      <div ref={menuRef} class="bg-dark border border-white/5 rounded-lg p-1 shadow-xl shadow-black/40">
+      <div ref={menuRef} class="bg-dark border border-white/5 rounded-lg p-1 shadow-lg shadow-black/40">
         <For each={props.items}>{item => <MenuItem {...item} />}</For>
       </div>
     </Show>
