@@ -37,7 +37,7 @@ const GuildCircle = (props: { children: JSXElement; onClick?: (event: MouseEvent
   return (
     <button
       onClick={props.onClick}
-      class="bg-light flex size-13.5 shrink-0 cursor-pointer items-center justify-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl"
+      class="bg-light size-13.5 shrink-0 cursor-pointer place-items-center rounded-3xl transition-[border-radius] duration-100 *:rounded-3xl hover:rounded-2xl"
     >
       {props.children}
     </button>
@@ -74,9 +74,11 @@ export default function ServerPicker() {
           <Logo class="size-9" />
         </GuildCircle>
 
-        <div class="mx-1 w-0.5 h-8 rounded-full bg-light" />
+        <div class="px-px h-10 rounded-full bg-light" />
 
-        <For each={Object.values(guilds)}>
+        <For
+          each={Object.values(guilds).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())}
+        >
           {guild => (
             <GuildCircle onClick={() => onClick(guild)}>
               {guild.icon_url ? (
