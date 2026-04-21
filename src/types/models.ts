@@ -53,7 +53,7 @@ export interface ReadyPayload {
 
 export interface PresenceUpdatePayload {
   user_id: string
-  status: UserPresence
+  presence: UserPresence
 }
 
 export interface MemberJoinPayload {

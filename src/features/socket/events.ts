@@ -75,7 +75,7 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("presence.update", (data: PresenceUpdatePayload) => {
     if (users[data.user_id]) {
-      setUsers(data.user_id, "presence", data.status)
+      setUsers(data.user_id, "presence", data.presence)
     }
   })
 }
