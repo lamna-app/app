@@ -61,16 +61,19 @@ export default function CreateChannelModal(props: CreateChannelModalProps) {
     if (!channelName || !channelType) return
 
     await client.createChannel(props.guild.id, channelName, Number(channelType), props.parentChannel)
+    props.onClose()
   }
 
   return (
-    <Modal
-      title="Create Channel"
-      open={props.open}
-      onClose={props.onClose}
-      actions={[{ label: "Create", variant: "primary", onClick }]}
-    >
-      <form class="space-y-4" id="create-channel-form">
+    <Modal title="Create Channel" open={props.open} actions={[{ label: "Create", variant: "primary", onClick }]}>
+      <form
+        class="space-y-4"
+        id="create-channel-form"
+        onSubmit={e => {
+          e.preventDefault()
+          onClick()
+        }}
+      >
         <div>
           <Label>Channel Type</Label>
 

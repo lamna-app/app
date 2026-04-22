@@ -17,7 +17,7 @@ interface ModalAction {
 
 export interface ModalProps {
   open: boolean
-  onClose: () => void
+  onClose?: () => void
   title?: string
   subtitle?: string
   message?: string
