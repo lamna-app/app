@@ -3,13 +3,14 @@ import { createContext, createSignal, useContext } from "solid-js"
 import type { JSXElement } from "solid-js"
 
 export function createModalRouter<T extends string>() {
-  const [active, setActive] = createSignal<Option<T>>()
+  const [state, setState] = createSignal<Option<{ name: T; args?: unknown }>>(null)
 
   return {
-    open: (modal: T) => setActive(() => modal),
-    close: () => setActive(null),
-    isOpen: (modal: T) => active() === modal,
-    active
+    open: <Args,>(modal: T, args?: Args) => setState({ name: modal, args }),
+    close: () => setState(null),
+    isOpen: (modal: T) => state()?.name === modal,
+    active: () => state()?.name,
+    getArgs: <Args,>(modal: T): Args | undefined => (state()?.name === modal ? (state()?.args as Args) : undefined)
   }
 }
 

@@ -57,9 +57,19 @@ function GuildBanner(props: { guild: Guild }) {
         <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} />
       </div>
 
-      <CreateInviteModal open={modals.isOpen("createInvite")} onClose={modals.close} guild={props.guild} />
+      <CreateInviteModal
+        open={modals.isOpen("createInvite")}
+        onClose={modals.close}
+        guild={props.guild}
+        {...modals.getArgs("createInvite")}
+      />
 
-      <CreateChannelModal open={modals.isOpen("createChannel")} onClose={modals.close} guild={props.guild} />
+      <CreateChannelModal
+        open={modals.isOpen("createChannel")}
+        onClose={modals.close}
+        guild={props.guild}
+        {...modals.getArgs<{ parentChannel: string }>("createChannel")}
+      />
     </div>
   )
 }
@@ -134,8 +144,8 @@ const Channels = (props: { channels: () => Channel[] }) => {
     navigate(`/channels/${currentGuild()?.id}/${channel.id}`)
   }
 
-  const onNewChannel = (_parentId?: string) => {
-    modals.open("createChannel")
+  const onNewChannel = (parentChannel?: string) => {
+    modals.open("createChannel", { parentChannel })
   }
 
   return (
@@ -163,6 +173,7 @@ const Channels = (props: { channels: () => Channel[] }) => {
 
 export default function GuildSidebar() {
   const modals = createModalRouter<GuildModal>()
+
   return (
     <ModalRouterProvider router={modals}>
       <Show when={currentGuild()}>
