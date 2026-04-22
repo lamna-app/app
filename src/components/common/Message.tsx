@@ -1,4 +1,5 @@
 import { animate } from "animejs"
+import { format, isToday, isYesterday } from "date-fns"
 import { onMount } from "solid-js"
 
 import type { Message as MessageT } from "@/types/models"
@@ -14,6 +15,22 @@ export const shouldMessageGroup = (current: MessageT, previous?: MessageT) => {
   const isWithinTimeLimit = timeDiff < MESSAGE_GROUP_TIME_LIMIT
 
   return isSameUser && isWithinTimeLimit
+}
+
+const formatTime = (date: Date, compact: boolean) => {
+  const timeString = format(date, "HH:mm")
+
+  if (compact) {
+    return timeString
+  }
+
+  if (isToday(date)) {
+    return `Today at ${timeString}`
+  } else if (isYesterday(date)) {
+    return `Yesterday at ${timeString}`
+  }
+
+  return `${format(date, "dd/MM/yyyy")} ${timeString}`
 }
 
 export function MessageSkeleton(props: { compact: boolean }) {
@@ -42,13 +59,7 @@ export function MessageSkeleton(props: { compact: boolean }) {
 }
 
 export function Message(props: { message: MessageT; compact: boolean }) {
-  // TODO: fix the time and make it display the relative time when the date is beyond today,
-  // and if its beyond that then just display the date
-  const time = props.message.created_at.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false
-  })
+  const time = () => formatTime(props.message.created_at, props.compact)
 
   let ref: HTMLDivElement | undefined
   onMount(() => {
@@ -73,7 +84,7 @@ export function Message(props: { message: MessageT; compact: boolean }) {
         style={{ height: props.compact ? "24px" : undefined }}
       >
         {props.compact ? (
-          <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time}</span>
+          <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time()}</span>
         ) : (
           <div class="w-10 h-10 rounded-full bg-gray-500/30 shrink-0 my-0.5" />
         )}
@@ -83,7 +94,7 @@ export function Message(props: { message: MessageT; compact: boolean }) {
         {!props.compact && (
           <div class="flex items-baseline gap-2 select-none">
             <span class="font-semibold text-white leading-tight">{props.message.author.username}</span>
-            <span class="text-[10px] text-gray-500 tabular-nums">{time}</span>
+            <span class="text-[10px] text-gray-500 tabular-nums">{time()}</span>
           </div>
         )}
 
