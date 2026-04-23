@@ -49,6 +49,13 @@ export class Client {
       this.token = resp.headers.get("Authorization")?.split(" ")[1] as string
     }
 
+    if (resp.status === 204) {
+      return {
+        data: null as unknown as T,
+        status: resp.status
+      }
+    }
+
     return {
       data: await resp.json(),
       status: resp.status
@@ -105,6 +112,10 @@ export class Client {
 
   async createGuild(name: string) {
     return await this.request<Guild>("/guilds", "POST", { name })
+  }
+
+  async leaveGuild(guildID: string) {
+    return await this.request(`/@me/guilds/${guildID}`, "DELETE")
   }
 
   async channels(guildID: string) {

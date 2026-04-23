@@ -7,17 +7,19 @@ import { channels, currentChannel, setCurrentChannel } from "@/features/channel"
 import { currentGuild } from "@/features/guild"
 import { ChannelType } from "@/types/utils"
 import ChevronDown from "~icons/lucide/ChevronDown"
+import DoorOpen from "~icons/lucide/DoorOpen"
 import Hash from "~icons/lucide/Hash"
 import Plus from "~icons/lucide/Plus"
 import UserPlus from "~icons/lucide/UserPlus"
 import Menu from "./common/Menu"
 import CreateChannelModal from "./modals/CreateChannelModal"
 import CreateInviteModal from "./modals/CreateInviteModal"
+import LeaveGuildModal from "./modals/LeaveGuildModal"
 
 import type { Channel, Guild } from "@/types/models"
 import type { MenuItemProps } from "./common/Menu"
 
-type GuildModal = "createChannel" | "createInvite" | "leave"
+type GuildModal = "createChannel" | "createInvite" | "leaveGuild"
 
 function GuildBanner(props: { guild: Guild }) {
   const [menuOpen, setMenuOpen] = createSignal<boolean>(false)
@@ -30,7 +32,8 @@ function GuildBanner(props: { guild: Guild }) {
 
   const menuItems = [
     { label: "Create invite", icon: UserPlus, onClick: () => openModal("createInvite") },
-    { label: "Create channel", icon: Hash, onClick: () => openModal("createChannel") }
+    { label: "Create channel", icon: Hash, onClick: () => openModal("createChannel") },
+    { label: "Leave", icon: DoorOpen, onClick: () => openModal("leaveGuild"), variant: "danger" }
   ] satisfies MenuItemProps[]
 
   return (
@@ -69,6 +72,13 @@ function GuildBanner(props: { guild: Guild }) {
         onClose={modals.close}
         guild={props.guild}
         {...modals.getArgs<{ parentChannel: string }>("createChannel")}
+      />
+
+      <LeaveGuildModal
+        open={modals.isOpen("leaveGuild")}
+        onClose={modals.close}
+        guild={props.guild}
+        {...modals.getArgs("leaveGuild")}
       />
     </div>
   )

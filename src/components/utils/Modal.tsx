@@ -21,7 +21,7 @@ export interface ModalProps {
   title?: string
   subtitle?: string
   message?: string
-  children: JSXElement
+  children?: JSXElement
   actions?: ModalAction[]
   closeOnBackdrop?: boolean
   closeOnEscape?: boolean
