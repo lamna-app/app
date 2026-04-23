@@ -40,6 +40,7 @@ export default function CreateChannelModal(props: CreateChannelModalProps) {
       title="Create Channel"
       subtitle={subtitle()}
       open={props.open}
+      onClose={props.onClose}
       actions={[{ label: "Create", variant: "primary", onClick }]}
     >
       <form

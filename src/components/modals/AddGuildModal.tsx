@@ -111,6 +111,7 @@ export default function AddGuildModal(props: ModalConsumerProps) {
           <InputField ref={codeInputRef} label="Invite Code" placeholder="lamna.gg/abc123def" />
         </div>
       </Show>
+
       <Show when={page() === "create"}>
         <div class="grid place-items-center">
           <div class="bg-light-hl size-32 rounded-full grid place-items-center group cursor-pointer">

@@ -17,7 +17,7 @@ interface ModalAction {
 
 export interface ModalProps {
   open: boolean
-  onClose?: () => void
+  onClose: () => void
   title?: string
   subtitle?: string
   message?: string
@@ -54,7 +54,9 @@ export default function Modal(props: ModalProps) {
       if (isLoading()) return
       if (props.closeOnEscape ?? true) closeWithAnimation()
     }
+
     window.addEventListener("keydown", handleKeyDown, true)
+
     onCleanup(() => window.removeEventListener("keydown", handleKeyDown, true))
   })
 
