@@ -1,3 +1,5 @@
+import { produce } from "solid-js/store"
+
 import { setChannels } from "../channel"
 import { setGuilds } from "../guild"
 import { guildMembers, setGuildMember, setGuildMembers } from "../guild_members"
@@ -36,6 +38,22 @@ export const registerEvents = (socket: Socket) => {
   socket.on("guild.join", (data: Guild) => {
     setGuilds(data.id, data)
     setChannels(data.id, data.channels ?? [])
+  })
+
+  socket.on("guild.leave", (guildId: string) => {
+    setGuilds(
+      produce(state => {
+        delete state[guildId as keyof typeof state]
+      })
+    )
+
+    setChannels(
+      produce(state => {
+        delete state[guildId as keyof typeof state]
+      })
+    )
+
+    // TODO: push the user to another guild/home if they're currently in the deleted guild
   })
 
   socket.on("member.join", ({ member, user }: MemberJoinPayload) => {
