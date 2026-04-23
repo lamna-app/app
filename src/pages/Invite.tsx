@@ -6,6 +6,8 @@ import { useClient } from "@/hooks/useClient"
 import Button from "@/components/common/Button"
 import CircleX from "~icons/lucide/CircleX"
 
+import type { InviteInfo } from "@/types/client"
+
 export default function Invite() {
   const params = useParams<{ inviteID: string }>()
   const client = useClient()
@@ -23,7 +25,7 @@ export default function Invite() {
     }
   })
 
-  const [invite] = createResource(params.inviteID, async (code: string) => {
+  const [invite] = createResource(params.inviteID, async (code: string): Promise<InviteInfo> => {
     const invite = await client.getInvite(code)
     return invite.data
   })
