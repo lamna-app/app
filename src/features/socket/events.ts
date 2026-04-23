@@ -9,7 +9,15 @@ import { setUsers, users } from "../users"
 
 import type { Socket } from "@/libs/socket"
 import type { MeResponse } from "@/types/client"
-import type { Channel, Guild, MemberJoinPayload, Message, PresenceUpdatePayload, ReadyPayload } from "@/types/models"
+import type {
+  Channel,
+  Guild,
+  MemberJoinPayload,
+  MemberLeavePayload,
+  Message,
+  PresenceUpdatePayload,
+  ReadyPayload
+} from "@/types/models"
 
 export const registerEvents = (socket: Socket) => {
   socket.on("authenticated", (data: MeResponse) => {
@@ -40,6 +48,11 @@ export const registerEvents = (socket: Socket) => {
     setChannels(data.id, data.channels ?? [])
   })
 
+  socket.on("guild.update", (data: Guild) => {
+    setGuilds(data.id, data)
+    setChannels(data.id, data.channels ?? [])
+  })
+
   socket.on("guild.leave", (guildId: string) => {
     setGuilds(
       produce(state => {
@@ -66,6 +79,17 @@ export const registerEvents = (socket: Socket) => {
     if (!guildMembers[member.guild_id][member.user_id]) {
       setGuildMember(member.guild_id, member.user_id, member)
     }
+  })
+
+  socket.on("member.leave", ({ guild_id, user_id }: MemberLeavePayload) => {
+    setGuildMembers(
+      guild_id,
+      produce(members => {
+        delete members[user_id]
+      })
+    )
+
+    // TODO: like guild.leave, if user_id is the current logged in user, push to somewhere else
   })
 
   socket.on("message.create", (data: Message) => {

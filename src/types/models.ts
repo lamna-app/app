@@ -60,3 +60,8 @@ export interface MemberJoinPayload {
   member: GuildMember
   user: User
 }
+
+export interface MemberLeavePayload {
+  guild_id: string
+  user_id: string
+}
