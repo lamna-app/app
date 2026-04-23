@@ -13,6 +13,7 @@
 
   --color-accent: rgb(97, 95, 255);
   --color-danger: rgb(251, 44, 54);
+  --color-success: rgb(123, 241, 168);
 }
 
 @utility no-scrollbar {

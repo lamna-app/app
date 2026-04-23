@@ -159,13 +159,13 @@ export default function Modal(props: ModalProps) {
             </Show>
 
             <Show when={error()}>
-              <div class="mt-4 rounded-lg bg-red-500/10 border border-red-500/40 text-red-300 text-sm px-3 py-2">
+              <div class="mt-4 rounded-lg bg-danger/10 border border-danger/40 text-danger text-sm px-3 py-2 ">
                 {error()}
               </div>
             </Show>
 
             <Show when={props.message}>
-              <div class="mt-4 rounded-lg bg-green-500/10 border border-green-500/40 text-green-300 text-sm px-3 py-2">
+              <div class="mt-4 rounded-lg bg-success/10 border border-success/40 text-success text-sm px-3 py-2">
                 {props.message}
               </div>
             </Show>
