@@ -3,6 +3,13 @@
   "biome.requireConfiguration": true,
   "biome.configurationPath": "biome.json",
 
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "classList=\\{\\{([\\s\\S]*?)\\}\\}",
+      "['\"`]([^'\"`]*)['\"`]\\s*:"
+    ]
+  ],
+
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
