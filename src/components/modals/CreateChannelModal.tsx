@@ -41,7 +41,10 @@ export default function CreateChannelModal(props: CreateChannelModalProps) {
       subtitle={subtitle()}
       open={props.open}
       onClose={props.onClose}
-      actions={[{ label: "Create", variant: "primary", onClick }]}
+      actions={[
+        { label: "Cancel", variant: "ghost", onClick: props.onClose },
+        { label: "Create", variant: "primary", onClick }
+      ]}
     >
       <form
         class="space-y-4 my-5"

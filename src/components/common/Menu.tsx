@@ -23,7 +23,7 @@ function MenuItem(props: MenuItemProps) {
       disabled={props.disabled}
       classList={{
         "hover:bg-light text-text": props.variant !== "danger" && !props.disabled,
-        "text-red-400 hover:bg-red-500/15 hover:text-red-300": props.variant === "danger" && !props.disabled,
+        "text-danger hover:bg-danger/15 hover:text-danger": props.variant === "danger" && !props.disabled,
         "text-text/40 cursor-not-allowed": props.disabled
       }}
       class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-sm font-medium text-left transition-colors duration-100 cursor-pointer"

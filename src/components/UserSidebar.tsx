@@ -20,7 +20,7 @@ function MemberItem(props: { member: ResolvedMember; user: User }) {
 
   return (
     <div class="flex items-center gap-3 p-2 hover:bg-light/20 cursor-pointer rounded-lg">
-      <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-500/30 text-white">
+      <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-light/70 text-white">
         <div
           style={{
             "background-color": STATUS_COLORS[props.user.presence]

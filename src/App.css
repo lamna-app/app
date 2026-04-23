@@ -10,6 +10,9 @@
   --color-dark: rgb(35, 36, 40);
   --color-dark-hl: rgb(24, 25, 28);
   --color-text: rgb(220, 221, 222);
+
+  --color-accent: rgb(97, 95, 255);
+  --color-danger: rgb(251, 44, 54);
 }
 
 @utility no-scrollbar {

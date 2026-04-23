@@ -48,10 +48,10 @@ export default function Invite() {
       <div class="bg-dark flex w-full max-w-sm flex-col items-center justify-center gap-6 rounded-xl p-8 shadow-lg text-center">
         <Show when={invite.loading}>
           <div class="animate-pulse flex flex-col items-center gap-6 w-full">
-            <div class="size-24 rounded-2xl bg-gray-700/50" />
-            <div class="h-4 w-32 rounded bg-gray-700/50" />
-            <div class="h-8 w-48 rounded bg-gray-700/50" />
-            <div class="mt-2 h-10 w-full rounded-lg bg-gray-700/50" />
+            <div class="size-24 rounded-2xl bg-light/70" />
+            <div class="h-4 w-32 rounded bg-light/70" />
+            <div class="h-8 w-48 rounded bg-light/70" />
+            <div class="mt-2 h-10 w-full rounded-lg bg-light/70" />
           </div>
         </Show>
 
@@ -76,7 +76,7 @@ export default function Invite() {
         <Show when={!error() && !invite.error && invite()}>
           {data => (
             <>
-              <div class="w-24 h-24 bg-gray-500/30 rounded-2xl" />
+              <div class="w-24 h-24 bg-light/70 rounded-2xl" />
 
               <div class="flex flex-col gap-1">
                 <p class="text-sm font-medium text-gray-400">You've been invited to join</p>

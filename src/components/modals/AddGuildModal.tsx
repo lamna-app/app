@@ -66,7 +66,7 @@ export default function AddGuildModal(props: ModalConsumerProps) {
           actions: [
             {
               label: "Create your own",
-              variant: "primary",
+              variant: "ghost",
               onClick: () => void setPage("create"),
               closeOnSuccess: false
             },

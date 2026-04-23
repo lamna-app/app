@@ -86,7 +86,7 @@ export function Message(props: { message: MessageT; compact: boolean }) {
         {props.compact ? (
           <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time()}</span>
         ) : (
-          <div class="w-10 h-10 rounded-full bg-gray-500/30 shrink-0 my-0.5" />
+          <div class="w-10 h-10 rounded-full bg-light/70 shrink-0 my-0.5" />
         )}
       </div>
 

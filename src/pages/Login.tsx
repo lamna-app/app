@@ -158,7 +158,7 @@ export default function Entry() {
 
         <div class="flex w-full flex-col gap-4">
           <Show when={error()}>
-            <div class="rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-center text-sm font-medium text-red-400">
+            <div class="rounded-lg border border-danger/50 bg-danger/10 p-3 text-center text-sm font-medium text-danger">
               {error()}
             </div>
           </Show>

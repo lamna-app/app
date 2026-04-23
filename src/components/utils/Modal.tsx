@@ -121,6 +121,7 @@ export default function Modal(props: ModalProps) {
       <Show when={props.open}>
         <Portal>
           <div ref={backdropRef} style={{ opacity: 0 }} class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+
           <dialog
             ref={el => {
               dialogRef = el
@@ -134,16 +135,18 @@ export default function Modal(props: ModalProps) {
             }}
             onClick={onBackdropClick}
             style={{ opacity: 0, scale: 0.95 }}
-            class="rounded-lg max-w-120 w-full bg-dark text-white p-6 m-auto"
+            class="rounded-lg max-w-110 w-full bg-dark text-white p-6 m-auto"
           >
             <Show when={props.title}>
               <header class="flex justify-between items-center mb-2">
                 <div class="grid gap-2">
                   <h1 class="text-2xl font-semibold">{props.title}</h1>
+
                   <Show when={props.subtitle}>
                     <p class="text-sm -mt-2 text-text/75">{props.subtitle}</p>
                   </Show>
                 </div>
+
                 <button
                   onClick={() => !isLoading() && closeWithAnimation()}
                   disabled={isLoading()}
@@ -173,16 +176,20 @@ export default function Modal(props: ModalProps) {
               <div class="flex justify-end gap-2 mt-5">
                 {props.actions?.map((action, i) => {
                   const thisLoading = () => loadingIndex() === i
+
                   return (
                     <button
                       onClick={() => handleAction(action, i)}
                       disabled={action.disabled || isLoading()}
                       classList={{
-                        "bg-indigo-400 hover:bg-indigo-500": action.variant === "primary",
-                        "bg-red-400 hover:bg-red-500": action.variant === "danger",
-                        "bg-light-hl hover:bg-dark": action.variant === "ghost"
+                        "border-accent bg-accent hover:bg-accent/70": action.variant === "primary",
+                        "border-danger bg-danger hover:bg-danger/70": action.variant === "danger",
+                        "border-light  bg-light  hover:bg-light/70": action.variant === "ghost"
                       }}
-                      class="py-2 px-3 rounded-xl font-semibold cursor-pointer disabled:cursor-not-allowed! disabled:opacity-60 transition-colors duration-200 select-none inline-flex items-center gap-2 justify-center"
+                      class="py-2 gap-2 w-full rounded-lg font-semibold border
+                             cursor-pointer disabled:cursor-not-allowed! disabled:opacity-60
+                             transition-colors duration-200 select-none
+                             inline-flex items-center justify-center"
                     >
                       <Show when={thisLoading()}>
                         <Loader class="animate-spin" width={16} height={16} />
