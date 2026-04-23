@@ -5,6 +5,7 @@ import { useClient } from "@/hooks/useClient"
 
 import { currentChannel } from "@/features/channel"
 import { selectGuild } from "@/features/guild"
+import { setGuildMember } from "@/features/guild_members"
 import InputField from "../common/Input"
 import GuildIcon from "../utils/GuildIcon"
 import Modal from "../utils/Modal"
@@ -52,6 +53,7 @@ export default function AddGuildModal(props: ModalConsumerProps) {
 
     const { data: guild } = await client.createGuild(guildName())
     setGuild(guild)
+    setGuildMember(guild.id, guild.owner_id, { guild_id: guild.id, user_id: guild.owner_id, joined_at: guild.created_at })
     setPage("success")
   }
 
