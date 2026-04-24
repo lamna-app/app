@@ -83,7 +83,7 @@ export default function Invite() {
                 <h1 class="text-2xl font-bold select-none text-white">{data().guild.name}</h1>
               </div>
 
-              <Button onClick={onAccept} isLoading={loading}>
+              <Button onClick={onAccept} isLoading={loading()}>
                 Accept Invite
               </Button>
             </>

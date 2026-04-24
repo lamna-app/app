@@ -2,15 +2,15 @@ import { createTimeline } from "animejs"
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 
-import Loader from "~icons/lucide/loader-circle"
 import X from "~icons/lucide/x"
+import Button from "../common/Button"
 
-import type { JSXElement } from "solid-js"
+import type { ComponentProps, JSXElement } from "solid-js"
 
 interface ModalAction {
   label: string
   onClick: () => void | Promise<void>
-  variant?: "primary" | "danger" | "ghost"
+  variant?: ComponentProps<typeof Button>["variant"]
   disabled?: boolean
   closeOnSuccess?: boolean
 }
@@ -185,25 +185,14 @@ export default function Modal(props: ModalProps) {
                   const thisLoading = () => loadingIndex() === i
 
                   return (
-                    <button
+                    <Button
                       onClick={() => handleAction(action, i)}
                       disabled={action.disabled || isLoading()}
-                      classList={{
-                        "border-accent bg-accent hover:bg-accent/70": action.variant === "primary",
-                        "border-danger bg-danger hover:bg-danger/70": action.variant === "danger",
-                        "border-light  bg-light  hover:bg-light/70": action.variant === "ghost"
-                      }}
-                      class="py-2 gap-2 w-full rounded-lg font-semibold border
-                             cursor-pointer disabled:cursor-not-allowed! disabled:opacity-60
-                             transition-colors duration-200 select-none
-                             inline-flex items-center justify-center"
+                      isLoading={thisLoading()}
+                      variant={action.variant}
                     >
-                      <Show when={thisLoading()}>
-                        <Loader class="animate-spin" width={16} height={16} />
-                      </Show>
-
                       {action.label}
-                    </button>
+                    </Button>
                   )
                 })}
               </div>

@@ -26,7 +26,7 @@ function Register(props: Props) {
       <InputField label="Email" name="email" type="email" disabled={props.isLoading()} />
       <InputField label="Password" name="password" type="password" minLength={5} disabled={props.isLoading()} />
 
-      <Button type="submit" isLoading={props.isLoading}>
+      <Button type="submit" isLoading={props.isLoading()}>
         Register
       </Button>
 
@@ -46,7 +46,7 @@ function Login(props: Props) {
       <InputField label="Email" name="email" type="email" disabled={props.isLoading()} />
       <InputField label="Password" name="password" type="password" minLength={5} disabled={props.isLoading()} />
 
-      <Button type="submit" isLoading={props.isLoading}>
+      <Button type="submit" isLoading={props.isLoading()}>
         Login
       </Button>
 
