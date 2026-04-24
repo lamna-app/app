@@ -13,7 +13,7 @@ export default function Button({ children, isLoading, ...props }: Props) {
         "opacity-50 cursor-none pointer-events-none": isLoading?.(),
         "hover:bg-light-hl cursor-pointer": !isLoading?.()
       }}
-      class="bg-light mt-4 w-full rounded-lg px-4 py-2 font-semibold transition-colors inline-flex items-center gap-2 justify-center"
+      class="bg-light border border-light mt-4 w-full rounded-lg px-4 py-2 font-semibold transition-colors inline-flex items-center gap-2 justify-center"
       {...props}
     >
       {children}
