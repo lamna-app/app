@@ -4,15 +4,15 @@
 @theme {
   --default-font-family: "DM Sans Variable", "sans-serif";
 
-  --color-background: rgb(49, 51, 56);
-  --color-light: rgb(64, 68, 75);
-  --color-light-hl: rgb(79, 84, 92);
-  --color-dark: rgb(35, 36, 40);
-  --color-dark-hl: rgb(24, 25, 28);
-  --color-text: rgb(220, 221, 222);
+  --color-background: rgb(28, 30, 38);
+  --color-light: rgb(35, 37, 48);
+  --color-light-hl: rgb(46, 48, 62);
+  --color-dark: rgb(22, 24, 33);
+  --color-dark-hl: rgb(14, 16, 21);
+  --color-text: rgb(196, 197, 206);
 
-  --color-accent: rgb(97, 95, 255);
-  --color-danger: rgb(251, 44, 54);
+  --color-accent: rgb(231, 19, 152);
+  --color-danger: rgb(233, 86, 120);
   --color-success: rgb(123, 241, 168);
 }
 

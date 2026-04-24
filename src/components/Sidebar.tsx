@@ -1,19 +1,14 @@
-import { useNavigate } from "@solidjs/router"
-import { Show } from "solid-js"
+import { createSignal, Show } from "solid-js"
 
 import { useUser } from "@/features/user"
-import logout from "@/utils/logout"
 import Settings from "~icons/lucide/Settings"
+import SettingsModal from "./modals/SettingsModal"
 
-import type { Navigator } from "@solidjs/router"
 import type { JSXElement } from "solid-js"
 import type { MeResponse } from "@/types/client"
 
-const UserBar = ({ user, navigate }: { user: MeResponse; navigate: Navigator }) => {
-  const onClick = () => {
-    logout()
-    navigate("/login")
-  }
+const UserBar = ({ user }: { user: MeResponse }) => {
+  const [isOpen, setIsOpen] = createSignal<boolean>(false)
 
   return (
     <div class="w-full p-3">
@@ -27,25 +22,26 @@ const UserBar = ({ user, navigate }: { user: MeResponse; navigate: Navigator }) 
         </div>
 
         <button
-          onClick={onClick}
+          onClick={() => setIsOpen(true)}
           class="p-1.5 text-gray-400 transition-colors rounded-md hover:text-gray-100 cursor-pointer"
         >
           <Settings height={18} width={18} />
         </button>
+
+        <SettingsModal open={isOpen()} onClose={() => setIsOpen(false)} />
       </div>
     </div>
   )
 }
 
 export default function Sidebar({ children, withUser }: { children?: JSXElement; withUser?: boolean }) {
-  const navigate = useNavigate()
   const user = useUser()
 
   return (
     <div class="flex flex-col shrink-0 h-full w-72 bg-dark">
       <div class="flex flex-col flex-1 overflow-hidden">{children}</div>
 
-      <Show when={withUser && user()}>{user => <UserBar user={user()} navigate={navigate} />}</Show>
+      <Show when={withUser && user()}>{user => <UserBar user={user()} />}</Show>
     </div>
   )
 }

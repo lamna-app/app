@@ -18,6 +18,7 @@ interface ModalAction {
 export interface ModalProps {
   open: boolean
   onClose: () => void
+  expanded?: boolean
   title?: string
   subtitle?: string
   message?: string
@@ -135,7 +136,11 @@ export default function Modal(props: ModalProps) {
             }}
             onClick={onBackdropClick}
             style={{ opacity: 0, scale: 0.95 }}
-            class="rounded-lg max-w-110 w-full bg-dark text-white p-6 m-auto"
+            classList={{
+              "max-w-110 p-6": !props.expanded,
+              "h-full": props.expanded
+            }}
+            class="rounded-lg w-full bg-dark text-white m-auto"
           >
             <Show when={props.title}>
               <header class="flex justify-between items-center mb-2">
@@ -170,7 +175,9 @@ export default function Modal(props: ModalProps) {
               </div>
             </Show>
 
-            <div classList={{ "mt-2": Boolean(props.message) || Boolean(error()) }}>{props.children}</div>
+            <div classList={{ "mt-2": Boolean(props.message) || Boolean(error()) }} class="h-full">
+              {props.children}
+            </div>
 
             <Show when={props.actions?.length}>
               <div class="flex justify-end gap-2 mt-5">
