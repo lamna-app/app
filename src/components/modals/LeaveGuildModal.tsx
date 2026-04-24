@@ -12,7 +12,8 @@ export default function LeaveGuildModal(props: GuildModalConsumerProps) {
 
   const onClick = async () => {
     await client.leaveGuild(props.guild.id)
-    navigate("/channels/@me")
+    // Let the animation play before navigating
+    setTimeout(() => navigate("/channels/@me"), 200)
   }
 
   return (
