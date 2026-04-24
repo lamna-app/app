@@ -55,7 +55,7 @@ export default function SettingsModal(props: ModalConsumerProps) {
   return (
     <Modal expanded={true} open={props.open} onClose={props.onClose}>
       <div class="flex h-full w-full text-text">
-        <div class="bg-dark shrink-0 flex flex-col p-3 py-8 w-[20%] overflow-y-auto gap-4">
+        <div class="bg-dark shrink-0 flex flex-col p-3 py-8 w-70 overflow-y-auto gap-4">
           <For each={Object.entries(Settings)}>
             {([category, items]) => (
               <div>
@@ -82,7 +82,7 @@ export default function SettingsModal(props: ModalConsumerProps) {
         </div>
 
         <div class="flex-1 h-full p-6 sm:p-10 overflow-y-auto bg-background">
-          <div class="max-w-5xl mx-auto">
+          <div class="mx-auto">
             <h2 class="text-xl font-bold text-text mb-6">{activeComponent()?.label}</h2>
 
             <Dynamic component={activeComponent()?.component} />
