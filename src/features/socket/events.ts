@@ -12,6 +12,8 @@ import type { MeResponse } from "@/types/client"
 import type {
   Channel,
   Guild,
+  GuildJoinPayload,
+  GuildMember,
   MemberJoinPayload,
   MemberLeavePayload,
   Message,
@@ -24,13 +26,13 @@ export const registerEvents = (socket: Socket) => {
     setUser(data)
   })
 
-  socket.on("ready", ({ guilds, guild_members, users }: ReadyPayload) => {
+  socket.on("ready", ({ guilds, members, users }: ReadyPayload) => {
     guilds.forEach(g => {
       setGuilds(g.id, g)
       setChannels(g.id, g.channels ?? [])
     })
 
-    guild_members.forEach(m => {
+    members.forEach(m => {
       if (!guildMembers[m.guild_id]) {
         setGuildMembers(m.guild_id, {})
       }
@@ -43,9 +45,17 @@ export const registerEvents = (socket: Socket) => {
     })
   })
 
-  socket.on("guild.join", (data: Guild) => {
-    setGuilds(data.id, data)
-    setChannels(data.id, data.channels ?? [])
+  socket.on("guild.join", ({ guild, members }: GuildJoinPayload) => {
+    setGuilds(guild.id, guild)
+    setChannels(guild.id, guild.channels ?? [])
+
+    members.forEach(m => {
+      if (!guildMembers[m.guild_id]) {
+        setGuildMembers(m.guild_id, {})
+      }
+
+      setGuildMember(m.guild_id, m.user_id, m)
+    })
   })
 
   socket.on("guild.update", (data: Guild) => {

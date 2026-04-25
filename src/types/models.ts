@@ -47,8 +47,13 @@ export interface User {
 
 export interface ReadyPayload {
   guilds: Guild[]
-  guild_members: GuildMember[]
+  members: GuildMember[]
   users: User[]
+}
+
+export interface GuildJoinPayload {
+  guild: Guild
+  members: GuildMember[]
 }
 
 export interface PresenceUpdatePayload {
