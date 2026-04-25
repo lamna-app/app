@@ -54,7 +54,7 @@ const UserBar = (props: { user: MeResponse }) => {
       <div
         ref={triggerRef}
         onClick={() => setMenuOpen(!menuOpen())}
-        class="flex items-center w-full gap-2 p-2 transition-colors bg-light/70 rounded-md select-none"
+        class="flex items-center w-full gap-2 p-2 transition-colors bg-light/70 rounded-md select-none cursor-pointer hover:bg-light"
       >
         <div class="relative">
           <img src="https://itswilli.dev/milo.jpg" class="size-10 rounded-full" />
@@ -76,7 +76,10 @@ const UserBar = (props: { user: MeResponse }) => {
         </div>
 
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={e => {
+            e.stopPropagation()
+            setIsOpen(true)
+          }}
           class="p-1.5 text-gray-400 transition-colors rounded-md hover:text-gray-100 cursor-pointer"
         >
           <Settings height={18} width={18} />

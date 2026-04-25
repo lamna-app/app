@@ -110,7 +110,7 @@ export default function AddGuildModal(props: ModalConsumerProps) {
     >
       <Show when={page() === "invite"}>
         <div class="pt-4">
-          <InputField ref={codeInputRef} label="Invite Code" placeholder="lamna.gg/aGzIQ" />
+          <InputField ref={codeInputRef} label="Invite Code" placeholder={`${import.meta.env.VITE_BASE_URL}/invite/aGzIQ`} />
         </div>
       </Show>
 

@@ -140,7 +140,7 @@ export default function Modal(props: ModalProps) {
               "max-w-110 p-6": !props.expanded,
               "h-full": props.expanded
             }}
-            class="rounded-lg w-full bg-dark text-white m-auto"
+            class="rounded-lg w-full bg-dark text-white m-auto min-h-[10%]"
           >
             <Show when={props.title}>
               <header class="flex justify-between items-center mb-2">

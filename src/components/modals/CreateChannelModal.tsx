@@ -60,7 +60,7 @@ export default function CreateChannelModal(props: CreateChannelModalProps) {
           <div class="mt-1 space-y-2">
             <RadioInput
               label="Text Channel"
-              description="Send messages, images & files"
+              description="Send messages, images, & files"
               value={ChannelType.TextChannel}
               name="channel-type"
               default={true}
@@ -69,7 +69,7 @@ export default function CreateChannelModal(props: CreateChannelModalProps) {
             {!props.parentChannel && (
               <RadioInput
                 label="Category Channel"
-                description="Organize Channels into groups"
+                description="Organise channels into groups"
                 value={ChannelType.CategoryChannel}
                 name="channel-type"
               />
