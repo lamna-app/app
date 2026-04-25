@@ -1,4 +1,4 @@
-import type { Guild } from "./models"
+import type { Guild, UserPresence } from "./models"
 
 export type ClientResponse<T> = {
   data: T
@@ -13,8 +13,9 @@ export type LoginResponse = {
 
 export type MeResponse = {
   id: string
-  email: string
   username: string
+  presence: UserPresence
+  created_at: string
 }
 
 export type Invite = {

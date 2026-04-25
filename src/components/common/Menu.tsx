@@ -14,6 +14,7 @@ type MenuProps = {
   open: boolean
   onClose?: () => void
   items: MenuItemProps[]
+  triggerRef?: HTMLElement
 }
 
 function MenuItem(props: MenuItemProps) {
@@ -40,9 +41,9 @@ export default function Menu(props: MenuProps) {
   onMount(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!props.open) return
-      if (menuRef && !menuRef.contains(e.target as Node)) {
-        props.onClose?.()
-      }
+      const target = e.target as Node
+      if (menuRef?.contains(target) || props.triggerRef?.contains(target)) return
+      props.onClose?.()
     }
     document.addEventListener("click", onDocClick)
     onCleanup(() => document.removeEventListener("click", onDocClick))

@@ -2,7 +2,7 @@ import { ChannelType } from "@/types/utils"
 import logout from "@/utils/logout"
 
 import type { ClientResponse, Invite, InviteInfo, LoginResponse, MeResponse } from "@/types/client"
-import type { Channel, Guild, Message } from "@/types/models"
+import type { Channel, Guild, Message, UserPresence } from "@/types/models"
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
@@ -92,6 +92,10 @@ export class Client {
 
   async me() {
     return await this.request<MeResponse>("/@me", "GET")
+  }
+
+  async updatePresence(presence: UserPresence) {
+    return await this.request("/@me/presence", "PATCH", { presence })
   }
 
   async getInvite(code: string) {
