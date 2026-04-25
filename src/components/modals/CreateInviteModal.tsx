@@ -20,7 +20,7 @@ export default function CreateInviteModal(props: GuildModalConsumerProps) {
     setMessage("")
 
     const { data } = await client.createInvite(props.guild.id, 3600, 10)
-    setCode(data.code)
+    setCode(`https://lamna.app/invite/${data.code}`)
   })
 
   const onCopy = () => {

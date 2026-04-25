@@ -22,6 +22,8 @@ import type { MenuItemProps } from "./common/Menu"
 type GuildModal = "createChannel" | "createInvite" | "leaveGuild"
 
 function GuildBanner(props: { guild: Guild }) {
+  let triggerRef: HTMLDivElement | undefined
+
   const [menuOpen, setMenuOpen] = createSignal<boolean>(false)
   const modals = useModalRouter<GuildModal>()
 
@@ -39,10 +41,8 @@ function GuildBanner(props: { guild: Guild }) {
   return (
     <div class="relative shrink-0">
       <div
-        onClick={e => {
-          e.stopImmediatePropagation()
-          setMenuOpen(!menuOpen())
-        }}
+        ref={triggerRef}
+        onClick={() => setMenuOpen(!menuOpen())}
         class="flex items-end justify-between w-full h-26 p-4 group/server cursor-pointer border-b border-gray-900 shadow-sm transition-all bg-cover bg-center bg-no-repeat bg-linear-to-br from-gray-800/50 to-gray-900/80 hover:brightness-110 shrink-0"
       >
         <h1 class="text-[1.35rem] font-bold leading-tight tracking-tight text-gray-100 line-clamp-2 drop-shadow-md">
@@ -57,7 +57,7 @@ function GuildBanner(props: { guild: Guild }) {
       </div>
 
       <div class="absolute top-full left-2 right-2 mt-2 z-50">
-        <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} />
+        <Menu open={menuOpen()} onClose={() => setMenuOpen(false)} items={menuItems} triggerRef={triggerRef} />
       </div>
 
       <CreateInviteModal
