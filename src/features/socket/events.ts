@@ -1,6 +1,6 @@
 import { produce } from "solid-js/store"
 
-import { setChannels } from "../channel"
+import { channels, setChannels } from "../channel"
 import { setGuilds } from "../guild"
 import { guildMembers, setGuildMember, setGuildMembers } from "../guild_members"
 import { chatStore, setChatStore } from "../message"
@@ -13,7 +13,6 @@ import type {
   Channel,
   Guild,
   GuildJoinPayload,
-  GuildMember,
   MemberJoinPayload,
   MemberLeavePayload,
   Message,
@@ -64,13 +63,29 @@ export const registerEvents = (socket: Socket) => {
   })
 
   socket.on("guild.leave", (guildId: string) => {
-    setGuilds(
+    const channelIds = channels[guildId]?.map(c => c.id)
+
+    setChatStore(
+      produce(state => {
+        channelIds.forEach(id => {
+          delete state[id]
+        })
+      })
+    )
+
+    setGuildMembers(
+      produce(state => {
+        delete state[guildId]
+      })
+    )
+
+    setChannels(
       produce(state => {
         delete state[guildId as keyof typeof state]
       })
     )
 
-    setChannels(
+    setGuilds(
       produce(state => {
         delete state[guildId as keyof typeof state]
       })
