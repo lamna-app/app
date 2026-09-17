@@ -137,6 +137,7 @@ export function Message(props: { message: MessageT; compact: boolean }) {
 
   const onDoubleClick = (e: MouseEvent) => {
     if (isOnText(e)) return
+    if (props.message.author.id === user()?.id) return
     startReply(props.message)
   }
 
