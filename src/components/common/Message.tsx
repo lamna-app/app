@@ -160,48 +160,50 @@ export function Message(props: { message: MessageT; compact: boolean }) {
       onContextMenu={onContextMenu}
       onDblClick={onDoubleClick}
       onMouseDown={onMouseDown}
-      class="group flex items-start px-6 hover:bg-white/5"
+      class="group flex flex-col px-6 hover:bg-white/5"
       style={{ "margin-top": props.compact ? "0.125rem" : "0.9rem" }}
     >
-      <div
-        class="flex w-12 shrink-0 mr-2 items-center justify-center"
-        style={{ height: props.compact ? "24px" : undefined }}
-      >
-        {props.compact ? (
-          <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time()}</span>
-        ) : (
-          <div class="w-10 h-10 rounded-full bg-light/70 shrink-0 my-0.5" />
-        )}
-      </div>
+      {props.message.reference_id && (
+        <div class="flex items-center gap-1.5 mb-1 ml-12 text-xs text-gray-500 select-none">
+          <CornerUpLeft width={13} height={13} class="shrink-0" />
+          {props.message.referenced_message ? (
+            <button
+              type="button"
+              onClick={() => jumpToMessage(props.message.referenced_message?.id ?? "")}
+              class="flex items-center gap-1.5 min-w-0 cursor-pointer hover:text-gray-300"
+            >
+              <span class="font-medium text-gray-400">{props.message.referenced_message.author.username}</span>
+              <span class="truncate">{props.message.referenced_message.content}</span>
+            </button>
+          ) : (
+            <span class="italic">Original message was deleted</span>
+          )}
+        </div>
+      )}
 
-      <div class="flex-1 min-w-0">
-        {props.message.reference_id && (
-          <div class="flex items-center gap-1.5 mb-1 text-xs text-gray-500 select-none">
-            <CornerUpLeft width={13} height={13} class="shrink-0" />
-            {props.message.referenced_message ? (
-              <button
-                type="button"
-                onClick={() => jumpToMessage(props.message.referenced_message?.id ?? "")}
-                class="flex items-center gap-1.5 min-w-0 cursor-pointer hover:text-gray-300"
-              >
-                <span class="font-medium text-gray-400">{props.message.referenced_message.author.username}</span>
-                <span class="truncate">{props.message.referenced_message.content}</span>
-              </button>
-            ) : (
-              <span class="italic">Original message was deleted</span>
-            )}
+      <div class="flex items-start">
+        <div
+          class="flex w-12 shrink-0 mr-2 items-center justify-center"
+          style={{ height: props.compact ? "24px" : undefined }}
+        >
+          {props.compact ? (
+            <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time()}</span>
+          ) : (
+            <div class="w-10 h-10 rounded-full bg-light/70 shrink-0 my-0.5" />
+          )}
+        </div>
+
+        <div class="flex-1 min-w-0">
+          {!props.compact && (
+            <div class="flex items-baseline gap-2 select-none">
+              <span class="font-semibold text-white leading-tight">{props.message.author.username}</span>
+              <span class="text-[10px] text-gray-500 tabular-nums">{time()}</span>
+            </div>
+          )}
+
+          <div class="text-[15px] leading-6 break-all whitespace-pre-wrap">
+            <span data-selectable>{props.message.content}</span>
           </div>
-        )}
-
-        {!props.compact && (
-          <div class="flex items-baseline gap-2 select-none">
-            <span class="font-semibold text-white leading-tight">{props.message.author.username}</span>
-            <span class="text-[10px] text-gray-500 tabular-nums">{time()}</span>
-          </div>
-        )}
-
-        <div class="text-[15px] leading-6 break-all whitespace-pre-wrap">
-          <span data-selectable>{props.message.content}</span>
         </div>
       </div>
     </div>
