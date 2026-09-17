@@ -16,7 +16,6 @@ const Me = () => {
   return (
     <div>
       <p>Username: {me()?.username}</p>
-      <p>Email: {me()?.email}</p>
       <p>ID: {me()?.id}</p>
       <button onClick={onClick} class="border border-white p-1">
         Me
