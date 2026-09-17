@@ -128,6 +128,8 @@ export const registerEvents = (socket: Socket) => {
 
   socket.on("message.delete", (data: Message) => {
     if (chatStore[data.channel_id]) {
+      setChatStore(data.channel_id, "messages", msg => msg.reference_id === data.id, "referenced_message", null)
+
       setChatStore(data.channel_id, "messages", prevMessages => prevMessages.filter(msg => msg.id !== data.id))
     }
   })

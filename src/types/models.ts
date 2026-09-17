@@ -27,6 +27,8 @@ export interface Message {
     created_at: string
   }
   channel_id: string
+  reference_id: string | null
+  referenced_message: Message | null
   created_at: Date
 }
 

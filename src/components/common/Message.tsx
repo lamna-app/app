@@ -2,12 +2,26 @@ import { animate } from "animejs"
 import { format, isToday, isYesterday } from "date-fns"
 import { onMount } from "solid-js"
 
+import { useClient } from "@/hooks/useClient"
+import { useUser } from "@/hooks/useUser"
+
+import { confirm } from "@/stores/confirmStore"
+import { openContextMenu } from "@/stores/contextMenuStore"
+
+import { startReply } from "@/features/messageDraft"
+import Copy from "~icons/lucide/copy"
+import CornerUpLeft from "~icons/lucide/corner-up-left"
+import Reply from "~icons/lucide/reply"
+import Trash from "~icons/lucide/trash-2"
+
 import type { Message as MessageT } from "@/types/models"
+import type { MenuItemProps } from "./Menu"
 
 const MESSAGE_GROUP_TIME_LIMIT = 2 * 60000
 
 export const shouldMessageGroup = (current: MessageT, previous?: MessageT) => {
   if (!previous) return false
+  if (current.reference_id) return false
 
   const isSameUser = current.author.username === previous.author.username
   const timeDiff = Math.abs(current.created_at.getTime() - previous.created_at.getTime())
@@ -59,7 +73,61 @@ export function MessageSkeleton(props: { compact: boolean }) {
 }
 
 export function Message(props: { message: MessageT; compact: boolean }) {
+  const client = useClient()
+  const user = useUser()
+
   const time = () => formatTime(props.message.created_at, props.compact)
+
+  const jumpToMessage = (id: string) => {
+    const el = document.getElementById(`message-${id}`)
+    if (!el) return
+
+    el.scrollIntoView({ behavior: "smooth", block: "center" })
+
+    animate(el, {
+      backgroundColor: ["rgba(99, 102, 241, 0.15)", "rgba(99, 102, 241, 0)"],
+      duration: 1000,
+      ease: "outQuad",
+      onComplete: () => {
+        el.style.backgroundColor = ""
+      }
+    })
+  }
+
+  const onContextMenu = (e: MouseEvent) => {
+    const items: MenuItemProps[] = [
+      {
+        label: "Reply",
+        icon: Reply,
+        onClick: () => startReply(props.message)
+      },
+      {
+        label: "Copy Text",
+        icon: Copy,
+        onClick: () => navigator.clipboard.writeText(props.message.content)
+      }
+    ]
+
+    if (props.message.author.id === user()?.id) {
+      items.push({
+        label: "Delete Message",
+        icon: Trash,
+        variant: "danger",
+        onClick: () =>
+          confirm({
+            title: "Delete Message",
+            message: "Are you sure you want to delete this message? This cannot be undone.",
+            confirmLabel: "Delete",
+            variant: "danger",
+            onConfirm: async () => {
+              await client.deleteMessage(props.message.channel_id, props.message.id)
+            }
+          })
+      })
+    }
+
+    openContextMenu(e, items)
+  }
 
   let ref: HTMLDivElement | undefined
   onMount(() => {
@@ -76,6 +144,8 @@ export function Message(props: { message: MessageT; compact: boolean }) {
   return (
     <div
       ref={ref}
+      id={`message-${props.message.id}`}
+      onContextMenu={onContextMenu}
       class="group flex items-start px-6 hover:bg-white/5"
       style={{ "margin-top": props.compact ? "0.125rem" : "0.9rem" }}
     >
@@ -91,6 +161,24 @@ export function Message(props: { message: MessageT; compact: boolean }) {
       </div>
 
       <div class="flex-1 min-w-0">
+        {props.message.reference_id && (
+          <div class="flex items-center gap-1.5 mb-1 text-xs text-gray-500 select-none">
+            <CornerUpLeft width={13} height={13} class="shrink-0" />
+            {props.message.referenced_message ? (
+              <button
+                type="button"
+                onClick={() => jumpToMessage(props.message.referenced_message?.id ?? "")}
+                class="flex items-center gap-1.5 min-w-0 cursor-pointer hover:text-gray-300"
+              >
+                <span class="font-medium text-gray-400">{props.message.referenced_message.author.username}</span>
+                <span class="truncate">{props.message.referenced_message.content}</span>
+              </button>
+            ) : (
+              <span class="italic">Original message was deleted</span>
+            )}
+          </div>
+        )}
+
         {!props.compact && (
           <div class="flex items-baseline gap-2 select-none">
             <span class="font-semibold text-white leading-tight">{props.message.author.username}</span>

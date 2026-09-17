@@ -141,7 +141,11 @@ export class Client {
     return await this.request<Message[]>(`/channels/${channelID}/messages?${params.toString()}`, "GET")
   }
 
-  async sendMessage(channelID: string, content: string) {
-    return await this.request(`/channels/${channelID}/messages`, "POST", { content })
+  async sendMessage(channelID: string, content: string, referenceID?: string) {
+    return await this.request(`/channels/${channelID}/messages`, "POST", { content, reference_id: referenceID })
+  }
+
+  async deleteMessage(channelID: string, messageID: string) {
+    return await this.request(`/channels/${channelID}/messages/${messageID}`, "DELETE")
   }
 }

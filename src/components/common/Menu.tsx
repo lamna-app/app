@@ -17,7 +17,7 @@ type MenuProps = {
   triggerRef?: HTMLElement
 }
 
-function MenuItem(props: MenuItemProps) {
+export function MenuItem(props: MenuItemProps) {
   return (
     <button
       onClick={() => !props.disabled && props.onClick()}
