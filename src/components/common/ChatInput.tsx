@@ -11,9 +11,12 @@ import X from "~icons/lucide/x"
 export default function MessageInput() {
   const client = useClient()
 
+  let inputRef: HTMLInputElement | undefined
+
   createEffect(() => {
     const reply = replyingTo()
     if (reply && reply.channel_id !== currentChannel()?.id) cancelReply()
+    if (reply) inputRef?.focus()
   })
 
   const onSubmit = async (e: SubmitEvent) => {
@@ -60,6 +63,7 @@ export default function MessageInput() {
         </button>
 
         <input
+          ref={inputRef}
           type="text"
           name="content"
           class="flex-1 bg-transparent border-none outline-none text-md"

@@ -129,6 +129,17 @@ export function Message(props: { message: MessageT; compact: boolean }) {
     openContextMenu(e, items)
   }
 
+  const isOnText = (e: MouseEvent) => (e.target as HTMLElement).closest("[data-selectable]") !== null
+
+  const onMouseDown = (e: MouseEvent) => {
+    if (e.detail > 1 && !isOnText(e)) e.preventDefault()
+  }
+
+  const onDoubleClick = (e: MouseEvent) => {
+    if (isOnText(e)) return
+    startReply(props.message)
+  }
+
   let ref: HTMLDivElement | undefined
   onMount(() => {
     if (!ref) return
@@ -146,6 +157,8 @@ export function Message(props: { message: MessageT; compact: boolean }) {
       ref={ref}
       id={`message-${props.message.id}`}
       onContextMenu={onContextMenu}
+      onDblClick={onDoubleClick}
+      onMouseDown={onMouseDown}
       class="group flex items-start px-6 hover:bg-white/5"
       style={{ "margin-top": props.compact ? "0.125rem" : "0.9rem" }}
     >
@@ -186,7 +199,9 @@ export function Message(props: { message: MessageT; compact: boolean }) {
           </div>
         )}
 
-        <div class="text-[15px] leading-6 break-all whitespace-pre-wrap">{props.message.content}</div>
+        <div class="text-[15px] leading-6 break-all whitespace-pre-wrap">
+          <span data-selectable>{props.message.content}</span>
+        </div>
       </div>
     </div>
   )
