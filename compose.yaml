@@ -8,4 +8,4 @@ services:
         - VITE_BASE_URL
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "${PORT:-80}:80"
