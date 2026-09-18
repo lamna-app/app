@@ -1,10 +1,11 @@
 import { createSignal, Show } from "solid-js"
 
 import { useClient } from "@/hooks/useClient"
+import { useUser } from "@/hooks/useUser"
 
-import { useUser } from "@/features/user"
 import { users } from "@/features/users"
 import Settings from "~icons/lucide/Settings"
+import Avatar from "./common/Avatar"
 import Menu, { type MenuItemProps } from "./common/Menu"
 import SettingsModal from "./modals/SettingsModal"
 
@@ -57,7 +58,7 @@ const UserBar = (props: { user: MeResponse }) => {
         class="flex items-center w-full gap-2 p-2 transition-colors bg-light/70 rounded-md select-none cursor-pointer hover:bg-light"
       >
         <div class="relative">
-          <img src="https://itswilli.dev/milo.jpg" class="size-10 rounded-full" />
+          <Avatar userId={props.user.id} username={props.user.username} avatar={props.user.avatar} class="size-10" />
           <div
             classList={{
               "bg-green-500": presence() === "online",

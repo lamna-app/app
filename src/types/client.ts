@@ -15,6 +15,7 @@ export type MeResponse = {
   id: string
   username: string
   presence: UserPresence
+  avatar: string | null
   created_at: string
 }
 

@@ -1,10 +1,11 @@
 import { produce } from "solid-js/store"
 
+import { setUser, user } from "@/stores/userStore"
+
 import { channels, setChannels } from "../channel"
 import { setGuilds } from "../guild"
 import { guildMembers, setGuildMember, setGuildMembers } from "../guild_members"
 import { chatStore, setChatStore } from "../message"
-import { setUser } from "../user"
 import { setUsers, users } from "../users"
 
 import type { Socket } from "@/libs/socket"
@@ -17,7 +18,8 @@ import type {
   MemberLeavePayload,
   Message,
   PresenceUpdatePayload,
-  ReadyPayload
+  ReadyPayload,
+  UserUpdatePayload
 } from "@/types/models"
 
 export const registerEvents = (socket: Socket) => {
@@ -145,6 +147,16 @@ export const registerEvents = (socket: Socket) => {
   socket.on("presence.update", (data: PresenceUpdatePayload) => {
     if (users[data.user_id]) {
       setUsers(data.user_id, "presence", data.presence)
+    }
+  })
+
+  socket.on("user.update", (data: UserUpdatePayload) => {
+    if (users[data.id]) {
+      setUsers(data.id, "avatar", data.avatar)
+    }
+
+    if (user()?.id === data.id) {
+      setUser(current => (current ? { ...current, avatar: data.avatar } : current))
     }
   })
 }

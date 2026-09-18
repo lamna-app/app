@@ -36,6 +36,22 @@ export class Client {
       }
     })
 
+    return this.handleResponse<T>(resp, endpoint)
+  }
+
+  private async requestForm<T>(endpoint: string, method: Method, form: FormData): Promise<ClientResponse<T>> {
+    const resp = await fetch(`${Client.BASE}/v${Client.VERSION}${endpoint}`, {
+      body: form,
+      method: method,
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
+
+    return this.handleResponse<T>(resp, endpoint)
+  }
+
+  private async handleResponse<T>(resp: Response, endpoint: string): Promise<ClientResponse<T>> {
     if (!resp.ok) {
       if (resp.status === 401) {
         logout()
@@ -96,6 +112,13 @@ export class Client {
 
   async updatePresence(presence: UserPresence) {
     return await this.request("/@me/presence", "PATCH", { presence })
+  }
+
+  async updateAvatar(file: Blob) {
+    const form = new FormData()
+    form.append("avatar", file)
+
+    return await this.requestForm<{ avatar: string }>("/@me/avatar", "PATCH", form)
   }
 
   async getInvite(code: string) {

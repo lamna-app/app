@@ -3,6 +3,7 @@ import { createMemo, For, Show } from "solid-js"
 import { currentGuild } from "@/features/guild"
 import { guildMembers } from "@/features/guild_members"
 import { users } from "@/features/users"
+import Avatar from "./common/Avatar"
 
 import type { GuildMember, User, UserPresence } from "@/types/models"
 
@@ -20,7 +21,8 @@ function MemberItem(props: { member: ResolvedMember; user: User }) {
 
   return (
     <div class="flex items-center gap-3 p-2 hover:bg-light/20 cursor-pointer rounded-lg">
-      <div class="relative flex h-8 w-8 items-center justify-center rounded-full bg-light/70 text-white">
+      <div class="relative">
+        <Avatar userId={props.user.id} username={props.user.username} avatar={props.user.avatar} class="size-8 text-sm" />
         <div
           style={{
             "background-color": STATUS_COLORS[props.user.presence]

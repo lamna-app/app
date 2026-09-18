@@ -24,6 +24,7 @@ export interface Message {
   author: {
     id: string
     username: string
+    avatar: string | null
     created_at: string
   }
   channel_id: string
@@ -44,6 +45,7 @@ export interface User {
   id: string
   username: string
   presence: UserPresence
+  avatar: string | null
   created_at: string
 }
 
@@ -61,6 +63,11 @@ export interface GuildJoinPayload {
 export interface PresenceUpdatePayload {
   user_id: string
   presence: UserPresence
+}
+
+export interface UserUpdatePayload {
+  id: string
+  avatar: string | null
 }
 
 export interface MemberJoinPayload {

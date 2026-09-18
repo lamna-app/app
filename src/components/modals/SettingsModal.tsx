@@ -3,11 +3,11 @@ import { createMemo, createSignal, For } from "solid-js"
 import { Dynamic } from "solid-js/web"
 
 import logout from "@/utils/logout"
+import AccountSettings from "../settings/AccountSettings"
 import Modal from "../utils/Modal"
 
 import type { ModalConsumerProps } from "@/types/utils"
 
-const AccountSettings = () => <div></div>
 const AppearanceSettings = () => <div></div>
 
 const Settings = {

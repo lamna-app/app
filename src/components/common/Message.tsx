@@ -13,6 +13,7 @@ import Copy from "~icons/lucide/copy"
 import CornerUpLeft from "~icons/lucide/corner-up-left"
 import Reply from "~icons/lucide/reply"
 import Trash from "~icons/lucide/trash-2"
+import Avatar from "./Avatar"
 
 import type { Message as MessageT } from "@/types/models"
 import type { MenuItemProps } from "./Menu"
@@ -187,9 +188,16 @@ export function Message(props: { message: MessageT; compact: boolean }) {
           style={{ height: props.compact ? "24px" : undefined }}
         >
           {props.compact ? (
-            <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">{time()}</span>
+            <span class="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 tabular-nums select-none">
+              {time()}
+            </span>
           ) : (
-            <div class="w-10 h-10 rounded-full bg-light/70 shrink-0 my-0.5" />
+            <Avatar
+              userId={props.message.author.id}
+              username={props.message.author.username}
+              avatar={props.message.author.avatar}
+              class="size-10 my-0.5"
+            />
           )}
         </div>
 
