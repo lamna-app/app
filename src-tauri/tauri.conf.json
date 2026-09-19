@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "lamna-app",
+  "productName": "Lamna",
   "version": "0.1.0",
   "identifier": "com.lamna.lamna-app",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "lamna-app",
-        "width": 800,
-        "height": 600
+        "title": "Lamna",
+        "width": 1280,
+        "height": 720
       }
     ],
     "security": {
@@ -24,6 +24,12 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
   }
 }
