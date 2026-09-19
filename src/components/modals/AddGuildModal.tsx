@@ -131,11 +131,11 @@ export default function AddGuildModal(props: ModalConsumerProps) {
       <Show when={page() === "success" && guild()}>
         {guild => (
           <div class="flex items-center justify-center mt-4">
-            <div class="flex flex-col gap-2 items-center">
-              <div class="*:rounded-full *:hover:rounded-full *:size-24 *:text-3xl">
-                <GuildIcon name={guild().name} />
+            <div class="flex flex-col gap-3 items-center">
+              <div class="bg-light-hl size-32 rounded-full grid place-items-center group cursor-pointer">
+                <p class="font-bold text-3xl">{nameLetters().slice(0, 4)}</p>
               </div>
-              <p class="text-center font-bold text-2xl">{guild().name}</p>
+              <p class=" text-center font-bold text-2xl">{guild().name}</p>
             </div>
           </div>
         )}
