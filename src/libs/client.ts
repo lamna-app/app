@@ -116,9 +116,28 @@ export class Client {
 
   async updateAvatar(file: Blob) {
     const form = new FormData()
-    form.append("avatar", file)
+    form.append("file", file)
 
-    return await this.requestForm<{ avatar: string }>("/@me/avatar", "PATCH", form)
+    const cdnRes = await fetch(`${import.meta.env.VITE_CDN_URL}/avatar`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${this.token}`,
+      },
+      body: form
+    })
+
+    if (!cdnRes.ok) {
+        throw new Error(`CDN Upload Failed: ${cdnRes.statusText}`)
+    }
+
+    const filename: string = await cdnRes.json()
+    console.log({filename})
+
+    return await this.request<{ avatar: string }>(
+        "/@me/avatar",
+        "PATCH",
+        { avatar: filename }
+    )
   }
 
   async getInvite(code: string) {

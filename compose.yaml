@@ -6,7 +6,7 @@ services:
         - VITE_API_URL
         - VITE_WS_URL
         - VITE_BASE_URL
-        - VITE_S3_URL
+        - VITE_CDN_URL
     restart: unless-stopped
     ports:
       - "${PORT:-80}:80"
