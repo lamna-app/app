@@ -197,6 +197,7 @@ export function Message(props: { message: MessageT; compact: boolean }) {
               username={props.message.author.username}
               avatar={props.message.author.avatar}
               class="size-10 my-0.5"
+              size={40}
             />
           )}
         </div>

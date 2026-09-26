@@ -58,7 +58,13 @@ const UserBar = (props: { user: MeResponse }) => {
         class="flex items-center w-full gap-2 p-2 transition-colors bg-light/70 rounded-md select-none cursor-pointer hover:bg-light"
       >
         <div class="relative">
-          <Avatar userId={props.user.id} username={props.user.username} avatar={props.user.avatar} class="size-10" />
+          <Avatar
+            userId={props.user.id}
+            username={props.user.username}
+            avatar={props.user.avatar}
+            class="size-10"
+            size={40}
+          />
           <div
             classList={{
               "bg-green-500": presence() === "online",

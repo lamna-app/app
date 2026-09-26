@@ -121,23 +121,19 @@ export class Client {
     const cdnRes = await fetch(`${import.meta.env.VITE_CDN_URL}/avatar`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        Authorization: `Bearer ${this.token}`
       },
       body: form
     })
 
     if (!cdnRes.ok) {
-        throw new Error(`CDN Upload Failed: ${cdnRes.statusText}`)
+      throw new Error(`CDN Upload Failed: ${cdnRes.statusText}`)
     }
 
     const filename: string = await cdnRes.json()
-    console.log({filename})
+    console.log({ filename })
 
-    return await this.request<{ avatar: string }>(
-        "/@me/avatar",
-        "PATCH",
-        { avatar: filename }
-    )
+    return await this.request<{ avatar: string }>("/@me/avatar", "PATCH", { avatar: filename })
   }
 
   async getInvite(code: string) {

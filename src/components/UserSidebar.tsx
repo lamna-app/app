@@ -22,7 +22,13 @@ function MemberItem(props: { member: ResolvedMember; user: User }) {
   return (
     <div class="flex items-center gap-3 p-2 hover:bg-light/20 cursor-pointer rounded-lg">
       <div class="relative">
-        <Avatar userId={props.user.id} username={props.user.username} avatar={props.user.avatar} class="size-8 text-sm" />
+        <Avatar
+          userId={props.user.id}
+          username={props.user.username}
+          avatar={props.user.avatar}
+          class="size-8 text-sm"
+          size={32}
+        />
         <div
           style={{
             "background-color": STATUS_COLORS[props.user.presence]
